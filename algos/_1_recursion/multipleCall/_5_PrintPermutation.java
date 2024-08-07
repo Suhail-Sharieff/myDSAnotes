@@ -39,12 +39,22 @@ public class _5_PrintPermutation {
 
     public static void main(String[] args) {
         List<List<Integer>> ans = new ArrayList<>();
-        int nums[] = { 1, 2, 3 };
+        int nums[] = { 1, 2, 3 };Arrays.sort(nums);//for topo
         func(nums,  new Vector<>(), ans, new boolean[nums.length]);
         System.out.println(ans);
 
         //ex: find 4th permuatation:
         System.out.println(kThPermuation(3, 4));
+
+
+        //find next Permuation of ex : [3,1,2]--brute
+        //sort it first : [1,2,3]
+        System.out.println(bruteNextPermutation(Arrays.asList(3,1,2), ans));
+
+
+        //find next Permuation of ex : [3,1,2]--optimal
+        //sort it first : [1,2,3]
+        System.out.println(optimalNextPermutation(Arrays.asList(1,3,2)));
     }
 
 
@@ -109,6 +119,114 @@ Output: "123"
         return ans;
     }
 
+  
+    //find next permutation -----IMP
+    /*
+     You are given an array ‘a’ of ‘n’ integers.
 
+
+
+You have to return the lexicographically next to greater permutation.
+
+
+
+Note:
+
+If such a sequence is impossible, it must be rearranged in the lowest possible order.
+
+
+Example:
+
+Input: 'a' = [1, 3, 2]
+
+Output: 2 1 3
+
+Explanation: All the permutations of [1, 2, 3] are [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1], ]. Hence the next greater permutation of [1, 3, 2] is [2, 1, 3].
+
+
+Detailed explanation ( Input/output format, Notes, Images )
+Sample Input 1:
+3
+3 1 2
+
+
+Sample Output 1:
+3 2 1
+
+
+Explanation Of Sample Input 1:
+Input:
+A = [3, 1, 2]
+Output:
+3 2 1
+
+Explanation: All the permutations of [1, 2, 3] are [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1], ]. Hence the next greater permutation of [3, 1, 2] is [3, 2, 1].
+
+
+Sample Input 2:
+3
+3 2 1
+
+
+Sample Output 2:
+1 2 3
+     */
+    public static List<Integer> bruteNextPermutation(List<Integer>whoseNext,List<List<Integer>>reference){
+        if (reference.indexOf(whoseNext)==reference.size()-1) {
+            return reference.get(0);
+        }
+        return(reference.get(1+reference.indexOf(whoseNext)));
+    }
+    public static List<Integer> optimalNextPermutation(List<Integer>question){
+         /*Consider a permutation [2,1,3] , it has [2,3,1] on next
+            let x=[2,1,3]
+            idx:   0 1 2
+
+            observe that the next permuation will have something common and since we r ding it in topological order the next permutation wil, obviously greater than given x
+
+
+            STEP1:start iterating throughout x to find the index so called the "breakPointIdx" where arr[i]<arr[i+1]
+            STEP2:let e=arr[i]{here breakPointIdx=1}
+            now iterare throught from thi breakIdx to fing the elemnt which is graeter than elemnt at breakIdx and the smallest (coz in topo it will be obviously SMALL NEARER), here its 3
+            STEP3:swap elemnt at breakPointidx and this SMALLest NEAR elemnt
+            STEP4:sort all elemnts from breakPointIdx till ed in REV order
+            
+          */
+          int n = question.size();
+        
+        // Step 1: Find the rightmost break point
+        int breakPointIdx = -1;
+        for (int i = n - 2; i >= 0; i--) {
+            if (question.get(i) < question.get(i + 1)) {
+                breakPointIdx = i;
+                break;
+            }
+        }
+
+        // If no break point is found, it means we are at the last permutation
+        if (breakPointIdx == -1) {
+            Collections.reverse(question);
+            return question;
+        }
+
+        // Step 2: Find the smallest element in the suffix that is greater than question.get(breakPointIdx)
+        int smallestGreaterIdx = n - 1;
+        for (int i = n - 1; i > breakPointIdx; i--) {
+            if (question.get(i) > question.get(breakPointIdx)) {
+                smallestGreaterIdx = i;
+                break;
+            }
+        }
+
+        // Step 3: Swap the elements at breakPointIdx and smallestGreaterIdx
+        Collections.swap(question, breakPointIdx, smallestGreaterIdx);
+
+        // Step 4: Reverse the suffix starting from breakPointIdx + 1
+        Collections.reverse(question.subList(breakPointIdx + 1, n));
+
+        return question;
+        
+          
+    }
 
 }
