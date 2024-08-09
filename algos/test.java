@@ -1,8 +1,5 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,8 +13,6 @@ public class test {
         int  t=sc.nextInt();
         while (t--!=0) {
             int arr[]=new int[16];
-            int greater[]=new int[16];
-            int ans[]=new int[16];
             List<Integer>li=new ArrayList<>();
             for (int i = 0; i < 16; i++) {
                 arr[i]=sc.nextInt();
@@ -45,7 +40,7 @@ public class test {
             }
 
 
-
+            sc.close();
 
             for (int i : an2s) {
                 System.out.print(i+" ");

@@ -13,14 +13,14 @@ public class _20_3Sum {
         int arr[] = { -1, 0, 1, 2, -1, 4 };
         List<List<Integer>> ans = new ArrayList<>();
         HashSet<List<Integer>> hs = new HashSet<>();
-        // rec(ans, new Vector<>(), 0, 0, arr, 0);
+        rec(hs, new Vector<>(), 0, 0, arr, 0);
 
-        // System.out.println(brute(arr, ans, new HashSet<>()));
-        // ans.clear();
-        // rec(hs, new Vector<>(), 0, 0, arr, 0);
-        // System.out.println(hs);
-        // hs.clear();
-        // better(arr, hs);
+        System.out.println(brute(arr, ans, new HashSet<>()));
+        ans.clear();
+        rec(hs, new Vector<>(), 0, 0, arr, 0);
+        System.out.println(hs);
+        hs.clear();
+        better(arr, hs);
         System.out.println(optimal(arr));
 
     }
