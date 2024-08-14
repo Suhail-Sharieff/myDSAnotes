@@ -42,7 +42,7 @@ import java.math.BigInteger;
  
     public static int GLOBAL_CNT=0;
     public static void main(String[] args) {
-        int nums[]={2147483647,2147483647,2147483647,2147483647,2147483647,2147483647};
+        int nums[]={5,6,1,2,3,5};
         sort(nums, 0, nums.length-1);
         System.out.println(GLOBAL_CNT);
         
@@ -66,90 +66,48 @@ import java.math.BigInteger;
     }
 
     //OPTIMAL SOLN IS MANUPULATION IN MERGE SORT:
-    // Merges two subarrays of arr[].
-    // First subarray is arr[l..m]
-    // Second subarray is arr[m+1..r]
-    static void merge(int arr[], int l, int m, int r)
-    {
-        // Find sizes of two subarrays to be merged
-        int n1 = m - l + 1;
-        int n2 = r - m;
-
-        // Create temp arrays
-        int L[] = new int[n1];
-        int R[] = new int[n2];
-
-        // Copy data to temp arrays
-        for (int i = 0; i < n1; ++i)
-            L[i] = arr[l + i];
-        for (int j = 0; j < n2; ++j)
-            R[j] = arr[m + 1 + j];
-
-        // Merge the temp arrays
-
-        // Initial indices of first and second subarrays
-        int i = 0, j = 0;
-
-        // Initial index of merged subarray array
-        int k = l;
-        while (i < n1 && j < n2) {
-            if (L[i] <= R[j]) {
-                arr[k] = L[i];
-                
-                i++;
-            }
-            else {
-                arr[k] = R[j];
-                //KEYSTEP 
-                j++;
-            }
-            k++;
+    //check line 77 and counterFunc
+    //watch from 22:48
+    //https://www.youtube.com/watch?v=0e4bZaP3MDI&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz&index=43
+    public static void sort(int nums[],int lowIdx,int highIdx){
+        if (lowIdx>=highIdx) {
+            return;
         }
-
-        // Copy remaining elements of L[] if any
-        while (i < n1) {
-            arr[k] = L[i];
-            i++;
-            k++;
+        int midIdx=(highIdx+lowIdx)/2;
+        sort(nums, lowIdx, midIdx);
+        sort(nums, midIdx+1, highIdx);
+        counterFunc(nums, lowIdx, midIdx, highIdx);
+        merge(nums,lowIdx,midIdx,highIdx);
+    }
+    public static void merge(int nums[],int lowIdx,int midIdx,int highIdx){
+        int left=lowIdx,right=midIdx+1;
+        int i=0;
+        int temp[]=new int[highIdx-lowIdx+1];
+        while (left<=midIdx&&right<=highIdx) {
+            if (nums[left]<=nums[right]) {
+                temp[i++]=nums[left++];
+            }else{
+                temp[i++]=nums[right++];
+            }
         }
-
-        // Copy remaining elements of R[] if any
-        while (j < n2) {
-            arr[k] = R[j];
-            j++;
-            k++;
+        while (left<=midIdx) {
+            temp[i++]=nums[left++];
+        }
+        while (right<=highIdx) {
+            temp[i++]=nums[right++];
+        }
+        //copy to nums
+        for (i = 0; i < temp.length; i++) {
+            nums[lowIdx + i] = temp[i];
         }
     }
-
-    // Main function that sorts arr[l..r] using
-    // merge()
-    static void sort(int arr[], int l, int r)
-    {
-        if (l < r) {
-
-            // Find the middle point
-            int m = l + (r - l) / 2;
-
-            // Sort first and second halves
-            sort(arr, l, m);
-            sort(arr, m + 1, r);
-
-            cntPairs(arr, l, m, r);
-
-            // Merge the sorted halves
-            merge(arr, l, m, r);
-        }
-    }
-
-
-    static void cntPairs(int nums[],int low,int mid,int high){
-        int right=mid+1;
-        for (int i = low; i <=mid+1; i++) {
-            while (right<=high&&nums[i]>(long)(2*nums[right])) {
+    public static void counterFunc(int nums[],int lowIdx,int midIdx,int highIdx){
+        int right=midIdx+1;
+        for (int i = lowIdx; i <=midIdx; i++) {
+            while (right<=highIdx&&nums[i]>(2*nums[right])) {
                 right++;
             }
-            GLOBAL_CNT++;
+            GLOBAL_CNT+=right-(midIdx+1);
         }
-
     }
  }
