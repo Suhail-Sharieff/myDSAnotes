@@ -29,6 +29,8 @@ The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit int
 public class _34_maxProdSubarr {
     public static void main(String[] args) {
         int nums[]={2,3,-2,4};
+        System.out.println(brute(nums));
+        System.out.println(optimal(nums));
     }
     public static int brute(int nums[]){//for each num in nums,store the value of max possible subarr product and fiannaly return MAX of all those
         int len=nums.length;
