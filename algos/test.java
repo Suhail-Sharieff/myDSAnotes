@@ -8,7 +8,7 @@ import java.util.List;
 public class test {
 
     public static void main(String[] args) {
-        int nums[]=new int[]{1,3,1};
+        int nums[]=new int[]{1,3,1};s
         List<List<Integer>>ans=new ArrayList<>();
         func(nums, 0, new ArrayList<>(), ans);
         System.out.println(ans);

@@ -1,8 +1,7 @@
 package _3_binarySearch;
 
-import _1_recursion.singleCall.revArray;
 
-public class _noOfRot {
+public class _7_noOfRot {
     //given a rotated sorted array,find number of rotations it had undergone
 
     public static void main(String[] args) {
