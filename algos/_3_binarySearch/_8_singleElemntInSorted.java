@@ -1,6 +1,5 @@
 package _3_binarySearch;
 
-import _9_HashTables.linearProbing;
 
 /*
 You are given a sorted array consisting of only integers where every element appears exactly twice, except for one element which appears exactly once.
@@ -71,7 +70,7 @@ public class _8_singleElemntInSorted {
             //if midiDx is odd,then if we have same elemnt as on mid on left , it means we(curr pos of mid) r on (even,odd) side, so ans would lie on the other side obviosuly,so
             if ((mid%2!=0&&nums[mid]==nums[mid-1])||(mid%2==0&&nums[mid]==nums[mid+1])) {//we r on (even,odd) side,move to latter side
                 low=mid+1;
-            }else{//if we r on evn idx mid, then obviously its prev elemnt must be diff (but next elemnt must be same) ie we r on (odd,even) side and ans would lie on left side ie towards (even,odd) side,so
+            }else{//we have fulfilled all cases that a elemnt should satisfy to lie on (even,odd) side ie on left, any oter case it means we r on right
                 high=mid-1;
 
             }
