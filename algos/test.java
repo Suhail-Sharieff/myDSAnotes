@@ -1,7 +1,6 @@
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * test
@@ -9,49 +8,33 @@ import java.util.Scanner;
 public class test {
 
     public static void main(String[] args) {
-        Scanner sc=new Scanner(System.in);
-        int  t=sc.nextInt();
-        while (t--!=0) {
-            int arr[]=new int[16];
-            List<Integer>li=new ArrayList<>();
-            for (int i = 0; i < 16; i++) {
-                arr[i]=sc.nextInt();
-                li.add(arr[i]);
-            }
+        int nums[]=new int[]{1,3,1};
+        List<List<Integer>>ans=new ArrayList<>();
+        func(nums, 0, new ArrayList<>(), ans);
+        System.out.println(ans);
 
-            Arrays.sort(arr);
-            int an2s[]=new int[16];
-            for (int i = 0; i < 16; i++) {
-                if (i==0) {
-                    an2s[li.indexOf(arr[i])]=0;
-                }
-                else if(i>=1&&i<=2){
-                    an2s[li.indexOf(arr[i])]=1;
-                }
-                else if(i>2&&i<=6){
-                    an2s[li.indexOf(arr[i])]=2;
-                }
-                else if(i>6&&i<=14){
-                    an2s[li.indexOf(arr[i])]=3;
-                }
-                else if(i>14&&i<=15){
-                    an2s[li.indexOf(arr[i])]=4;
-                }
-            }
-
-
-            sc.close();
-
-            for (int i : an2s) {
-                System.out.print(i+" ");
-            }
-            System.out.println();
-            // for (int i : ans) {
-            //     System.out.print(i+" ");
-            // }
-            // System.out.println();
-
+        List<Integer>values=new ArrayList<>();
+        for (List<Integer> list : ans) {
+            values.add(Math.abs(list.get(0)-list.get(1)));
         }
+        System.out.println(values);
+        Collections.sort(values);
+        System.out.println(values.get(k-1));
+
+    }
+    public static void func(int nums[], int start,List<Integer>empty,List<List<Integer>>li){
+        if (start>=nums.length) {
+            
+            if (empty.size()==2) {
+                li.add(new ArrayList<>(empty));
+            }
+
+            return;
+        }
+        empty.add(nums[start]);
+        func(nums, start+1, empty, li);
+        empty.removeLast();
+        func(nums, start+1, empty, li);
 
     }
 }
