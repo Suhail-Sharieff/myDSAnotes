@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -8,33 +9,18 @@ import java.util.List;
 public class test {
 
     public static void main(String[] args) {
-        int nums[]=new int[]{1,3,1};s
-        List<List<Integer>>ans=new ArrayList<>();
-        func(nums, 0, new ArrayList<>(), ans);
-        System.out.println(ans);
+       List<List<Integer>>li=new ArrayList<>();
+       HashSet<Integer>hs=new HashSet<>();
+       li.add(new ArrayList<>(List.of(-2)));
+       li.add(new ArrayList<>(List.of(-3,-2,1)));
+    //    li.add(new ArrayList<>(List.of(1,2,3)));
 
-        List<Integer>values=new ArrayList<>();
-        for (List<Integer> list : ans) {
-            values.add(Math.abs(list.get(0)-list.get(1)));
-        }
-        System.out.println(values);
-        Collections.sort(values);
-        System.out.println(values.get(k-1));
+       Collections.sort(li,(a,b)->Math.max(a.getLast()-b.getLast(),a.get(0)-b.get(0)));
+       System.out.println(li);
+
+       System.out.println(li.getLast().getLast()-li.getFirst().getFirst());
 
     }
-    public static void func(int nums[], int start,List<Integer>empty,List<List<Integer>>li){
-        if (start>=nums.length) {
-            
-            if (empty.size()==2) {
-                li.add(new ArrayList<>(empty));
-            }
-
-            return;
-        }
-        empty.add(nums[start]);
-        func(nums, start+1, empty, li);
-        empty.removeLast();
-        func(nums, start+1, empty, li);
-
-    }
+    
+    
 }
