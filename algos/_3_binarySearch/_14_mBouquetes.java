@@ -59,7 +59,7 @@ public class _14_mBouquetes {
         int ans = Integer.MAX_VALUE;
 
         for (int noOfDaysToBloom : bloomDay) {
-            int nOfPairs = 0;
+            int nOfDesiredSets = 0;
             boolean isbloomed[] = new boolean[len];// to mark if that flower will bloom after i days
             int nOfBloomed = 0;
             for (int j = 0; j < len; j++) {
@@ -69,14 +69,14 @@ public class _14_mBouquetes {
                 if (isbloomed[j]) {
                     nOfBloomed++;
                     if (nOfBloomed == k) {
-                        nOfPairs++;
+                        nOfDesiredSets++;
                         nOfBloomed = 0;//coz we need pairs, we have got one, make it again 0
                     }
                 } else {//discontinuous in bloomed status ie not adjacent
                     nOfBloomed = 0;
                 }
             }
-            if (nOfPairs >= m) {
+            if (nOfDesiredSets >= m) {
                 ans = Math.min(ans, noOfDaysToBloom);
 
             }
@@ -89,5 +89,63 @@ public class _14_mBouquetes {
             return (ans);
         }
 
+    }
+
+
+
+    //why BS:
+    /*
+    * coz we know that the anwer would always lie in range minElemnt in bloomDay[] and max elemnt in bloomDay[] and our range is hypothetically sorted too
+    * so some how we can improve TC, we will take mid elemnt in our range and check if at that day if m sets can be obtained or not by making a function, if it returns not possible, we need to check for greter no of days ,so move low to mid+1, but if returns possible, we check  for more smaller value by making high as mid-1, always observe that the final ans would point to low, so we return our low
+     */
+
+    public static int optimal(int bloomDay[],int m,int k){
+        //base case:
+        if (((long)(m * k)) >bloomDay.length) return -1;
+        //our answer would always lie in range [min,max] in bloomDay[]
+        //finding min
+        int min=Integer.MAX_VALUE;
+        for (int day : bloomDay) {
+            min=Math.min(min, day);
+        }
+        //finding max:
+        int max=Integer.MIN_VALUE;
+        for (int day : bloomDay) {
+            max=Math.max(max, day);
+        }
+        
+        int low=min,high=max;
+
+        while (low<=high) {
+            int mid=(low+high)/2;
+            if (isThoseNumberOfDaysEnough(mid, bloomDay, m, k)) {//if those numberOf days we can get m sets,
+                //lets check for smaller number of days is possible or not
+                high=mid-1;
+            }else{//its too small no of days to get m pairs, lets wait for more
+                low=mid+1;
+            }
+        }
+
+        return low;//ans would always point to low
+    }
+
+
+    public static boolean isThoseNumberOfDaysEnough(int nThDay,int bloomDay[],int m,int k){
+        //we need k flowers in each of m sets
+        int nOfBloomed=0;
+        int nOfDesiredSets=0;
+        for (int day : bloomDay) {
+            if (nThDay>=day) {//it has bloomed
+                nOfBloomed++;
+                if (nOfBloomed==k) {
+                    nOfDesiredSets++;
+                    nOfBloomed=0;
+                }
+            }else{
+                nOfBloomed=0;
+            }
+        }
+
+        return nOfDesiredSets>=m;//DONT PUT == instaed of >= it will not pass some TC
     }
 }
