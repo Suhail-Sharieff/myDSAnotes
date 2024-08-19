@@ -33,6 +33,8 @@ public class _15_smallestDivisor {
     public static void main(String[] args) {
         int nums[]={1,2,5,9};
         int threshhold=6;
+        System.out.println(brute(nums, threshhold));
+        System.out.println(optimal(nums, threshhold));
     }
 
 
