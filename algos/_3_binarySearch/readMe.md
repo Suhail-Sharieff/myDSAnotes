@@ -1,0 +1,17 @@
+## When to Use Binary Search
+
+Binary Search is a powerful algorithm with specific use cases. Here are scenarios where Binary Search can be effectively applied:
+
+1. **Known Range for Solution**
+   - When you are certain that the solution lies within a specific range `[x, y]`, you can initialize `low = x`, `high = y`, and `mid = (low + high) / 2`. Depending on the problem, `low`, `high`, and `mid` can be used as indices or values.
+
+2. **Potential Answer at Midpoint**
+   - If the value at `nums[mid]` (or `mid` itself, depending on the problem) could be the answer, you can consider returning it. For example:
+     - To find a minimum value, adjust `high = mid - 1` to check for lower values.
+     - To find a maximum value, adjust `low = mid + 1` to check for higher values.
+
+3. **Array with Sorted Subarrays**
+   - Even if the entire array is not sorted, Binary Search can be used if the array is composed of sorted subarrays. The binary search logic can still apply to each sorted segment.
+
+4. **Distinct Patterns in Array**
+   - When there is a distinct pattern in the elements before and after the midpoint, Binary Search can be utilized to exploit these patterns for efficient searching.
