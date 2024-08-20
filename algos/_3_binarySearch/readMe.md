@@ -5,6 +5,9 @@ Binary Search is a powerful algorithm with specific use cases. Here are scenario
 1. **Known Range for Solution**
    - When you are certain that the solution lies within a specific range `[x, y]`, you can initialize `low = x`, `high = y`, and `mid = (low + high) / 2`. Depending on the problem, `low`, `high`, and `mid` can be used as indices or values.
 
+   **NOTE** 
+   - Sometimes its important to note that sole binary search in log(n) cant solve the entire problem and may require nlog(n), which basically means that we need a helper func inside that binary search...ie for each possible values in our range we might want to first find if that value actually fulfills all cases, so we can create some helper function inside the binary search which would help us in that.
+
 2. **Potential Answer at Midpoint**
    - If the value at `nums[mid]` (or `mid` itself, depending on the problem) could be the answer, you can consider returning it. For example:
      - To find a minimum value, adjust `high = mid - 1` to check for lower values.
