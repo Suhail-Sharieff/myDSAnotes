@@ -86,9 +86,9 @@ public class _22_medianOfSorted {
                     return Math.max(l1, l2);
                 }
             } else if (l1 > r2) {
-                high = mid1 - 1;
+                high = mid1 - 1;//take less number of elemnts from first arr
             } else {
-                low = mid1 + 1;
+                low = mid1 + 1;//take more
             }
         }
 
