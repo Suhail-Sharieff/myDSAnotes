@@ -190,7 +190,7 @@ class tree {
         return successor;
     }
 
-    public void preOrderTraverse(treeNode treeRoot) {
+    public void preOrderTraverse(treeNode treeRoot) {//root--left--right
         if (treeRoot != null) {
             treeRoot.displayNode();
             preOrderTraverse(treeRoot.leftChild);
@@ -198,7 +198,7 @@ class tree {
         }
     }
 
-    public void inOrderTraverse(treeNode treeRoot) {
+    public void inOrderTraverse(treeNode treeRoot) {//left--root--right
         if (treeRoot != null) {
             inOrderTraverse(treeRoot.leftChild);
             treeRoot.displayNode();
@@ -206,7 +206,7 @@ class tree {
         }
     }
 
-    public void postOrderTraverse(treeNode treeRoot) {
+    public void postOrderTraverse(treeNode treeRoot) {//left--right--root
         if (treeRoot != null) {
             postOrderTraverse(treeRoot.leftChild);
             postOrderTraverse(treeRoot.rightChild);
