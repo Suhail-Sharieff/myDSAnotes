@@ -1,6 +1,8 @@
 package _7_binarySearchTrees;
 
+import java.util.Queue;
 import java.util.Stack;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 //So trees basically a data structure which is generally used because the searching,insertion as well as the deletion is extremely fast in case of this particular data structure.... so the topmost node present in case of the tree is called the root the root can have as many children as possible the dashes which connect the 2 nodes are called the wedges and the connection of of so many nodes by using the wedges from root to that particular node is known as a path ...so basically in case of a binary tree every node except the root is going to have maximum of two children and the one node which is not having any children is called a leaf...For example if you want to arrange the elements inside the tree we can add that element which is smaller than the key or the data which is present in that particular node as its left node or left child and the one which is having greater than or equal to that particular node's data as its right child and level of a particular node refers to how many generations of the node is from the root for example if we assume the root is level zero then its children will be level 1 its grandchildren will be then level 2 and so on..So basically every node will be having the data and two references one which is pointing towards its left child and the other which is pointing towards the right child
@@ -16,7 +18,7 @@ class treeNode {
 
 class tree {
     // create root
-    private treeNode root;
+    public treeNode root;
 
     public tree() {
         this.root = null;// no nodes in tree yet
@@ -251,18 +253,44 @@ class tree {
         }
         System.out.println("..........................................................");
     }
+    // IMP:
+    public  void levelOrderTraversaal(treeNode root){
+        //watch:https://www.youtube.com/watch?v=hXAqTO7VqUQ&ab_channel=DineshVaryani
+        if (root==null) {
+            System.out.println("Empty Tree");
+            return;
+        }
+        Queue<treeNode>q=new ConcurrentLinkedQueue<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            treeNode temp=q.poll();//retrive first person in queue(FIFO)
+            temp.displayNode();
+            if (temp.leftChild!=null) {
+                q.offer(temp.leftChild);
+            }
+            if (temp.rightChild!=null) {
+                q.offer(temp.rightChild);
+            }
+        }
+        
+    }
 }
 
 public class implementation {
     public static void main(String[] args) {
         tree t = new tree();
-        t.insert(1);
-        t.insert(2);
-        t.insert(3);
-        t.insert(4);
-        t.insert(5);
-        t.displayTree();
+        t.insert(21);
+        t.insert(167);
+        t.insert(32);
+        t.insert(41);
+        t.insert(50);
+        
         //Note that I have insulted the elements in the ascending order ok this will lead to the formation of an unbalanced tree which means that it is like having all the nodes pointing in the same direction the same case happens when I try to insert the element in the descending order but however this particular code works very well when I try to insert the elements in some random order so to sort this particular problem that is whether we insert the elements in the ascending or descending order or any random order we get a balanced tree we use red and black trees let's explore it further
+        t.displayTree();
+        t.inOrderTraverse(t.root);System.out.println();
+        t.preOrderTraverse(t.root);System.out.println();
+        t.postOrderTraverse(t.root);System.out.println();
+        t.levelOrderTraversaal(t.root);
         
     }
 }
