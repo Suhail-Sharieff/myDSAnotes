@@ -411,13 +411,13 @@ public class implementation {
         t.displayTree();
         // t.inOrderTraverse(t.root);System.out.println();
         // t.preOrderTraverse(t.root);System.out.println();
-        t.postOrderTraverse(t.root);System.out.println();
+        // t.postOrderTraverse(t.root);System.out.println();
         // t.levelOrderTraversaal(t.root);System.out.println();
 
         // t.iterativePreOrder(t.root);System.out.println();
         // t.inOrderTraverse(t.root);System.out.println();
-        t.iterativePostOrderUsing_2_Stacks(t.root);System.out.println();
-        t.iterativePostOrderUsing_1_Stack(t.root);
+        // t.iterativePostOrderUsing_2_Stacks(t.root);System.out.println();
+        // t.iterativePostOrderUsing_1_Stack(t.root);
         
     }
 }
