@@ -197,6 +197,25 @@ class tree {
             preOrderTraverse(treeRoot.rightChild);
         }
     }
+    public void iterativePreOrder(treeNode root){//root--left--right
+        //https://www.youtube.com/watch?v=Bfqd8BsPVuw&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz&index=81&ab_channel=takeUforward
+        if (root==null) {
+            return;
+        }
+        Stack<treeNode>st=new Stack<>();//LIFO
+        st.push(root);
+        while (!st.isEmpty()) {
+            root=st.pop();
+            root.displayNode();
+            if (root.rightChild!=null) {
+                st.push(root.rightChild);
+            }
+            if (root.leftChild!=null) {
+                st.push(root.leftChild);
+            }
+        }
+    }
+
 
     public void inOrderTraverse(treeNode treeRoot) {//left--root--right
         if (treeRoot != null) {
@@ -205,6 +224,32 @@ class tree {
             inOrderTraverse(treeRoot.rightChild);
         }
     }
+    public void iterativeInOrder(treeNode root){//left--root--right
+        //https://www.youtube.com/watch?v=lxTGsVXjwvM&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz&index=82&ab_channel=takeUforward
+        if (root==null) {
+            return;
+        }
+        //if node is not null,psh t to statck and move left..if it is null(reached left most)->if(st.isEmpty), we r done break...else move right by printing it
+        Stack<treeNode>st=new Stack<>();//LIFO
+        treeNode temp=root;
+        while (!st.isEmpty()) {
+            if (temp!=null) {
+                st.push(temp);
+                temp=temp.leftChild;
+            }else{
+                if (st.isEmpty()) {
+                    break;
+                }
+                temp=st.pop();
+                temp.displayNode();
+                temp=temp.rightChild;
+            }
+        }
+        
+    }
+
+
+
 
     public void postOrderTraverse(treeNode treeRoot) {//left--right--root
         if (treeRoot != null) {
@@ -212,6 +257,56 @@ class tree {
             postOrderTraverse(treeRoot.rightChild);
             treeRoot.displayNode();
         }
+    }
+    public void iterativePostOrderUsing_2_Stacks(treeNode root){
+        if (root==null) {
+            return;
+        }
+        Stack<treeNode>st1=new Stack<>();
+        Stack<treeNode>st2=new Stack<>();
+
+        st1.push(root);
+
+        while (!st1.isEmpty()) {
+            root=st1.pop();
+            st2.add(root);
+            if (root.leftChild!=null) {
+                st1.push(root.leftChild);
+            }
+            if (root.rightChild!=null) {
+                st1.push(root.rightChild);
+            }
+        }
+        while (!st2.isEmpty()) {
+            st2.pop().displayNode();
+        }
+       
+    }
+    public void iterativePostOrderUsing_1_Stack(treeNode root){
+        treeNode curr=root;
+        Stack<treeNode>st=new Stack<>();
+
+        while (curr!=null||!st.isEmpty()) {
+            if (curr!=null) {
+                st.push(curr);
+                curr=curr.leftChild;
+            }else{
+                treeNode temp=st.peek().rightChild;
+                if (temp==null) {
+                    temp=st.pop();
+                    temp.displayNode();
+
+                    while (!st.isEmpty()&&temp==st.peek().rightChild) {
+                        temp=st.peek();
+                        st.pop();
+                        temp.displayNode();
+                    }
+                }else{
+                    curr=temp;
+                }
+            }
+        }
+
     }
 
     // IMP:
@@ -314,10 +409,15 @@ public class implementation {
         
         //Note that I have insulted the elements in the ascending order ok this will lead to the formation of an unbalanced tree which means that it is like having all the nodes pointing in the same direction the same case happens when I try to insert the element in the descending order but however this particular code works very well when I try to insert the elements in some random order so to sort this particular problem that is whether we insert the elements in the ascending or descending order or any random order we get a balanced tree we use red and black trees let's explore it further
         t.displayTree();
-        t.inOrderTraverse(t.root);System.out.println();
-        t.preOrderTraverse(t.root);System.out.println();
+        // t.inOrderTraverse(t.root);System.out.println();
+        // t.preOrderTraverse(t.root);System.out.println();
         t.postOrderTraverse(t.root);System.out.println();
-        t.levelOrderTraversaal(t.root);
+        // t.levelOrderTraversaal(t.root);System.out.println();
+
+        // t.iterativePreOrder(t.root);System.out.println();
+        // t.inOrderTraverse(t.root);System.out.println();
+        t.iterativePostOrderUsing_2_Stacks(t.root);System.out.println();
+        t.iterativePostOrderUsing_1_Stack(t.root);
         
     }
 }
