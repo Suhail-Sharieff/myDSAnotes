@@ -4,13 +4,19 @@ class Array {
 
     private int arr[];
     private int noOfElements;
+    private int maxSize;
 
     public Array(int maxSize) {
         arr = new int[maxSize];
         noOfElements = 0;
+        this.maxSize=maxSize;
     }
 
     public void insert(int toInsert) {
+        if (noOfElements==maxSize) {
+            System.out.println("cant insert");
+            return;
+        }
         arr[noOfElements++] = toInsert;
     }
 

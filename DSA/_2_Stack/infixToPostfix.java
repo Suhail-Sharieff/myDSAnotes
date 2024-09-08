@@ -1,7 +1,18 @@
 package _2_Stack;
 
 import java.util.*;
-
+//rules:
+/*
+->if digit append to ans
+->if +,-,/,*,(,) push to stack:
+    rules:the top pushed char must have stricly greater precedence than its prev,ie the top will have gretaer precedence than all its bottom.
+        rule:
+            -if '(' or ')' found append to stack
+            -if the gretaer precedence is found than peek, safe to push 
+            -if same precendence found,append the pop and then push
+            -if lower precendece needs to push to stack than peek, pop out all elemnts and append each
+    
+ */
 public class infixToPostfix {
     //to compare priority
     public static int precedence(char c){

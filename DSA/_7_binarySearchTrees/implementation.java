@@ -360,7 +360,7 @@ class tree {
         Queue<treeNode>q=new LinkedList<>();
         q.offer(root);
         while (!q.isEmpty()) {
-            treeNode temp=q.poll();//retrive first person in queue(FIFO)
+            treeNode temp=q.poll();//retrive and remove first person in queue(FIFO)
             temp.displayNode();
             if (temp.leftChild!=null) {
                 q.offer(temp.leftChild);

@@ -1,4 +1,4 @@
-package algos._4_Trees;
+package _4_Trees;
 
 
 

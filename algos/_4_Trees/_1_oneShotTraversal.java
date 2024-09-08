@@ -1,4 +1,4 @@
-package algos._4_Trees;
+package _4_Trees;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +12,9 @@ public class _1_oneShotTraversal {//using this method we would traverse throught
 
 
     //we would have 3 states 1,2,3, initially stack has root with state 1
-    //if the state of topPair in stack is 1, put it to preOrderpush,increase stateBy1,push left(if not null)
-    //if the state of topPair in stack is 2, put it to inOrder,push,increase stateBy1,move right
-    //if the state of topPair in stack is 2, put it to postOrder,pop,move left
+    //if the state of topPair in stack is 1, put it to preOrder,increase stateBy1,push left(if not null)
+    //if the state of topPair in stack is 2, put it to inOrder,increase stateBy1,push rightIif not null
+    //if the state of topPair in stack is 2, put it to postOrder,pop
 
     public static void main(String[] args) {
         //constructing sample tree
