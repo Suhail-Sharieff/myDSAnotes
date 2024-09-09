@@ -18,18 +18,18 @@ public class _1_oneShotTraversal {//using this method we would traverse throught
 
     public static void main(String[] args) {
         //constructing sample tree
-        treeNode root = new treeNode(1);
-        root.leftChild = new treeNode(2);
-        root.rightChild = new treeNode(3);
-        root.leftChild.leftChild = new treeNode(4);
-        root.leftChild.rightChild = new treeNode(5);
-        root.rightChild.leftChild = new treeNode(6);
-        root.rightChild.rightChild = new treeNode(7);
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
+        root.right.left = new TreeNode(6);
+        root.right.right = new TreeNode(7);
 
         oneShotTrav(root);
     }
 
-    public static void oneShotTrav(treeNode root){
+    public static void oneShotTrav(TreeNode root){
         Stack<pair>st=new Stack<>();
         List<Integer>preOrder=new ArrayList<>();
         List<Integer>inOrder=new ArrayList<>();
@@ -41,23 +41,23 @@ public class _1_oneShotTraversal {//using this method we would traverse throught
         while (!st.isEmpty()) {
 
             pair topPair=st.peek();
-            treeNode node=topPair.node;
+            TreeNode node=topPair.node;
             int state=topPair.state;
 
             if (state==1) {
-                preOrder.add(node.data);
+                preOrder.add(node.val);
                 topPair.state++;
-                if (node.leftChild!=null) {
-                    st.push(new pair(node.leftChild, 1));
+                if (node.left!=null) {
+                    st.push(new pair(node.left, 1));
                 }
             }else if(state==2){
-                inOrder.add(node.data);
+                inOrder.add(node.val);
                 topPair.state++;
-                if (node.rightChild!=null) {
-                    st.push(new pair(node.rightChild, 1));
+                if (node.right!=null) {
+                    st.push(new pair(node.right, 1));
                 }
             }else if(state==3){
-                postOrder.add(node.data);
+                postOrder.add(node.val);
                 st.pop();
             }
         }
@@ -71,9 +71,9 @@ public class _1_oneShotTraversal {//using this method we would traverse throught
 
 }
 class pair{
-    public treeNode node;
+    public TreeNode node;
     public int state;
-    public pair(treeNode node,int state){
+    public pair(TreeNode node,int state){
         this.node=node;
         this.state=state;
     }
