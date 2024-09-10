@@ -39,4 +39,12 @@ public class _2_heightOfTree {
         }
         return ans.size();
     }
+    public static int optimal(TreeNode root){
+        if (root==null) {
+            return 0;
+        }
+        int leftDepth=optimal(root.left);
+        int rightDepth=optimal(root.right);
+        return Math.max(leftDepth, rightDepth)+1;
+    }
 }

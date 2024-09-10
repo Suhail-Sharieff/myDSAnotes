@@ -30,12 +30,12 @@ public class _4_checkIfBalanced {
      *if maxD on left and right (starting from root) is <=1, then recursively check for its subtreee 
      if no, return false;
     */
-    public boolean brute(TreeNode root){//O(N)
+    public boolean optimal(TreeNode root){//O(N)
         if (root==null) {//every single node is balanced alone
             return true;
         }
         if (Math.abs(maxDepth(root.left)-maxDepth(root.right))<=1) {//check if root is balnced first,then only move to iits subtees
-            return (brute(root.left)&&brute(root.right));
+            return (optimal(root.left)&&optimal(root.right));
         }
         //if root ony not balanced(same applies for recursive subrtrees)
         return false;
