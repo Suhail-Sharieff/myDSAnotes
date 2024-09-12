@@ -14,7 +14,7 @@ public class _5_diameterOfBT {
         //watch from 10:00
         
         //since we need the longest distance between any two nodes(they could be at same/different levels involving/notInvolving root), we would trverse via each node and from that node we find its left and right maxDepth, we finally return max ofd all depths...just slight modification of maxDepth algo
-        optimal(root);//call it first and then return ans
+        maxDepth(root);//call it first and then return ans
         return ans;
 
     }
