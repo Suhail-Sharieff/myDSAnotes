@@ -28,15 +28,17 @@ The number of nodes in both trees is in the range [0, 100].
  */
 public class _7_isSameTree {
     public boolean isSameTree(TreeNode p, TreeNode q) {
-        if (p == null && q == null) {
+        if (p == null && q == null) {//2 null ref r always same
             return true;
-        } else if (p == null && q != null) {
+        }
+        //conditions where it cant be a symmetric tree at all 
+        else if (p == null && q != null) {
             return false;
         } else if (p != null && q == null) {
             return false;
         }
-
-        if (p != null && q != null && p.val == q.val) {
+        //passed all above test cases
+        if ( p.val == q.val) {
 
             if (isSameTree(p.left, q.left) && isSameTree(p.right, q.right)) {
                 return true;
