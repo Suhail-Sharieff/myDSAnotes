@@ -151,7 +151,10 @@ public class _9_boundaryTraversal {
         if (root == null) {
             return;
         }
+
         rightList.add(root.val);
+
+
         if (root.right != null) {
             moveViaRight(root.right);
         } else {
@@ -161,9 +164,9 @@ public class _9_boundaryTraversal {
     }
 
     public static List<Integer> AnticlockwiseBoundaryTraversal(TreeNode root) {
-        leftList.clear();
-        leafList.clear();
-        rightList.clear();
+        // leftList.clear();
+        // leafList.clear();
+        // rightList.clear();
 
         if (root == null) {
             return new ArrayList<>();
