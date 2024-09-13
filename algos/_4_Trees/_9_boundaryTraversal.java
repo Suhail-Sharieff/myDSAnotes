@@ -151,12 +151,13 @@ public class _9_boundaryTraversal {
         if (root == null) {
             return;
         }
+        rightList.add(root.val);
         if (root.right != null) {
             moveViaRight(root.right);
         } else {
             moveViaRight(root.left);
         }
-        rightList.add(root.val);
+        
     }
 
     public static List<Integer> AnticlockwiseBoundaryTraversal(TreeNode root) {
