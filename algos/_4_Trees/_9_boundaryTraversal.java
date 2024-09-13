@@ -3,6 +3,11 @@ package _4_Trees;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+//MORRIS TRAVERSAL 
+
+
+
+
 /*
 Given a Binary Tree, find its Boundary Traversal. The traversal should be in the following order: 
 
@@ -115,6 +120,7 @@ public class _9_boundaryTraversal {
          TreeNode root=TreeNode.constructTree(new Integer[] {20, 8, 22, 4, 12, null, 25, null, null, 10, 14});
 
         System.out.println(AnticlockwiseBoundaryTraversal(root));
+        
     }
 
     private static List<Integer> leftList = new ArrayList<>();
@@ -190,6 +196,6 @@ public class _9_boundaryTraversal {
         Collections.reverse(rightList); // Reverse the right boundary list
         result.addAll(rightList); // Add the reversed right boundary nodes
 
-        return result;
+        return result;//NOTE: for further optimization use only 1 array list
     }
 }
