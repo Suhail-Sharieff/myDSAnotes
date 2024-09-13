@@ -122,7 +122,7 @@ public class _9_boundaryTraversal {
     private static List<Integer> rightList = new ArrayList<>();
 
     private static void moveViaLeft(TreeNode root) {
-        if (root == null ) {
+        if (root == null||(root.left==null&&root.right==null) ) {//the second case handles duplicates
             return;
         }
 
@@ -147,8 +147,8 @@ public class _9_boundaryTraversal {
         moveViaLeaf(root.right);
     }
 
-    private static void moveViaRight(TreeNode root) {
-        if (root == null) {
+    private static void moveViaRight(TreeNode root) {//the second case handles duplicates
+        if (root == null||(root.left==null&&root.right==null)) {
             return;
         }
 
@@ -164,9 +164,6 @@ public class _9_boundaryTraversal {
     }
 
     public static List<Integer> AnticlockwiseBoundaryTraversal(TreeNode root) {
-        // leftList.clear();
-        // leafList.clear();
-        // rightList.clear();
 
         if (root == null) {
             return new ArrayList<>();
