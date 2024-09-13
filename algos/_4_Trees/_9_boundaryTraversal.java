@@ -102,14 +102,17 @@ We pass the array as reference, so its the same memory location used by all func
 public class _9_boundaryTraversal {
 
     public static void main(String[] args) {
-        TreeNode root = new TreeNode(20);
-        root.left = new TreeNode(8);
-        root.left.left = new TreeNode(4);
-        root.left.right = new TreeNode(12);
-        root.left.right.left = new TreeNode(10);
-        root.left.right.right = new TreeNode(14);
-        root.right = new TreeNode(22);
-        root.right.right = new TreeNode(25);
+        // TreeNode root = new TreeNode(20);
+        // root.left = new TreeNode(8);
+        // root.left.left = new TreeNode(4);
+        // root.left.right = new TreeNode(12);
+        // root.left.right.left = new TreeNode(10);
+        // root.left.right.right = new TreeNode(14);
+        // root.right = new TreeNode(22);
+        // root.right.right = new TreeNode(25);
+
+
+         TreeNode root=TreeNode.constructTree(new Integer[] {20, 8, 22, 4, 12, null, 25, null, null, 10, 14});
 
         System.out.println(AnticlockwiseBoundaryTraversal(root));
     }
@@ -119,14 +122,15 @@ public class _9_boundaryTraversal {
     private static List<Integer> rightList = new ArrayList<>();
 
     private static void moveViaLeft(TreeNode root) {
-        if (root == null || (root.left == null && root.right == null)) {
+        if (root == null ) {
             return;
         }
+
+        leftList.add(root.val);
+
         if (root.left != null) {
-            leftList.add(root.val);
             moveViaLeft(root.left);
         } else {
-            leftList.add(root.val);
             moveViaLeft(root.right);
         }
     }
@@ -144,7 +148,7 @@ public class _9_boundaryTraversal {
     }
 
     private static void moveViaRight(TreeNode root) {
-        if (root == null || (root.left == null && root.right == null)) {
+        if (root == null) {
             return;
         }
         if (root.right != null) {
