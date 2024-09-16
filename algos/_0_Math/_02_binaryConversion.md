@@ -309,7 +309,7 @@ The right shift operator (`>>`) shifts the bits of a binary number to the right 
 
 For a>>b
 
-Ans: (2^a)*b
+Ans: a/(2^b) 
 
 ### Examples
 
