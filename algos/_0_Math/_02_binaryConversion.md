@@ -125,6 +125,125 @@ Negative numbers are typically represented using two's complement in binary.
 
 - **Binary number**: `11110100`
 
+
+
+
+
+
+# Conversion Between Binary and Decimal Using One's and Two's Complement
+
+This document explains how to convert numbers between binary and decimal using one's complement and two's complement representations.
+
+## Table of Contents
+
+1. [One's Complement](#ones-complement)
+   - [Conversion of Positive Numbers](#conversion-of-positive-numbers)
+   - [Conversion of Negative Numbers](#conversion-of-negative-numbers)
+2. [Two's Complement](#twos-complement)
+   - [Conversion of Positive Numbers](#conversion-of-positive-numbers-1)
+   - [Conversion of Negative Numbers](#conversion-of-negative-numbers-1)
+3. [Examples](#examples)
+
+## One's Complement
+
+One's complement is a binary representation where negative numbers are obtained by inverting all bits of the positive number.
+
+### Conversion of Positive Numbers
+
+1. **Convert the decimal number to binary** as usual.
+2. **Pad the binary number** to the desired bit length (e.g., 8 bits).
+
+### Conversion of Negative Numbers
+
+1. **Convert the absolute value of the number to binary**.
+2. **Pad the binary number** to the desired bit length.
+3. **Invert all bits** (change 0s to 1s and vice versa).
+
+#### Example 1: Positive Decimal Number
+
+Convert the decimal number `6` to an 8-bit binary number.
+
+- **Decimal number**: `6`
+- **Binary representation**: `00000110`
+
+- **One's complement**: `00000110`
+
+#### Example 2: Negative Decimal Number
+
+Convert the decimal number `-6` to an 8-bit binary number using one's complement.
+
+- **Decimal number**: `6`
+- **Binary representation**: `00000110`
+- **Invert all bits**: `11111001`
+
+- **One's complement representation**: `11111001`
+
+## Two's Complement
+
+Two's complement is a binary representation where negative numbers are obtained by inverting all bits of the positive number and adding 1.
+
+### Conversion of Positive Numbers
+
+1. **Convert the decimal number to binary** as usual.
+2. **Pad the binary number** to the desired bit length (e.g., 8 bits).
+
+### Conversion of Negative Numbers
+
+1. **Convert the absolute value of the number to binary**.
+2. **Pad the binary number** to the desired bit length.
+3. **Invert all bits**.
+4. **Add 1** to the result.
+
+#### Example 1: Positive Decimal Number
+
+Convert the decimal number `6` to an 8-bit binary number.
+
+- **Decimal number**: `6`
+- **Binary representation**: `00000110`
+
+- **Two's complement representation**: `00000110`
+
+#### Example 2: Negative Decimal Number
+
+Convert the decimal number `-6` to an 8-bit binary number using two's complement.
+
+- **Decimal number**: `6`
+- **Binary representation**: `00000110`
+- **Invert all bits**: `11111001`
+- **Add 1**: `11111010`
+
+- **Two's complement representation**: `11111010`
+
+## Examples
+
+### One's Complement
+
+1. **Decimal `5` to 8-bit binary**:
+   - **Binary**: `00000101`
+   - **One's complement**: `00000101` (for positive numbers)
+
+2. **Decimal `-5` to 8-bit binary**:
+   - **Decimal `5`**: `00000101`
+   - **Invert bits**: `11111010`
+   - **One's complement**: `11111010`
+
+### Two's Complement
+
+1. **Decimal `5` to 8-bit binary**:
+   - **Binary**: `00000101`
+   - **Two's complement**: `00000101` (for positive numbers)
+
+2. **Decimal `-5` to 8-bit binary**:
+   - **Decimal `5`**: `00000101`
+   - **Invert bits**: `11111010`
+   - **Add 1**: `11111011`
+   - **Two's complement**: `11111011`
+
+## Conclusion
+
+Understanding one's and two's complement representations is crucial for working with binary numbers, especially in computer systems. This guide covers the basics of converting between decimal and binary for both positive and negative numbers in these two complement systems. For further practice, apply these methods to different numbers and verify your results.
+
+
 ## Conclusion
 
 Understanding binary and decimal conversions is essential for various applications in computing. The methods outlined here cover the basic conversions for both positive and negative numbers. For additional practice, try converting different numbers and check your results.
