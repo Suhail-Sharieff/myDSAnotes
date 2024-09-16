@@ -37,7 +37,7 @@
 
 * **Negation:**
    * Find the one's complement.
-   * Add 1 to the result.
+   * Add 1 to the result.Rember that 1 + 1 = 10
 * **Used for:**
    * Representing signed integers in modern computers.
    * Arithmetic operations involving negative numbers.
@@ -51,7 +51,7 @@
 * **Power of 2:** Multiply each digit in the binary number by 2 raised to its position (starting from 0 on the right) and add the products.
 
 **Negative Numbers:**
-* **Two's Complement:** Use two's complement to represent negative numbers in binary. The most significant bit (MSB) indicates the sign (0 for positive, 1 for negative).
+* **Two's Complement:** Use two's complement to represent negative numbers in binary. The most significant bit (MSB) indicates the sign (0 for positive, 1 for negative). In every binary digit representation, the first figit is MSB
 
 **Example:**
 * Convert 13 (decimal) to binary:
