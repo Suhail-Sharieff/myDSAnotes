@@ -1,4 +1,4 @@
-## **Binary and Decimal Systems in Computer Science**
+Binary and Decimal Systems in Computer Science**
 
 ### Understanding Binary and Decimal Systems
 
@@ -270,9 +270,9 @@ The left shift operator (`<<`) shifts the bits of a binary number to the left by
 
 ### Formula
 
-For a number `n` shifted left by `k` positions, the new number can be calculated as:
+For a<<b
 
-\[ \text{New Number} = \text{Original Number} \times 2^k \]
+Ans: a*(2^b) 
 
 ### Examples
 
@@ -307,9 +307,9 @@ The right shift operator (`>>`) shifts the bits of a binary number to the right 
 
 ### Formula
 
-For a number `n` shifted right by `k` positions, the new number can be calculated as:
+For a>>b
 
-\[ \text{New Number} = \text{Original Number} \div 2^k \]
+Ans: (2^a)*b
 
 ### Examples
 
