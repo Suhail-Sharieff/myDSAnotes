@@ -239,6 +239,105 @@ Convert the decimal number `-6` to an 8-bit binary number using two's complement
    - **Add 1**: `11111011`
    - **Two's complement**: `11111011`
 
+
+
+
+
+
+# Bitwise Shift Operators
+
+Bitwise shift operators are used to shift the bits of a binary number to the left or right. This document explains the left shift and right shift operators, including how to calculate their effects easily.
+
+## Table of Contents
+
+1. [Left Shift Operator](#left-shift-operator)
+   - [Concept](#concept)
+   - [Formula](#formula)
+   - [Examples](#examples)
+2. [Right Shift Operator](#right-shift-operator)
+   - [Concept](#concept-1)
+   - [Formula](#formula-1)
+   - [Examples](#examples-1)
+
+## Left Shift Operator
+
+The left shift operator (`<<`) shifts the bits of a binary number to the left by a specified number of positions. 
+
+### Concept
+
+- Each shift to the left by one position multiplies the number by 2.
+- Bits shifted out of the left end are discarded, and zeroes are added on the right end.
+
+### Formula
+
+For a number `n` shifted left by `k` positions, the new number can be calculated as:
+
+\[ \text{New Number} = \text{Original Number} \times 2^k \]
+
+### Examples
+
+#### Example 1: Positive Number
+
+Convert the number `6` (binary `00000110`) using a left shift by 2 positions.
+
+- **Original binary number**: `00000110` (which is `6` in decimal)
+- **Shift left by 2**:
+  - Shifted binary: `00011000`
+  - **Decimal result**: `6 \times 2^2 = 6 \times 4 = 24`
+  - **New binary number**: `00011000`
+
+#### Example 2: Negative Number
+
+Convert the number `-3` (8-bit binary `11111101`) using a left shift by 3 positions.
+
+- **Original binary number**: `11111101` (which is `-3` in decimal)
+- **Shift left by 3**:
+  - Shifted binary: `11110100`
+  - **Decimal result**: `-3 \times 2^3 = -3 \times 8 = -24`
+  - **New binary number**: `11110100`
+
+## Right Shift Operator
+
+The right shift operator (`>>`) shifts the bits of a binary number to the right by a specified number of positions.
+
+### Concept
+
+- Each shift to the right by one position divides the number by 2.
+- The effect on the sign bit depends on whether the shift is logical (unsigned) or arithmetic (signed).
+
+### Formula
+
+For a number `n` shifted right by `k` positions, the new number can be calculated as:
+
+\[ \text{New Number} = \text{Original Number} \div 2^k \]
+
+### Examples
+
+#### Example 1: Positive Number
+
+Convert the number `24` (binary `00011000`) using a right shift by 3 positions.
+
+- **Original binary number**: `00011000` (which is `24` in decimal)
+- **Shift right by 3**:
+  - Shifted binary: `00000011`
+  - **Decimal result**: `24 \div 2^3 = 24 \div 8 = 3`
+  - **New binary number**: `00000011`
+
+#### Example 2: Negative Number
+
+Convert the number `-24` (8-bit binary `11101000`) using a right shift by 4 positions.
+
+- **Original binary number**: `11101000` (which is `-24` in decimal)
+- **Shift right by 4**:
+  - Shifted binary (arithmetic shift): `11111110`
+  - **Decimal result**: `-24 \div 2^4 = -24 \div 16 = -1.5` (rounded towards negative infinity)
+  - **New binary number**: `11111110`
+
+## Conclusion
+
+Bitwise shift operations are fundamental in low-level programming and digital logic. The left shift operation multiplies a number by powers of 2, while the right shift divides it. Understanding these operations can help in optimizing algorithms and manipulating binary data efficiently.
+
+
 ## Conclusion
 
 Understanding one's and two's complement representations is crucial for working with binary numbers, especially in computer systems. This guide covers the basics of converting between decimal and binary for both positive and negative numbers in these two complement systems. For further practice, apply these methods to different numbers and verify your results.
