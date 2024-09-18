@@ -1,105 +1,108 @@
 package _4_Trees;
+import java.util.*;
+/**
+ * _10_verticalTraversal
+ */
+/*
+Given the root of a binary tree, calculate the vertical order traversal of the binary tree.
 
-import java.util.LinkedList;
-import java.util.Queue;
+For each node at position (row, col), its left and right children will be at positions (row + 1, col - 1) and (row + 1, col + 1) respectively. The root of the tree is at (0, 0).
 
-// import java.util.*;
+The vertical order traversal of a binary tree is a list of top-to-bottom orderings for each column index starting from the leftmost column and ending on the rightmost column. There may be multiple nodes in the same row and same column. In such a case, sort these nodes by their values.
+
+Return the vertical order traversal of the binary tree.
+
+ 
+
+  Input:            1
+                  /    \ 
+                2      3
+               / \   /   \
+             4   5  6     7
+                         /  \ 
+                       8    9 
+
+Output: 
+[[4],[2],[1,5,6],[3,8],[7],[9]]
+
+Input: root = [3,9,20,null,null,15,7]
+Output: [[9],[3,15],[20],[7]]
+Explanation:
+Column -1: Only node 9 is in this column.
+Column 0: Nodes 3 and 15 are in this column in that order from top to bottom.
+Column 1: Only node 20 is in this column.
+Column 2: Only node 7 is in this column.
+Example 2:
 
 
+Input: root = [1,2,3,4,5,6,7]
+Output: [[4],[2],[1,5,6],[3],[7]]
+Explanation:
+Column -2: Only node 4 is in this column.
+Column -1: Only node 2 is in this column.
+Column 0: Nodes 1, 5, and 6 are in this column.
+          1 is at the top, so it comes first.
+          5 and 6 are at the same position (2, 0), so we order them by their value, 5 before 6.
+Column 1: Only node 3 is in this column.
+Column 2: Only node 7 is in this column.
+Example 3:
+
+
+Input: root = [1,2,3,4,6,5,7]
+Output: [[4],[2],[1,5,6],[3],[7]]
+Explanation:
+This case is the exact same as example 2, but with nodes 5 and 6 swapped.
+Note that the solution remains the same since 5 and 6 are in the same location and should be ordered by their values.
+ 
+ 
+
+Constraints:
+
+The number of nodes in the tree is in the range [1, 1000].
+0 <= Node.val <= 1000
+ */
 public class _10_verticalTraversal {
-     // Function to get the height of the tree
-   // Function to get the height of the tree
-    public static int getHeight(TreeNode root) {
-        if (root == null) return 0;
-        return 1 + Math.max(getHeight(root.left), getHeight(root.right));
-    }
-
-    // Function to fill the matrix with tree values
-    public static void fillMatrix(TreeNode root, int[][] matrix) {
-        if (root == null) return;
-        
-        int height = matrix.length;
-        int width = matrix[0].length;
-        Queue<Position> queue = new LinkedList<>();
-        queue.add(new Position(root, 0, (width - 1) / 2));
-        
-        while (!queue.isEmpty()) {
-            Position pos = queue.poll();
-            TreeNode node = pos.node;
-            int row = pos.row;
-            int col = pos.col;
-            
-            if (node != null) {
-                matrix[row][col] = node.val;
-                
-                // Enqueue left child
-                if (node.left != null) {
-                    queue.add(new Position(node.left, row + 1, col - (1 << (height - row - 2))));
-                }
-                
-                // Enqueue right child
-                if (node.right != null) {
-                    queue.add(new Position(node.right, row + 1, col + (1 << (height - row - 2))));
-                }
-            }
-        }
-    }
-
-    // Position class to keep track of node and its position in the matrix
-    static class Position {
-        TreeNode node;
-        int row;
-        int col;
-        
-        Position(TreeNode node, int row, int col) {
-            this.node = node;
-            this.row = row;
-            this.col = col;
-        }
-    }
-    
-    // Function to convert the tree to 2D matrix
-    public static int[][] treeToMatrix(TreeNode root) {
-        int height = getHeight(root);
-        int width = (1 << height) - 1; // 2^height - 1
-        int[][] matrix = new int[height][width];
-        
-        // Initialize matrix with -1
-        for (int[] row : matrix) {
-            java.util.Arrays.fill(row, -1);
-        }
-
-        fillMatrix(root, matrix);
-        return matrix;
-    }
-
-    // Function to print the matrix
-    public static void printMatrix(int[][] matrix) {
-        for (int[] row : matrix) {
-            for (int val : row) {
-                System.out.print(val + " ");
-            }
-            System.out.println();
-        }
-    }
-
 
     public static void main(String[] args) {
-        // Example Usage:
-        // Construct a sample binary tree
-        //        1
-        //       / \
-        //      2   3
-        //     / \
-        //    4   5
+        TreeNode root=TreeNode.constructTree(new Integer[]{3,9,20,null,null,15,7});
+        TreeMap<Integer,HashMap<Integer,List<Integer>>>tm=new TreeMap<>();
+        optimal( root, 0, 0,tm);
+        // System.out.println(li);
+    }
 
-        TreeNode root = new TreeNode(1);
-        root.left = new TreeNode(2);
-        root.right = new TreeNode(3);
-        root.left.left = new TreeNode(4);
-        root.left.right = new TreeNode(5);
 
-        int[][] matrix = treeToMatrix(root);
-        printMatrix(matrix);
+
+    public static void optimal(TreeNode root,int horiLevel,int vertiLevel,TreeMap<Integer,HashMap<Integer,List<Integer>>>tm){
+        
+        //left root right
+        if (root==null) {
+            return;
+        }
+        Queue<TreeNode>q=new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+          int nOfElmntsInThatHoriLevel=q.size();
+          List<Integer>horiElemnts=new ArrayList<>();
+          HashMap<Integer,List<Integer>>hs=new HashMap<>();
+          for (int i = 0; i < nOfElmntsInThatHoriLevel; i++) {
+            TreeNode temp=q.poll();
+            horiElemnts.add(temp.val);
+            if (temp.left!=null) {
+              q.offer(temp.left);
+              optimal( temp.left, horiLevel-1, vertiLevel+1,tm);
+            }
+            if (temp.right!=null) {
+              q.offer(temp.right);
+              optimal( temp.right, horiLevel+1, vertiLevel+1,tm);
+            }
+            
+          }
+          hs.put(horiLevel, horiElemnts);
+          tm.put(vertiLevel, hs);
+
+        }
+
+
+        System.out.println(tm);
     }
 }
