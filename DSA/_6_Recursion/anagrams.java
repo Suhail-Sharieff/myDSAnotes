@@ -4,6 +4,9 @@ import java.util.Scanner;
 
 /**
  * anagrams
+Anagrams are words or phrases formed by rearranging the letters of another word or phrase, using all the original letters exactly once. For example, "listen" is an anagram of "silent," and "earth" is an anagram of "heart." Anagrams can be used for word play, puzzles, or even as a cryptographic technique.
+
+
  */
 public class anagrams {
    public static int size;
