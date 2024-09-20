@@ -2,7 +2,6 @@ package _4_Trees;
 
 import java.util.*;
 
-import javax.print.attribute.IntegerSyntax;
 
 /**
  * _10_verticalTraversal
@@ -70,9 +69,7 @@ The number of nodes in the tree is in the range [1, 1000].
  */
 public class _10_verticalTraversal {
   public static void main(String[] args) {
-    TreeMap<Integer, Integer> p = new TreeMap<>();
 
-    // p.put(1,23);
 
     TreeNode root = TreeNode.constructTree(new Integer[] { 3, 9, 20, null, null, 15, 7 });
     better(root);
