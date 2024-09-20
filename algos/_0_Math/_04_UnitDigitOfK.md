@@ -17,7 +17,7 @@ The unit digit of `x^k` can be determined as follows:
 - These are called **1 power cycle** numbers.
 
 #### Example:
-- `x = 15`, `k = 10`
+- `x = 15`, `k = 10`, `n=5`
 - The unit digit of `x` is `5`, so the unit digit of `15^10` is `5`.
 
 ### Case 2: **n = 2, 3, 7, or 8**
