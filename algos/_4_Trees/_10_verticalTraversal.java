@@ -1,5 +1,9 @@
 package _4_Trees;
+
 import java.util.*;
+
+import javax.print.attribute.IntegerSyntax;
+
 /**
  * _10_verticalTraversal
  */
@@ -61,48 +65,58 @@ Constraints:
 The number of nodes in the tree is in the range [1, 1000].
 0 <= Node.val <= 1000
  */
+/**
+ * _10_verticalTraversal
+ */
 public class _10_verticalTraversal {
+  public static void main(String[] args) {
+    TreeMap<Integer,Integer>p=new TreeMap<>();
 
-    public static void main(String[] args) {
-        TreeNode root=TreeNode.constructTree(new Integer[]{3,9,20,null,null,15,7});
-        TreeMap<Integer,HashMap<Integer,List<Integer>>>tm=new TreeMap<>();
-        optimal( root, 0, 0,tm);
-        // System.out.println(li);
+    p.put(1,23);
+    p.put(2, 45);
+    System.out.println(p);
+
+  }
+
+
+  public static void optimal(TreeNode root){
+    // <xPos,map<ypos,List>>
+    TreeMap<Integer,TreeMap<Integer,List<Integer>>>map=new TreeMap<>();//treemap auto stores the k,v pairs in sorted fashion
+    Queue<co_ordinate>q=new LinkedList<>();
+    q.offer(new co_ordinate(root, 0, 0));
+
+    while (!q.isEmpty()) {
+      co_ordinate curr=q.poll();
+
+      TreeNode thatNode=curr.Node;
+      int xPos=curr.xPos;
+      int yPos=curr.yPos;
+
+      map.put(xPos, new TreeMap<>());
+      map.get(xPos).put(yPos, new ArrayList<>());
+
+      map.get(xPos).get(yPos).add(thatNode.val);
+
+      if (thatNode.left!=null) {
+        q.offer(new co_ordinate(thatNode.left, xPos-1, yPos+1));
+      }
+      if (thatNode.right!=null) {
+        q.offer(new co_ordinate(thatNode.right, xPos+1, yPos+1));
+      }
+
     }
+  }
+}
 
+class co_ordinate {
 
+  public TreeNode Node;
+  public int xPos;
+  public int yPos;
 
-    public static void optimal(TreeNode root,int horiLevel,int vertiLevel,TreeMap<Integer,HashMap<Integer,List<Integer>>>tm){
-        
-        //left root right
-        if (root==null) {
-            return;
-        }
-        Queue<TreeNode>q=new LinkedList<>();
-        q.offer(root);
-        while (!q.isEmpty()) {
-          int nOfElmntsInThatHoriLevel=q.size();
-          List<Integer>horiElemnts=new ArrayList<>();
-          HashMap<Integer,List<Integer>>hs=new HashMap<>();
-          for (int i = 0; i < nOfElmntsInThatHoriLevel; i++) {
-            TreeNode temp=q.poll();
-            horiElemnts.add(temp.val);
-            if (temp.left!=null) {
-              q.offer(temp.left);
-              optimal( temp.left, horiLevel-1, vertiLevel+1,tm);
-            }
-            if (temp.right!=null) {
-              q.offer(temp.right);
-              optimal( temp.right, horiLevel+1, vertiLevel+1,tm);
-            }
-            
-          }
-          hs.put(horiLevel, horiElemnts);
-          tm.put(vertiLevel, hs);
-
-        }
-
-
-        System.out.println(tm);
-    }
+  public co_ordinate(TreeNode Node,int xPos, int yPos) {
+    this.Node = Node;
+    this.xPos = xPos;
+    this.yPos = yPos;
+  }
 }
