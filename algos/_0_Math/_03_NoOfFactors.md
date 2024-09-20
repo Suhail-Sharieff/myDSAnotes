@@ -1,3 +1,5 @@
+
+
 # Number of Factors Calculation
 
 This guide explains how to calculate the number of factors of a given number `k` using its prime factorization.
@@ -24,3 +26,26 @@ This guide explains how to calculate the number of factors of a given number `k`
 Consider the number `k = 180`.
 
 1. **Prime Factorization**:
+
+180 = 2^2 * 3^2 * 5^1
+
+2. **Applying the Formula**:
+
+T(180) = (2 + 1)(2 + 1)(1 + 1) = 3 * 3 * 2 = 18
+
+So, the number `180` has 18 factors.
+
+## Notes
+
+- The formula works because each factor of `k` is formed by choosing a power for each prime factor from `0` to its maximum power in the factorization.
+- The process applies to any positive integer `k`.
+
+## Applications
+
+This method is useful in:
+- Number theory
+- Mathematical problem-solving
+- Competitive programming
+
+This README.md explains the method clearly and includes an example for better understanding.
+
