@@ -72,9 +72,12 @@ public class _10_verticalTraversal {
   public static void main(String[] args) {
     TreeMap<Integer,Integer>p=new TreeMap<>();
 
-    p.put(1,23);
-    p.put(2, 45);
-    System.out.println(p);
+    // p.put(1,23);
+
+    TreeNode root=TreeNode.constructTree(new Integer[]{3,9,20,null,null,15,7});
+    optimal(root);
+    // p.put(2, 45);
+    // System.out.println(p);
 
   }
 
@@ -92,8 +95,12 @@ public class _10_verticalTraversal {
       int xPos=curr.xPos;
       int yPos=curr.yPos;
 
-      map.put(xPos, new TreeMap<>());
-      map.get(xPos).put(yPos, new ArrayList<>());
+      if (!map.containsKey(xPos)) {
+        map.put(xPos, new TreeMap<>());
+      }
+      if (!map.get(xPos).containsKey(yPos)) {
+        map.get(xPos).put(yPos, new ArrayList<>());
+      }
 
       map.get(xPos).get(yPos).add(thatNode.val);
 
@@ -104,8 +111,28 @@ public class _10_verticalTraversal {
         q.offer(new co_ordinate(thatNode.right, xPos+1, yPos+1));
       }
 
+    }//now the list within the TreeMap has answer elemnts
+
+
+
+
+    List<List<Integer>>ans=new ArrayList<>();
+
+    for(TreeMap<Integer,List<Integer>> eachMap:map.values()){
+      List<Integer>thatCol=new ArrayList<>();
+      for(List<Integer>li:eachMap.values()){
+        thatCol.addAll(li);
+      }
+      ans.add(thatCol);
     }
+
+    System.out.println(ans);
+
+
   }
+
+
+
 }
 
 class co_ordinate {
