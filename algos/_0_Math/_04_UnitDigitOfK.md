@@ -65,7 +65,60 @@ The unit digit of `x^k` can be determined as follows:
 - **n = 4** → Odd `k` gives unit digit `4`, even `k` gives unit digit `6`.
 - **n = 9** → Odd `k` gives unit digit `9`, even `k` gives unit digit `1`.
 
+
+Here's a special problem example, which you can add as a section to your README.md:
+
+## Special Problem: Finding the Unit Digit of a Complex Expression
+
+### Problem:
+
+Find the unit digit of the following expression:
+
+(13^23) * (27^37) * (19^45)
+
+### Solution:
+
+To solve this, we will compute the unit digits of each term individually and combine them.
+
+1. **Unit digit of 13^23**:
+   - The unit digit of 13 is `3`.
+   - Since `3` repeats its unit digit every 4 cycles, we need to find `23 % 4 = 3`.
+   - The unit digit of `13^23` is the same as the unit digit of `3^3`, which is `7`.
+
+2. **Unit digit of 27^37**:
+   - The unit digit of 27 is `7`.
+   - Since `7` repeats its unit digit every 4 cycles, we need to find `37 % 4 = 1`.
+   - The unit digit of `27^37` is the same as the unit digit of `7^1`, which is `7`.
+
+3. **Unit digit of 19^45**:
+   - The unit digit of 19 is `9`.
+   - Since `9` has a repeating cycle where odd powers result in a unit digit of `9` and even powers result in a unit digit of `1`, and `45` is odd, the unit digit of `19^45` is `9`.
+
+### Final Calculation:
+
+Now, multiply the unit digits of each term:
+
+7 * 7 * 9 = 49 * 9 = 441
+
+The unit digit of `441` is `1`.
+
+### Answer:
+
+The unit digit of `(13^23) * (27^37) * (19^45)` is **1**.
+
+### Intuitive Approach:
+
+By intuition, you can observe that the unit digits of the individual terms are `7`, `7`, and `9`. Multiplying:
+
+7 * 7 = 49 → Unit digit is 9 9 * 9 = 81 → Unit digit is 1
+
+Thus, the final unit digit is **1**.
+
+This explanation walks through the problem step by step, showing both a methodical and intuitive approach to finding the unit digit of the product.
+
+
+
 Use these rules to quickly calculate the unit digit of any number raised to any power!
 
-This README.md file provides clear instructions, examples, and step-by-step explanations for finding the unit digit of a number raised to a power.
+This README.md file provides clear instructions, examples, and step-by-step explanations for finding the unit digit of a number raised to a power
 
