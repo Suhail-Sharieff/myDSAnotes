@@ -49,3 +49,13 @@ This method is useful in:
 
 This README.md explains the method clearly and includes an example for better understanding.
 
+
+Example problem:
+
+In how many ways can 1000 chocolates be distributed equally? 
+
+1000=2^2 * 3^2 * 3^2
+
+
+Ans: (2+1) (2+1) (2+1) ie 27 ways
+
