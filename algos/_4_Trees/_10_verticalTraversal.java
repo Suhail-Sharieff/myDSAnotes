@@ -70,30 +70,29 @@ The number of nodes in the tree is in the range [1, 1000].
  */
 public class _10_verticalTraversal {
   public static void main(String[] args) {
-    TreeMap<Integer,Integer>p=new TreeMap<>();
+    TreeMap<Integer, Integer> p = new TreeMap<>();
 
     // p.put(1,23);
 
-    TreeNode root=TreeNode.constructTree(new Integer[]{3,9,20,null,null,15,7});
-    optimal(root);
-    // p.put(2, 45);
-    // System.out.println(p);
+    TreeNode root = TreeNode.constructTree(new Integer[] { 3, 9, 20, null, null, 15, 7 });
+    better(root);
+    best(root);
 
   }
 
-
-  public static void optimal(TreeNode root){
+  public static void better(TreeNode root) {
     // <xPos,map<ypos,List>>
-    TreeMap<Integer,TreeMap<Integer,List<Integer>>>map=new TreeMap<>();//treemap auto stores the k,v pairs in sorted fashion
-    Queue<co_ordinate>q=new LinkedList<>();
+    TreeMap<Integer, TreeMap<Integer, List<Integer>>> map = new TreeMap<>();// treemap auto stores the k,v pairs in
+                                                                            // sorted fashion
+    Queue<co_ordinate> q = new LinkedList<>();
     q.offer(new co_ordinate(root, 0, 0));
 
     while (!q.isEmpty()) {
-      co_ordinate curr=q.poll();
+      co_ordinate curr = q.poll();
 
-      TreeNode thatNode=curr.Node;
-      int xPos=curr.xPos;
-      int yPos=curr.yPos;
+      TreeNode thatNode = curr.Node;
+      int xPos = curr.xPos;
+      int yPos = curr.yPos;
 
       if (!map.containsKey(xPos)) {
         map.put(xPos, new TreeMap<>());
@@ -104,23 +103,25 @@ public class _10_verticalTraversal {
 
       map.get(xPos).get(yPos).add(thatNode.val);
 
-      if (thatNode.left!=null) {
-        q.offer(new co_ordinate(thatNode.left, xPos-1, yPos+1));
+      if (thatNode.left != null) {
+        q.offer(new co_ordinate(thatNode.left, xPos - 1, yPos + 1));
       }
-      if (thatNode.right!=null) {
-        q.offer(new co_ordinate(thatNode.right, xPos+1, yPos+1));
+      if (thatNode.right != null) {
+        q.offer(new co_ordinate(thatNode.right, xPos + 1, yPos + 1));
       }
 
-    }//now the list within the TreeMap has answer elemnts
+    } // now the list within the TreeMap has answer elemnts
 
+    // System.out.println(map);
 
+    List<List<Integer>> ans = new ArrayList<>();
 
-
-    List<List<Integer>>ans=new ArrayList<>();
-
-    for(TreeMap<Integer,List<Integer>> eachMap:map.values()){
-      List<Integer>thatCol=new ArrayList<>();
-      for(List<Integer>li:eachMap.values()){
+    for (TreeMap<Integer, List<Integer>> eachMap : map.values()) {
+      List<Integer> thatCol = new ArrayList<>();
+      for (List<Integer> li : eachMap.values()) {
+        // IMP: coz they have mentioned that if multiple in same row and col, we need to
+        // sort it
+        Collections.sort(li);
         thatCol.addAll(li);
       }
       ans.add(thatCol);
@@ -128,10 +129,65 @@ public class _10_verticalTraversal {
 
     System.out.println(ans);
 
-
   }
 
+  public static void best(TreeNode root) {
+    // <xPos,map<ypos,List>>
+    TreeMap<Integer, TreeMap<Integer, PriorityQueue<Integer>>> map = new TreeMap<>();// treemap auto stores the k,v pairs in sorted fashion
 
+
+    Queue<co_ordinate> q = new LinkedList<>();
+    q.offer(new co_ordinate(root, 0, 0));
+
+    while (!q.isEmpty()) {
+      co_ordinate curr = q.poll();
+
+      TreeNode thatNode = curr.Node;
+      int xPos = curr.xPos;
+      int yPos = curr.yPos;
+
+      if (!map.containsKey(xPos)) {
+        map.put(xPos, new TreeMap<>());
+      }
+      if (!map.get(xPos).containsKey(yPos)) {
+        map.get(xPos).put(yPos, new PriorityQueue<>());
+      }
+
+      map.get(xPos).get(yPos).add(thatNode.val);
+
+      if (thatNode.left != null) {
+        q.offer(new co_ordinate(thatNode.left, xPos - 1, yPos + 1));
+      }
+      if (thatNode.right != null) {
+        q.offer(new co_ordinate(thatNode.right, xPos + 1, yPos + 1));
+      }
+
+    } // now the list within the TreeMap has answer elemnts
+
+    // System.out.println(map);
+
+    List<List<Integer>> ans = new ArrayList<>();
+
+    for (TreeMap<Integer, PriorityQueue<Integer>> eachMap : map.values()) {
+      List<Integer> thatCol = new ArrayList<>();
+      // //ONE WAY IS WITHOUT USING SORT SINCE ITS Priority Queue,BUT IT DOESNT PASS
+      // ALL TC:
+      // for(PriorityQueue<Integer>pq:eachMap.values()){
+      // thatCol.addAll(pq);
+      // }
+
+      // CORRECT WAY TO USE:
+      for (PriorityQueue<Integer> pq : eachMap.values()) {
+        while (!pq.isEmpty()) {
+          thatCol.add(pq.poll());
+        }
+      }
+      ans.add(thatCol);
+    }
+
+    System.out.println(ans);
+
+  }
 
 }
 
@@ -141,7 +197,7 @@ class co_ordinate {
   public int xPos;
   public int yPos;
 
-  public co_ordinate(TreeNode Node,int xPos, int yPos) {
+  public co_ordinate(TreeNode Node, int xPos, int yPos) {
     this.Node = Node;
     this.xPos = xPos;
     this.yPos = yPos;
