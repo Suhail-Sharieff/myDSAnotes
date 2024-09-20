@@ -2,6 +2,7 @@ package _4_Trees;
 
 import java.util.*;
 
+//watch: https://www.youtube.com/watch?v=s1d8UGDCCN8&t=2433s&ab_channel=CodeHelp-byBabbar from 34:00
 
 /**
  * _10_verticalTraversal
@@ -77,10 +78,13 @@ public class _10_verticalTraversal {
 
   }
 
+  //Imagine tree as a graph where the root is origin and each col on its left is given by xPositions -1,-2,.... and siilary 1,2,3,...on right. Also the yPos is considered as a level staerting from 0,1,2,3....
+  //here each xPos is a vertical level and each yPos is a horixzontal lvel
+
   public static void better(TreeNode root) {
     // <xPos,map<ypos,List>>
-    TreeMap<Integer, TreeMap<Integer, List<Integer>>> map = new TreeMap<>();// treemap auto stores the k,v pairs in
-                                                                            // sorted fashion
+    TreeMap<Integer, TreeMap<Integer, List<Integer>>> map = new TreeMap<>();// treemap auto stores the k,v pairs in sorted fashion
+                                                                            
     Queue<co_ordinate> q = new LinkedList<>();
     q.offer(new co_ordinate(root, 0, 0));
 
@@ -91,6 +95,7 @@ public class _10_verticalTraversal {
       int xPos = curr.xPos;
       int yPos = curr.yPos;
 
+      //nwo for that xPos(vertical level), first create TreeMap-->in thatTree mapp for that xPos create arrayList--->in that arraylist add the Node's value only after checking if it existed earlier or not, or else it may just add 1 value per xPos
       if (!map.containsKey(xPos)) {
         map.put(xPos, new TreeMap<>());
       }
@@ -128,7 +133,7 @@ public class _10_verticalTraversal {
 
   }
 
-  public static void best(TreeNode root) {
+  public static void best(TreeNode root) {//faster than better in the sense that we dont need to call Collections.sort() while copying list numbers from treeMap to our answer
     // <xPos,map<ypos,List>>
     TreeMap<Integer, TreeMap<Integer, PriorityQueue<Integer>>> map = new TreeMap<>();// treemap auto stores the k,v pairs in sorted fashion
 
