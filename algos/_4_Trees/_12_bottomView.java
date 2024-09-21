@@ -55,6 +55,7 @@ public class _12_bottomView {
         root.left.right=new TreeNode(60);
 
         System.out.println(brute(root));
+        System.out.println(optimal(root));
     }
 
 
@@ -117,8 +118,8 @@ public class _12_bottomView {
 
 
 
-    //just comment some things in brute to make it better
-    public static List<Integer> better(TreeNode root){
+    //just comment some things in brute to make it optimal see line 141
+    public static List<Integer> optimal(TreeNode root){
         TreeMap<Integer, TreeMap<Integer, List<Integer>>> map = new TreeMap<>();
         Queue<co_ordinate> q = new LinkedList<>();
         q.offer(new co_ordinate(root, 0, 0));
@@ -150,14 +151,14 @@ public class _12_bottomView {
 
         }
 
-        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer>ans = new ArrayList<>();
 
         for (TreeMap<Integer, List<Integer>> eachMap : map.values()) {
             List<Integer> thatCol = new ArrayList<>();
             for (List<Integer> li : eachMap.values()) {
                 thatCol.addAll(li);
             }
-            ans.add(thatCol);
+            ans.add(thatCol.get(0));
         }
 
         return (ans);
