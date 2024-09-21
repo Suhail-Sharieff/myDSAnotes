@@ -44,7 +44,9 @@ Since this is a function problem. You don't have to take input. Just complete th
 public class _11_topView {
     public static void main(String[] args) {
         TreeNode root=TreeNode.constructTree(new Integer[]{10,20,30,40,6090,100});
+
         System.out.println(brute(root));
+        System.out.println(optimal(root));
     }
     public static List<Integer> brute(TreeNode root) {
         //brute force is to just pivck up the first list from every list in treeMap of vertical order traversal since that first will always be on top visible on top view
@@ -64,7 +66,7 @@ public class _11_topView {
         while (!q.isEmpty()) {
             co_ordinate curr = q.poll();
 
-            TreeNode thatTreeNode = curr.TreeNode;
+            TreeNode thatTreeNode = curr.node;
             int xPos = curr.xPos;
             int yPos = curr.yPos;
 
@@ -99,17 +101,64 @@ public class _11_topView {
         return (ans);
 
     }
+
+    public static List<Integer>optimal(TreeNode root){//same as that of optimal but just we make it so that map adds only 1 value whichs what we nned rather than all--see line 121
+        TreeMap<Integer, TreeMap<Integer, List<Integer>>> map = new TreeMap<>();
+        Queue<co_ordinate> q = new LinkedList<>();
+        q.offer(new co_ordinate(root, 0, 0));
+
+        while (!q.isEmpty()) {
+            co_ordinate curr = q.poll();
+
+            TreeNode thatTreeNode = curr.node;
+            int xPos = curr.xPos;
+            int yPos = curr.yPos;
+
+            if (!map.containsKey(xPos)) {
+                map.put(xPos, new TreeMap<>());
+            }
+            if (!map.get(xPos).containsKey(yPos)) {
+                map.get(xPos).put(yPos, new ArrayList<>());
+                map.get(xPos).get(yPos).add(thatTreeNode.val);//this is shifted here,previouly we used to add val even if this block fails,now we do only if it passes this condition
+            }
+
+            
+
+            if (thatTreeNode.left != null) {
+                q.offer(new co_ordinate(thatTreeNode.left, xPos - 1, yPos + 1));
+            }
+            if (thatTreeNode.right != null) {
+                q.offer(new co_ordinate(thatTreeNode.right, xPos + 1, yPos + 1));
+            }
+
+        }
+
+        List<Integer> ans = new ArrayList<>();
+
+        for (TreeMap<Integer, List<Integer>> eachMap : map.values()) {
+            List<Integer> thatCol = new ArrayList<>();
+            for (List<Integer> li : eachMap.values()) {
+                thatCol.addAll(li);
+            }
+            ans.add(thatCol.get(0));//obviosuly only 1 elemnt will be present
+        }
+
+        return (ans);
+
+    }
 }
 
 class co_ordinate {
 
-    public TreeNode TreeNode;
+    public TreeNode node;
     public int xPos;
     public int yPos;
 
-    public co_ordinate(TreeNode TreeNode, int xPos, int yPos) {
-        this.TreeNode = TreeNode;
+    public co_ordinate(TreeNode node, int xPos, int yPos) {
+        this.node = node;
         this.xPos = xPos;
         this.yPos = yPos;
     }
 }
+
+
