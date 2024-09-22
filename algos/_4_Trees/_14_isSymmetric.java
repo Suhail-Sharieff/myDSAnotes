@@ -1,6 +1,5 @@
 package _4_Trees;
 
-import java.util.*;
 
 /*
 Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
@@ -34,13 +33,7 @@ public class _14_isSymmetric {
         TreeNode root = TreeNode.constructTree(new Integer[] { 1, 2, 2, null, 3, null, 3 });
         System.out.println(recursive(root,root));
 
-        String[]arr={"1","2","9","10","7"};
-        Arrays.sort(arr);
-
-        for (String string : arr) {
-            System.out.println(string);
-        }
-        
+       
 
 
     }
