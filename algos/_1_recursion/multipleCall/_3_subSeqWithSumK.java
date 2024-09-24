@@ -48,7 +48,7 @@ public class _3_subSeqWithSumK {
 
     
     }
-    public static void func5(int nums[],int target,List<Integer>empty,List<List<Integer>>ans,int startIdx){
+    public static void func5(int nums[],int target,List<Integer>empty,List<List<Integer>>ans,int startIdx){//IF ARR IS SORTED
         if (target==0) {
             ans.add(new ArrayList<>(empty));
             return;
