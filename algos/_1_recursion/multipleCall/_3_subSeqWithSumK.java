@@ -48,7 +48,7 @@ public class _3_subSeqWithSumK {
 
     
     }
-    public static void func5(int nums[],int target,List<Integer>empty,List<List<Integer>>ans,int startIdx){
+    public static void func5(int nums[],int target,List<Integer>empty,List<List<Integer>>ans,int startIdx){//IF ARR IS SORTED
         if (target==0) {
             ans.add(new ArrayList<>(empty));
             return;
@@ -69,6 +69,7 @@ public class _3_subSeqWithSumK {
     //func3 and func4 and func6would be for same as func1 and func2 but u can repeat unlimited no if times the same elemnt from orignal array in a subsequence which would sum to given target
 
     public static void func3(Integer arr[], List<Integer> empty, int start, int target, int sum, HashSet<List<Integer>> hs) {//returns unique subseq list with allowed repitions/////////////////TLE
+//ALSO NOTE THAT THIS WOULD WORK IF ARR PASSED HERE HAS MAX POSSIBLE REPETITIONS OF EACH ELEMENT IN IT
         if (start>=arr.length) {
             if (sum==target) {
                 hs.add(new ArrayList<>(empty));//not just 'hs.add(empty)'
