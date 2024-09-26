@@ -50,8 +50,6 @@ Expected Auxiliary Space:O(Height of Tree).
 
  package _4_Trees;
 
-import _2_Stack.infixToPostfix;
-import _6_Recursion.towersOfHanoi;
 
 /**
   * _16_lowestCommonAncestor
