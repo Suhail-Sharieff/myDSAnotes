@@ -1,4 +1,7 @@
+```
+EUCLIDIAN ALGORITHM
 
+O(log(max(a,b)))
 
 ```
 # Calculate GCD Function

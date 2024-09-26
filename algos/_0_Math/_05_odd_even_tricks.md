@@ -27,5 +27,18 @@ The sum of the first `n` even numbers is:
 
 ---
 
+## Some Observations:
+-->Sum type
+- odd + odd = even
+- even + even = even
+- even + odd = odd
+- odd + even = odd
+---
+-->Product type
+- odd * odd = odd
+- even * even = even
+- even * odd = even
+- odd * even = even
 
+----
 

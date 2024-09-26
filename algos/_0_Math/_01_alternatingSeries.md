@@ -1,4 +1,4 @@
-# Sum of Alternating Series 1 of from [-1+2-3+4...]
+# Sum of Alternating Series 1 of form [-1+2-3+4...]
 
 This document explains how to find the sum of the first \( n \) terms of the series:
 

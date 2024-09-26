@@ -33,7 +33,9 @@ Consider the number `k = 180`.
 
 T(180) = (2 + 1)(2 + 1)(1 + 1) = 3 * 3 * 2 = 18
 
-So, the number `180` has 18 factors.
+So, the number `180` has 18 factors ie
+[1, 180, 2, 90, 3, 60, 4, 45, 5, 36, 6, 30, 9, 20, 10, 18, 12, 15]
+
 
 ## Notes
 

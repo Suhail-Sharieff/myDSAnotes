@@ -1,5 +1,13 @@
-EADME.md file explaining the method for finding the unit digit of a number raised to a power, with examples included:
-
+# Remainder theorm 
+- (a+b) % k = ( (a%k) + (b%k) ) % k
+- (a*b) % k = ( (a%k) * (b%k) ) % k
+- (a-b) % k = ( (a%k) - (b%k) + m) % k
+- (a/b) % k = ( (a%k) * Inverse(b) ) % k
+---
+# Fermat's Little Theorm (Eulers's therom)
+Let `p` be a prime number, then:
+- a ^ (p-1) =1
+- inverse(a) = a ^ (p-1)
 # Finding the Unit Digit of a Number Raised to a Power
 
 This guide explains how to determine the unit digit of a number `x` raised to a power `k` using patterns based on the unit digit of `x`.
