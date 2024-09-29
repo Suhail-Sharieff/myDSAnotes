@@ -1,5 +1,10 @@
 package _4_Trees;
+import java.util.*;
 /*
+https://www.youtube.com/watch?v=fnmisPM6cVo&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz&index=101&ab_channel=takeUforward
+
+
+
 
 CHILDREN SUM PROPERTY: EVERY NODE'S VALUE IS EQUAL TO SUM OF VALUES OF THEIR LEFT AND RIGHT CHILDEREN (TREAT NULL AS 0) 
 
@@ -172,4 +177,156 @@ If diff > 0 ( node’s data is smaller than node’s children sum) increment the
 
 If diff < 0 (node’s data is greater than the node’s children sum) then increment one child’s data. We can choose to increment either left or right child if they both are not NULL. Let us always first increment the left child. Incrementing a child changes the subtree’s children sum property so we need to change left subtree also. So we recursively increment the left child. If left child is empty then we recursively call increment() for right child.
    */
+
+
+   //THOUGH THE QUESTION CLEARLY SAYS THAT WE R NOT SUPPOSED TO DECREASE ANY NODE' VALUE, BUT JUST ACN INVREASE, I HAVE INCLUDED ALL 3 CASSES
+   //
+
+
+   //CASE 1: u just have to obtain a binary tree whcih follws child sum property, u can both reduce or increase any node's value to achive the same
+   //algorithm: start from root,make and go its children(both left and right) equal to its value till down...,then backtrack upside my making parent as sum of its children
+   public static void can_incr_decr_both(TreeNode root){
+    if (root==null) {
+      return;
+    }
+    if (root.left!=null) {
+      if (root.left.val!=root.val) {
+        root.left.val=root.val;
+      }
+    }
+    if (root.right!=null) {
+      if (root.right.val!=root.val) {
+        root.right.val=root.val;
+      }
+    }
+    
+    can_incr_decr_both(root.left);
+    can_incr_decr_both(root.right);
+
+    if (root.left!=null&&root.right!=null) {
+      root.val=root.left.val+root.right.val;
+    }else if(root.left!=null){
+      root.val=root.left.val;
+    }else if(root.right!=null){
+      root.val=root.right.val;
+    }
+   }
+
+
+   //CASE 2: u just have to obtain a binary tree whcih follws child sum property,but  u can ONLY increase any node's value to achive the same,for ex:
+   /*
+    
+             50
+           /     \     
+         /         \
+       7             2
+     / \             /\
+   /     \          /   \
+  3        5      1      120
+
+  notice that on reaching 120 which is more than 50, u cant make 120 to 50 as per condition given
+    */
+   //algorithm: 
+   //brute: so to satsify the above condition, we can assign max value in the tree to root's value and then do normal can_incr_decr_both algortithm, that time u can see that no such problems will occur (in above example first make root.val ie 50 as 120 ie max value in tree ) and then do normal flow
+   //optimal:see the below algorithm
+   public static void can_incr_only(TreeNode root){
+    if (root==null) {
+      return;
+    }
+    int childSum=0;
+    if (root.left!=null) {
+      childSum+=root.left.val;
+    }
+    if (root.right!=null) {
+      childSum+=root.right.val;
+    }
+    
+    if (childSum>=root.val) {//if children r more,  increase parent
+      root.val=childSum;
+    }else{//parent has more value which we cant decrease, so update children
+      if (root.left!=null) {
+        root.left.val=root.val;
+      }else if(root.right!=null){
+        root.right.val=root.val;
+      }
+    }
+
+    //move further after setting parent & children
+    can_incr_only(root.left);
+    can_incr_only(root.right);
+
+    //after moved left and right,again set parent and children
+    int tot=0;
+    if (root.left!=null) {
+      tot+=root.left.val;
+    }
+    if (root.right!=null) {
+      tot+=root.right.val;
+    }
+    if (root.left!=null||root.right!=null) {
+      root.val=tot;
+    }
+
+
+
+
+   }
+
+
+
+
+
+   public static void main(String[] args) {
+    TreeNode root=TreeNode.constructTree(new Integer[]{5,23,34,45,56,78,79});
+    displayTree_level(root);
+    // can_incr_decr_both(root);
+    // displayTree_level(root);
+    
+    //brute force for only increse:
+    /*
+     int max= findMaxEleInTree(root);
+     root.val=max;
+     can_incr_decr_both(root);
+     *
+     */
+
+     //optimal for only increase:
+      can_incr_only(root);
+      displayTree_level(root);
+   }
+
+
+
+
+
+   public static void displayTree_level(TreeNode root){
+    if (root==null) {
+      System.out.println("Empty");
+      return;
+    }
+    Queue<TreeNode>q=new LinkedList<>();
+    q.offer(root);
+    while (!q.isEmpty()) {
+      int size=q.size();
+      for (int i = 0; i < size; i++) {
+        TreeNode curr=q.poll();
+        System.out.print(curr.val+" ");
+        if (curr.left!=null) {
+          q.offer(curr.left);
+        }
+        if (curr.right!=null) {
+          q.offer(curr.right);
+        }
+      }
+      System.out.println();
+    }
+   }
+   public static int findMaxEleInTree(TreeNode root){
+    if (root==null) {
+      return 0;
+    }
+    int maxLeft=findMaxEleInTree(root.left);
+    int maxRight=findMaxEleInTree(root.right);
+    return Math.max(Math.max(maxLeft, maxRight), root.val);
+   }
 }
