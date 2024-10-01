@@ -57,9 +57,7 @@ public class _19_nodesAtDistanceK {// slight modification of level order travers
 
     }
 
-    public static List<Integer> better(TreeNode root, TreeNode target, int k) {// better in the sense instead of using
-                                                                               // map for isVisisted, we use Set(using
-                                                                               // its .contains() method) and also knowPrents is chenaged---TLE
+    public static List<Integer> better(TreeNode root, TreeNode target, int k) {//---TLE
         if (root == null) {
             return new ArrayList<>();
         }
@@ -116,7 +114,7 @@ public class _19_nodesAtDistanceK {// slight modification of level order travers
 
     }
 
-    public static List<Integer> optimal(TreeNode root,TreeNode target,int k){
+    public static List<Integer> optimal(TreeNode root,TreeNode target,int k){// optimal in the sense instead of using map for isVisisted, we use Set(using its .contains() method) and also knowPrents is also faster using recursion
         if (root==null) {
             return new ArrayList<>();
         }
