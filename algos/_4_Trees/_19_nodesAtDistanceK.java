@@ -49,6 +49,9 @@ target is the value of one of the nodes in the tree.
  */
 public class _19_nodesAtDistanceK {// slight modification of level order traversal
 
+
+    //idea: the idea is using queue DS as in level order traversal, we can go to k distance eeasily from every node to ITS CHILDREN, but we couldnt go back ie towards its parent and check for k distanced node, so to ensure that we also move towards parent, we need to remember every node's parent, so we remember each node's parent ie we even know adress of parent, know along with left and right as in level order, we can move even upside using parent's address which we know
+
     public static void main(String[] args) {
         TreeNode root = TreeNode.constructTree(new Integer[] { 3, 5, 1, 6, 2, 0, 8, null, null, 7, 4 });
 
