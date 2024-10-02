@@ -110,7 +110,7 @@ public class _20_timeTakenToBurnTree {//soln is just modification of _19_nodesAt
             //     System.out.print(treeNode.val+" ");
             // }
             // System.out.println();
-            trD++;
+            trD++;//in 1 'for' loop, we touched 3 neighbours(left,right,parent) at a time of a node being polled in 1 sec
         }
 
         return(trD-1);//1 step it travels extra for null value, so -1
