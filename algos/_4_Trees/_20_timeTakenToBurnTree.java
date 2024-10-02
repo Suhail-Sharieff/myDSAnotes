@@ -51,13 +51,15 @@ Constraints:
 1 ≤ values of nodes ≤ 105
  */
 
-public class _20_timeTakenToBurnTree {
+public class _20_timeTakenToBurnTree {//soln is just modification of _19_nodesAtDistanceK, we just need to remove break condition of (if(travelledDistance==k)) thats it
     public static void main(String[] args) {
-        TreeNode root=TreeNode.constructTree(new Integer[]{ 3, 5, 1, 6, 2, 0, 8, null, null, 7, 4});
-        func(root, root.left, 2);
+        TreeNode root=TreeNode.constructTree(new Integer[]{ 1,2,3,4,5,null,6,null,null,7,8,null,9,null,null,null,null,10});
+        System.out.println(optimal(root, root.left.right.right));
+        //Supoose target is NOT given as reference, but as value, use function getTarget_s_reference to get the node having that target value
     }
-    public static void func(TreeNode root,TreeNode target,int k){
-        Map<TreeNode,TreeNode>cpm=new HashMap<>();
+    public static int optimal(TreeNode root,TreeNode target){
+        //mark parents for each node 
+        Map<TreeNode,TreeNode>cpm=new HashMap<>();//childParentMap
         Queue<TreeNode>temp=new LinkedList<>();
         temp.offer(root);
         while (!temp.isEmpty()) {
@@ -75,7 +77,8 @@ public class _20_timeTakenToBurnTree {
             }
         }
 
-        int trD=0;
+        //now u know all nodes's parents
+        int trD=0;//travelledDistance
         Queue<TreeNode>q=new LinkedList<>();
         Map<TreeNode,Boolean>visisted=new HashMap<>();
 
@@ -83,9 +86,7 @@ public class _20_timeTakenToBurnTree {
         visisted.put(target, true);
 
         while (!q.isEmpty()) {
-            if (trD==k) {
-                break;
-            }
+            
             int size=q.size();
             for (int i = 0; i < size; i++) {
                 TreeNode curr=q.poll();
@@ -104,14 +105,30 @@ public class _20_timeTakenToBurnTree {
                     visisted.put(parent, true);
                 }
             }
+            //use the below code to understand how its touching nodes
+            // for (TreeNode treeNode : q) {
+            //     System.out.print(treeNode.val+" ");
+            // }
+            // System.out.println();
             trD++;
         }
 
-        List<Integer>ans=new ArrayList<>();
-        while (!q.isEmpty()) {
-            ans.add(q.poll().val);
-        }
-        System.out.println(ans);
+        return(trD-1);//1 step it travels extra for null value, so -1
 
+    }
+
+
+    public static TreeNode getTarget_s_reference(TreeNode root, int target) {//function whcih returns node with value target
+        if (root == null) {
+            return null;
+        }
+        if (root.val == target) {
+            return root;
+        }
+        TreeNode leftResult = getTarget_s_reference(root.left, target);
+        if (leftResult != null) {
+            return leftResult;
+        }
+        return getTarget_s_reference(root.right, target);
     }
 }
