@@ -86,7 +86,7 @@ public class _19_nodesAtDistanceK {// slight modification of level order travers
             for (int i = 0; i < size; i++) {
                 TreeNode curr = q.poll();
                 // left side move
-                if (curr.left != null && isVisisted.get(curr.left) == null) {// DONT WRITE ON RHS
+                if (curr.left != null && !isVisisted.containsKey(curr.left)) {// DONT WRITE ON RHS
                                                                              // !isVisisted.get(curr.left)...it throws
                                                                              // an errror since we r dealing with
                                                                              // references
@@ -94,13 +94,13 @@ public class _19_nodesAtDistanceK {// slight modification of level order travers
                     isVisisted.put(curr.left, true);
                 }
                 // rigth side move
-                if (curr.right != null && isVisisted.get(curr.right) == null) {
+                if (curr.right != null && !isVisisted.containsKey(curr.right)) {
                     q.offer(curr.right);
                     isVisisted.put(curr.right, true);
                 }
                 // also move towards parent to check
                 TreeNode parent = child_parent_map.get(curr);
-                if (parent != null && isVisisted.get(parent) == null) {
+                if (parent != null && !isVisisted.containsKey(parent)) {
                     q.offer(parent);
                     isVisisted.put(parent, true);
                 }
@@ -170,8 +170,8 @@ public class _19_nodesAtDistanceK {// slight modification of level order travers
         q.offer(root);
         while (!q.isEmpty()) {
             int size = q.size();
-            TreeNode currNode = q.poll();
             for (int i = 0; i < size; i++) {
+                TreeNode currNode = q.poll();
                 if (currNode.left != null) {
                     child_parent_map.put(currNode.left, currNode);
                     q.offer(currNode.left);
