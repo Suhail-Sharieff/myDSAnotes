@@ -3,7 +3,7 @@ import java.util.*;
 public class _0_basicTrav {
     public static  void main(String[] args) {
         TreeNode root=TreeNode.constructTree(new Integer[]{1,2,3,4,5,6,7});
-        inOrderTraverse(root);
+        postOrderTraverse(root);
         
     }
     public static void preOrderTraverse(TreeNode treeRoot) {//root--left--right
