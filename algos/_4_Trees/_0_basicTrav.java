@@ -1,14 +1,19 @@
 package _4_Trees;
 import java.util.*;
 public class _0_basicTrav {
-    public void preOrderTraverse(TreeNode treeRoot) {//root--left--right
+    public static  void main(String[] args) {
+        TreeNode root=TreeNode.constructTree(new Integer[]{1,2,3,4,5,6,7});
+        inOrderTraverse(root);
+        
+    }
+    public static void preOrderTraverse(TreeNode treeRoot) {//root--left--right
         if (treeRoot != null) {
             System.out.println(treeRoot.val);
             preOrderTraverse(treeRoot.left);
             preOrderTraverse(treeRoot.right);
         }
     }
-    public void iterativePreOrder(TreeNode root){//root--left--right
+    public static void iterativePreOrder(TreeNode root){//root--left--right
         //https://www.youtube.com/watch?v=Bfqd8BsPVuw&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz&index=81&ab_channel=takeUforward
         if (root==null) {
             return;
@@ -28,14 +33,14 @@ public class _0_basicTrav {
     }
 
 
-    public void inOrderTraverse(TreeNode treeRoot) {//left--root--right
+    public static void inOrderTraverse(TreeNode treeRoot) {//left--root--right
         if (treeRoot != null) {
             inOrderTraverse(treeRoot.left);
             System.out.println(treeRoot.val);
             inOrderTraverse(treeRoot.right);
         }
     }
-    public void iterativeInOrder(TreeNode root){//left--root--right
+    public static void iterativeInOrder(TreeNode root){//left--root--right
         //https://www.youtube.com/watch?v=lxTGsVXjwvM&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz&index=82&ab_channel=takeUforward
         if (root==null) {
             return;
@@ -62,14 +67,14 @@ public class _0_basicTrav {
 
 
 
-    public void postOrderTraverse(TreeNode treeRoot) {//left--right--root
+    public static void postOrderTraverse(TreeNode treeRoot) {//left--right--root
         if (treeRoot != null) {
             postOrderTraverse(treeRoot.left);
             postOrderTraverse(treeRoot.right);
             System.out.println(treeRoot.val);
         }
     }
-    public void iterativePostOrderUsing_2_Stacks(TreeNode root){
+    public static void iterativePostOrderUsing_2_Stacks(TreeNode root){
         if (root==null) {
             return;
         }
@@ -93,7 +98,7 @@ public class _0_basicTrav {
         }
        
     }
-    public void iterativePostOrderUsing_1_Stack(TreeNode root){
+    public static void iterativePostOrderUsing_1_Stack(TreeNode root){
         TreeNode curr=root;
         Stack<TreeNode>st=new Stack<>();
 
@@ -120,49 +125,9 @@ public class _0_basicTrav {
 
     }
 
+   
     // IMP:
-    public void displayTree(TreeNode root) {
-        Stack<TreeNode> globalStack = new Stack<>();
-        globalStack.push(root);
-        // lets allow max of 6 lines of tree is 2^6 nodes max ie 32 nodes
-        double nBlanks = Math.pow(2, 5);
-        boolean isRowEmpty = false;
-        System.out.println("..........................................................");
-        while (isRowEmpty == false) {
-            Stack<TreeNode> localStack = new Stack<>();
-            isRowEmpty = true;
-            for (int i = 0; i < nBlanks; i++) {
-                System.out.print(' ');
-            }
-            while (globalStack.isEmpty() == false) {
-                TreeNode temp = (TreeNode) globalStack.pop();
-                if (temp != null) {
-                    System.out.println(temp.val);
-                    localStack.push(temp.left);
-                    localStack.push(temp.right);
-
-                    if (temp.left != null || temp.right != null) {
-                        isRowEmpty = false;
-                    }
-                } else {
-                    System.out.print("--");
-                    localStack.push(null);
-                    localStack.push(null);
-                }
-                for (int i = 0; i < nBlanks * 2 - 2; i++) {
-                    System.out.print(' ');
-                }
-            }
-            System.out.println();
-            nBlanks /= 2;
-            while (localStack.isEmpty() == false) {
-                globalStack.push(localStack.pop());
-            }
-        }
-        System.out.println("..........................................................");
-    }
-    // IMP:
-    public  void levelOrderTraversaal(TreeNode root){
+    public  static void levelOrderTraversaal(TreeNode root){
         //watch:https://www.youtube.com/watch?v=hXAqTO7VqUQ&ab_channel=DineshVaryani
         if (root==null) {
             System.out.println("Empty Tree");
