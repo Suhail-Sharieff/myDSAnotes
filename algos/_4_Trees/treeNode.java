@@ -3,7 +3,9 @@ package _4_Trees;
 
 
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class TreeNode {
@@ -75,4 +77,31 @@ public class TreeNode {
     //     TreeNode treeNode = new TreeNode(0); // Create a dummy node for calling the traversal method
     //     treeNode.tr(root);
     // }
+
+    public static void displayLevelByLevel(TreeNode root){
+        if (root==null) {
+            return ;
+        }
+        Queue<TreeNode>q=new LinkedList<>();
+        List<List<Integer>>ans=new ArrayList<>();
+        q.add(root);
+        while (!q.isEmpty()) {
+            int thatLevelSize=q.size();
+            List<Integer>each=new ArrayList<>();
+            for (int i = 0; i < thatLevelSize; i++) {
+                TreeNode temp=q.poll();
+                each.add(temp.val);
+                if (temp.left!=null) {
+                    q.offer(temp.left);
+                }
+                if (temp.right!=null) {
+                    q.offer(temp.right);
+                }
+            }
+            ans.add(each);
+        }
+        for (List<Integer> list : ans) {
+            System.out.println(list);
+        }
+    }
 }
