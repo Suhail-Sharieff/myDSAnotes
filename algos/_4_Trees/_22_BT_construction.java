@@ -2,7 +2,7 @@ package _4_Trees;
 
 import java.util.HashMap;
 import java.util.Map;
-//https://www.youtube.com/watch?v=aZNaLrVebKQ&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz&index=106&ab_channel=takeUforward
+//https://www.youtube.com/watch?v=ffE1xj51EBQ&ab_channel=CodeHelp-byBabbar
 
 /*
 Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.
@@ -31,9 +31,50 @@ preorder is guaranteed to be the preorder traversal of the tree.
 inorder is guaranteed to be the inorder traversal of the tree.
  */
 public class _22_BT_construction {
-    public static void main(String[] args) {//O(n)
-        int preOrder[]={3,9,20,15,7};
-        int inOrder[]={9,3,15,20,7};
+
+    public static void main(String[] args) {
+        int inOrder[]={9,3,15,20,7};//left.root.right
+        int preOrder[]={3,9,20,15,7};//root,left,right
+        int preIdx[]={0};//coz directly if u pass preIdx as 0, it wouldnt give crt ans, so pass refrence
+
+
+        TreeNode.displayLevelByLevel(better(inOrder,preOrder,0,inOrder.length-1,preIdx));
+
+        TreeNode.displayLevelByLevel(optimal(inOrder, preOrder));
+
+    }
+   
+
+    public  static TreeNode better(int inOrder[],int preOrder[],int inStart,int inEnd,int preIdx[]){
+        if (preIdx[0]>=preOrder.length||inStart>inEnd) {//dont put inStart>=inEnd,ie '=' symbol
+            return null;
+        }
+        int elemnt=preOrder[preIdx[0]++];
+        TreeNode currRoot=new TreeNode(elemnt);
+        int posOfCurrRootInInorder=findPosOf_e_in_inorder(inOrder, elemnt);
+
+        currRoot.left = better(inOrder, preOrder, inStart, posOfCurrRootInInorder-1, preIdx);
+        currRoot.right = better(inOrder, preOrder, posOfCurrRootInInorder+1, inEnd, preIdx);
+
+        return currRoot;
+    }
+    public static  int findPosOf_e_in_inorder(int inorder[],int e){
+        for (int i = 0; i < inorder.length; i++) {
+            if (e==inorder[i]) {
+               return i;
+            }
+        }
+        return -1;
+    }
+
+
+
+
+
+
+    //we would optimize in the way that instad of finding pos of root elemnt in the inorder after findding the root frompreorder,we would just use Map so that we would map evry inOrerelemnt with its idx
+    public static TreeNode optimal(int inOrder[],int preOrder[]) {//O(n)
+       
 
         Map<Integer,Integer>inorder_node_idx_map=new HashMap<>();
         for (int i = 0; i < inOrder.length; i++) {
@@ -42,7 +83,7 @@ public class _22_BT_construction {
 
         TreeNode root=buildTree(preOrder, 0, preOrder.length-1, inOrder, 0, inOrder.length-1, inorder_node_idx_map);
 
-        TreeNode.displayLevelByLevel(root);
+        return(root);
 
     }
 
