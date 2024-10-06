@@ -45,6 +45,7 @@ public class _22_BT_construction {
     }
    
 
+    //idea : preOrder(root,left,right) and inorder(left,root,right)---observe that preOrder has root as irst, it we can use preOrder to find which is root,and see in what pos that root lies in inOrder,all elemnt left to that pos in inOrder would belong to left of currRoot and same case for right,ie we have again obtained a 2 subProblems(one left&other right),ie we recurse
     public  static TreeNode better(int inOrder[],int preOrder[],int inStart,int inEnd,int preIdx[]){
         if (preIdx[0]>=preOrder.length||inStart>inEnd) {//dont put inStart>=inEnd,ie '=' symbol
             return null;
