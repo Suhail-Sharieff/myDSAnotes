@@ -30,7 +30,7 @@ Each value of inorder also appears in preorder.
 preorder is guaranteed to be the preorder traversal of the tree.
 inorder is guaranteed to be the inorder traversal of the tree.
  */
-public class _22_BT_construction {
+public class _22_BT_construction_from_in_pre {
 
     public static void main(String[] args) {
         int inOrder[]={9,3,15,20,7};//left.root.right
