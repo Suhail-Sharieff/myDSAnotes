@@ -1,0 +1,1 @@
+{"name":"Local: CP_TEMPLATE","url":"c:\\Users\\suhai\\Desktop\\myDSAnotes\\CP_TEMPLATE.java","tests":[{"id":1728566540517,"input":"1\n36","output":"[2, 2, 3, 3]"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\suhai\\Desktop\\myDSAnotes\\CP_TEMPLATE.java","group":"local","local":true}
