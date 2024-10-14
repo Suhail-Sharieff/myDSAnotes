@@ -43,6 +43,14 @@ Constraints:
 
  */
 public class _1_ceil {
+
+    public static void main(String[] args) {
+        //analyz code using:
+        TreeNode root=TreeNode.constructTree(new Integer[]{2 ,1, 39, null, null, 17, 53 ,4 ,20 ,47 ,59 ,3,7, 18, 29, 41, 51,26});
+        System.out.println(ceil(root, 28));
+            
+    }
+
     public static int ceil(TreeNode root,int key){
         if (root == null) return -1;
         // Code here
