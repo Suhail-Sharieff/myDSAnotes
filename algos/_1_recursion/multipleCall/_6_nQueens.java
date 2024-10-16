@@ -3,6 +3,145 @@ package _1_recursion.multipleCall;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/*
+The n-queens puzzle is the problem of placing n queens on a (n×n) chessboard such that no two queens can attack each other.
+Given an integer n, find all distinct solutions to the n-queens puzzle. Each solution contains distinct board configurations of the n-queens placement, where the solutions are a permutation of [1,2,3..n] in increasing order, here the number in the ith place denotes that the ith-column queen is placed in the row with that number. For eg below figure represents a chessboard [3 1 4 2].
+
+
+
+Examples:
+
+Input: 1
+Output: [1]
+Explaination: Only one queen can be placed in the single cell available.
+Input: 4
+Output: [[2 4 1 3 ],[3 1 4 2 ]]
+Explaination: These are the 2 possible solutions.
+Expected Time Complexity: O(n!)
+Expected Auxiliary Space: O(n2) 
+
+Constraints:
+1 ≤ n ≤ 10
+
+
+ */
+
+
+
+
+//col wise traversal:
+/*
+public ArrayList<ArrayList<Integer>> nQueen(int n) {
+        // code here
+        ArrayList<ArrayList<Integer>>mat=new ArrayList<>();
+        
+        ArrayList<ArrayList<Integer>>ans=new ArrayList<>();
+         for (int i = 0; i < n; i++) {
+            mat.add(new ArrayList<>(Collections.nCopies(n, 0))); // Create an n x n board initialized to 0
+        }
+        func(n,ans,mat,0);
+        return ans;
+    }
+    
+    
+    
+    public boolean isSafe(ArrayList<ArrayList<Integer>>mat,int n,int x,int y){
+        for(int i=0;i<n;i++){
+            if(mat.get(x).get(i)==1){
+                return false;
+            }
+        }
+        for(int i=x,j=y;i>=0&&j>=0;i--,j--){
+            if(mat.get(i).get(j)==1){
+                return false;
+            }
+        }
+        for(int i=x,j=y;i<n&&j>=0;i++,j--){
+            if(mat.get(i).get(j)==1){
+                return false;
+            }
+        }
+        return true;
+    }
+    public void func(int n,ArrayList<ArrayList<Integer>>ans,ArrayList<ArrayList<Integer>>mat,int col){
+        if(col>=n){
+            ArrayList<Integer>temp=new ArrayList<>();
+            for(int i=0;i<n;i++){
+                for(int j=0;j<n;j++){
+                    if(mat.get(j).get(i)==1){
+                        temp.add(j+1);
+                    }
+                }
+            }
+            ans.add(temp);
+            return;
+        }
+        for(int i=0;i<n;i++){
+            if(isSafe(mat,n,i,col)){
+                mat.get(i).set(col, 1); // Place the queen
+                func(n, ans, mat, col + 1); // Recur
+                mat.get(i).set(col, 0);
+            }
+        }
+    }
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.
 
 // Given an integer n, return all distinct solutions to the n-queens puzzle. You may return the answer in any order.
@@ -56,7 +195,7 @@ public class _6_nQueens {
                 StringBuilder sb=new StringBuilder(board.get(row));
                 //if safe, set that col to 'Q'
                 sb.setCharAt(col, 'Q'); 
-                board.set(row, sb.toString());
+                board.set(row, sb.toString());//while dealing with matrix given as ArrayList use "mat.get(col).set(row, 1);"
 
                 func(row+1, n, board, result);
 
