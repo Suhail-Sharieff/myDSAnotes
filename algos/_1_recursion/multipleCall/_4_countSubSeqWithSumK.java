@@ -26,4 +26,20 @@ public class _4_countSubSeqWithSumK {
         System.out.println(ans);//no of subSeqWithSum 12
 
     }
+
+
+    //check if atlast one such subsequence exists or not:
+    public static boolean help(int[] nums,int sum, int i){
+        if(sum == 0) return true;
+        if(sum < 0 || i == nums.length) return false;
+        
+        boolean pick = false;
+        if(nums[i] <= sum){
+            pick = help(nums,sum - nums[i],i + 1);
+            if(pick) return true;
+        }
+        boolean notpick = help(nums,sum,i + 1);
+        if(notpick) return true;
+        return (notpick || pick);
+    }
 }

@@ -23,7 +23,7 @@ public class _2_printSubSeq {
        printSubSequence(v, empty, start + 1, size);
        
        // Exclude the current element from the subsequence
-       empty.remove(empty.size() - 1); 
+       empty.remove(empty.size() - 1); //suppose dealing with stringBuilder use sb.deleteCharAt(sb.length()-1);
        printSubSequence(v, empty, start + 1, size);
     }
 
