@@ -1,119 +1,87 @@
 package _1_recursion.multipleCall;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class _8_sudokuSolver_2 {
 
     public static void main(String[] args) {
         char[][] board = {//start filling from the place having less possible valus to be filled
-            {'5','3','.','.','7','.','.','.','.'},
-            {'6','.','.','1','9','5','.','.','.'},
-            {'.','9','8','.','.','.','.','6','.'},
-            {'8','.','.','.','6','.','.','.','3'},
-            {'4','.','.','8','.','3','.','.','1'},
-            {'7','.','.','.','2','.','.','.','6'},
-            {'.','6','.','.','.','.','2','8','.'},
-            {'.','.','.','4','1','9','.','.','5'},
-            {'.','.','.','.','8','.','.','7','9'}
+            {'.','.','.','.','.','.','.','.','.'},
+            {'.','.','.','.','.','.','.','.','.'},
+            {'.','.','.','.','.','.','.','.','.'},
+            {'.','.','.','.','.','.','.','.','.'},
+            {'.','.','.','.','.','.','.','.','.'},
+            {'.','.','.','.','.','.','.','.','.'},
+            {'.','.','.','.','.','.','.','.','.'},
+            {'.','.','.','.','.','.','.','.','.'},
+            {'.','.','.','.','.','.','.','.','.'}
         };
 
-        solveSudoku(board);
+        solveSudoku(board,1,0);
 
         // Print solved Sudoku board
+        // printSudoku(board);
+
+    }
+
+    public static void solveSudoku(char[][] board,int val,int row) {
+       if (row>=9) {
         printSudoku(board);
-    }
-
-    public static boolean solveSudoku(char[][] board) {
-        // Find the next empty cell with Minimum Remaining Values (MRV)
-        int[] cell = findEmptyCellWithMRV(board);
-        int row = cell[0];
-        int col = cell[1];
-
-        // If there are no empty cells left, puzzle is solved
-        if (row == -1 && col == -1) {
-            return true;
-        }
-
-        // Try each possible value for the empty cell
-        for (char num = '1'; num <= '9'; num++) {
-            if (isValid(board, row, col, num)) {
-                board[row][col] = num;
-
-                if (solveSudoku(board)) {
-                    return true; // Found a solution
-                }
-
-                board[row][col] = '.'; // Backtrack
+        return;
+       }
+       for (int i = 0; i < 9; i++) {
+        if (board[row][i]=='.') {
+            if (isSafe(val, row, i, board)) {
+                board[row][i]=(char)(val+'0');
+                solveSudoku(board,val+1, row+1);
+                board[row][i]='.';
             }
         }
+        
+       }
+    }   
 
-        return false; // No solution found
-    }
 
-    public static int[] findEmptyCellWithMRV(char[][] board) {
-        // Find the cell with the fewest possible values (MRV)
-        int minPossibleValues = 10;
-        int[] minCell = {-1, -1};
 
-        for (int i = 0; i < 9; i++) {
+    public static boolean isSafe(int val,int r,int c,char[][] passed) {
+
+        char [][]board=new char[9][9];
+        for(int i=0;i<0;i++){
             for (int j = 0; j < 9; j++) {
-                if (board[i][j] == '.') {
-                    int numPossibleValues = getPossibleValues(board, i, j).size();
+                board[i][j]=passed[i][j];
+            }
+        }
+        //modify
+        board[r][c]=(char)(val+'0');
 
-                    if (numPossibleValues < minPossibleValues) {
-                        minPossibleValues = numPossibleValues;
-                        minCell[0] = i;
-                        minCell[1] = j;
-                    }
+        HashSet<Character>rows[]=new HashSet[9];
+        HashSet<Character>cols[]=new HashSet[9];
+        HashSet<Character>boxes[]=new HashSet[9];
+
+        for(int i=0;i<9;i++){
+            rows[i]=new HashSet<>();
+            cols[i]=new HashSet<>();
+            boxes[i]=new HashSet<>();
+        }
+
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+                char curr=board[i][j];
+                if(curr=='.'){
+                    continue;
                 }
+                int boxIdx=(i/3)*3+(j/3);
+                if(rows[i].contains(curr)
+                ||cols[j].contains(curr)
+                ||boxes[boxIdx].contains(curr)
+                ){
+                    return false;
+                }
+                rows[i].add(curr);
+                cols[j].add(curr);
+                boxes[boxIdx].add(curr);
             }
         }
-
-        return minCell;
-    }
-
-    public static Set<Character> getPossibleValues(char[][] board, int row, int col) {
-        Set<Character> possibleValues = new HashSet<>();
-        for (char num = '1'; num <= '9'; num++) {
-            possibleValues.add(num);
-        }
-
-        // Remove values in the same row and column
-        for (int i = 0; i < 9; i++) {
-            possibleValues.remove(board[row][i]);
-            possibleValues.remove(board[i][col]);
-        }
-
-        // Remove values in the same 3x3 subgrid
-        int startRow = (row / 3) * 3;
-        int startCol = (col / 3) * 3;
-
-        for (int i = startRow; i < startRow + 3; i++) {
-            for (int j = startCol; j < startCol + 3; j++) {
-                possibleValues.remove(board[i][j]);
-            }
-        }
-
-        return possibleValues;
-    }
-
-    public static boolean isValid(char[][] board, int row, int col, char num) {
-        // Check if num can be placed at board[row][col] without violating Sudoku rules
-        for (int i = 0; i < 9; i++) {
-            // Check row and column
-            if (board[row][i] == num || board[i][col] == num) {
-                return false;
-            }
-
-            // Check 3x3 subgrid
-            int startRow = (row / 3) * 3;
-            int startCol = (col / 3) * 3;
-            if (board[startRow + i / 3][startCol + i % 3] == num) {
-                return false;
-            }
-        }
-
         return true;
     }
 
