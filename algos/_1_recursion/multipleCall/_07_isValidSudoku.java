@@ -1,6 +1,7 @@
 package _1_recursion.multipleCall;
 import java.util.HashSet;
 public class _07_isValidSudoku {
+    @SuppressWarnings("unchecked")
     public boolean brute(char[][] board) {//O(9*9)-----(27*9)
         HashSet<Character>rows[]=new HashSet[9];
         HashSet<Character>cols[]=new HashSet[9];
