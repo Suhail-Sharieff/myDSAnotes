@@ -17,7 +17,7 @@ public class _1_fibonacci {
         
         int num1 = 0, num2 = 1;
 
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < n ;i++) {
             // Print the number
             // System.out.print(num1 + " ");
 
@@ -27,6 +27,6 @@ public class _1_fibonacci {
             num2 = num3;
         }
         //return nth fibo
-        return b;
+        return num2;
     }
 }
