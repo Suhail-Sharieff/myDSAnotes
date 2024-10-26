@@ -1,5 +1,10 @@
 
 # Bitwise Operations in Programming
+## Bit-Parallel Algorithms
+ Bit-parallel algorithms are based on the fact that individual bits of numbers can
+ be manipulated in parallel using bit operations. Thus, a way to design an efficient
+ algorithm is to represent the steps of the algorithm so that they can be efficiently
+ implemented using bit operations.
 
 ## And Operation
 
