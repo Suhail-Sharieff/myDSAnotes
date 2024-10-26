@@ -29,12 +29,14 @@ public class _01_coinCount {
 
     public static void main(String[] args) {
         // int nOfCoins=3;
-        int target = 11;
-        int arr[] = { 1, 5, 7 };
+        int target = 5;
+        int arr[] = { 1, 3,4 };
         int ans = recursive(arr, target, new boolean[target + 1], new int[target + 1]);
         System.out.println((ans == Integer.MAX_VALUE) ? -1 : ans);
         System.out.println(soln1(arr, target, new int[target + 1]));
         soln2(arr, target, new int[target + 1], new int[target + 1]);
+        //nOf such ways for ex for above target and arr [[1,1,1,1,1],[1,1,3],[1,3,1],[3,1,1],[1,4],[4,1]]
+        System.out.println(cnt(arr, target, new int[target+1], new int[target+1]));
 
     }
 
@@ -121,5 +123,46 @@ public class _01_coinCount {
             System.out.print(choosed[target] + " ");
             target -= choosed[target];
         }
+        System.out.println();
     }
+
+
+
+//------------------TASK2: Count noOf Ways to of such solutions-------------------------------------
+
+
+public static int cnt(int coins[], int target, int values[],int cnt[]) {// o(target*nCoins)---O(target)
+    Arrays.fill(values, Integer.MAX_VALUE);
+    values[0] = 0;
+    cnt[0]=1;//IMP
+    for (int tar = 1; tar <= target; tar++) {
+        for (int coin : coins) {
+           if (tar - coin >= 0) {
+                values[tar] = Math.min(values[tar], values[tar - coin] + 1);
+                cnt[tar]+=cnt[tar-coin];
+            }
+        }
+    }
+    if (values[target] == Integer.MAX_VALUE) {
+        return 0;//no  ways
+    }
+   
+    return cnt[target];
 }
+
+    
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
