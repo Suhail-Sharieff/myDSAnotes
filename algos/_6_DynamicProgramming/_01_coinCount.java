@@ -1,6 +1,6 @@
 package _6_DynamicProgramming;
-
-import java.util.List;
+//https://www.youtube.com/watch?v=H9bfqozjoqs&t=448s&ab_channel=NeetCode
+import java.util.*;
 /*
 Consider a money system consisting of n coins. Each coin has a positive integer value. Your task is to produce a sum of money x using the available coins in such a way that the number of coins is minimal.
 For example, if the coins are \{1,5,7\} and the desired sum is 11, an optimal solution is 5+5+1 which requires 3 coins.
@@ -32,6 +32,8 @@ public class _01_coinCount {
         int arr[]={1,5,7};
         int ans=recursive(arr, target, new boolean[target+1], new int[target+1]);
         System.out.println((ans==Integer.MAX_VALUE)?-1:ans);
+        System.out.println(soln1(arr, target, new int[target+1]));
+        soln2(arr, target, new int[target+1], new int[target+1]);
 
     }
 
@@ -71,12 +73,54 @@ public class _01_coinCount {
         int ans=Integer.MAX_VALUE;
         for (int i = 0; i < arr.length; i++) {
             int subResult = recursive(arr, target - arr[i], ready, values);
-            if (subResult != Integer.MAX_VALUE) {
+            if (subResult != Integer.MAX_VALUE) {//VIMP 
                 ans = Math.min(ans, subResult + 1); // Take one coin and add the result for the remaining target
             }
         }
         ready[target]=true;
         values[target]=ans;
         return ans;
+    }
+
+    //iterative solutions
+
+    public static int soln1(int coins[],int target,int values[]){//o(target*nCoins)---O(target)
+        Arrays.fill(values, Integer.MAX_VALUE);
+        values[0] = 0;//VVVVIMP or else wrong ans
+        for (int tar = 1; tar <=target; tar++) {
+            for (int coin : coins) {
+                if (tar-coin>=0) {
+                    values[tar]=Math.min(values[tar], values[tar-coin]+1);
+                }
+            }
+        }
+        if (values[target]==Integer.MAX_VALUE) {
+            return -1;
+        }
+        return values[target];
+    }
+
+
+    //now suppose we also wwant what coins we r choosing
+    public static void soln2(int coins[],int target,int values[],int choosed[]){
+        Arrays.fill(values, Integer.MAX_VALUE);
+        values[0]=0;
+        for (int tar = 1; tar <=target; tar++) {
+            for (int coin : coins) {
+                if (tar-coin>=0 && values[tar-coin]+1<values[tar]) {
+                    values[tar]=values[tar-coin]+1;
+                    choosed[tar]=coin;
+                }
+            }
+        }
+        if (values[target]==Integer.MAX_VALUE) {
+            System.out.println("Not possible");
+            return ;
+        }
+        System.out.println("choosed coins are:");
+        while (target>0) {
+            System.out.print(choosed[target]+" ");
+            target-=choosed[target];
+        }
     }
 }
