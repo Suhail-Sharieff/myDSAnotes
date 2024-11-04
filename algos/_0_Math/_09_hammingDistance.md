@@ -61,9 +61,10 @@ int main() {
     cout << minHammingDistance << endl;
     return 0;
 }
-Java Code
-java
-Copy code
+
+```
+### Java Code
+```java
 public static int solve() throws IOException {
     int n = scanInt();
     int len = scanInt();

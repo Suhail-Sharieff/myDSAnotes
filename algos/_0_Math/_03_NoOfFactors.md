@@ -41,6 +41,10 @@ So, the number `180` has 18 factors ie
 
 - The formula works because each factor of `k` is formed by choosing a power for each prime factor from `0` to its maximum power in the factorization.
 - The process applies to any positive integer `k`.
+- ## NOTE:  the number of primes till number n starting from 2 is given by (n/ln(n)). Eample, nPrimes till 100 = 100/ln(100) = 100/4 = 25
+-  (Note that a number
+ n has O(logn) prime factors.)
+
 
 ## Applications
 

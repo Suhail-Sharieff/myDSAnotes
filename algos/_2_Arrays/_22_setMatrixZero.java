@@ -44,29 +44,26 @@ public class _22_setMatrixZero {
 
     }
     public static void brute(int mat[][]){//O(mn)---O(m+n)
-        List<Integer>rowsHavingZeroes=new ArrayList<>();
-        List<Integer>colsHavingZeroes=new ArrayList<>();
-        int nRows=mat.length,nCols=mat[0].length;
-        for (int i = 0; i < mat.length; i++) {
-            for (int j = 0; j < mat[i].length; j++) {
-                if (mat[i][j]==0) {
-                    rowsHavingZeroes.add(i);
-                    colsHavingZeroes.add(j);
+        List<Integer>rows=new ArrayList<>();
+        List<Integer>cols=new ArrayList<>();
+        for(int i=0;i<matrix.length;i++){
+            for(int j=0;j<matrix[0].length;j++){
+                if(matrix[i][j]==0){
+                    rows.add(i);
+                    cols.add(j);
                 }
             }
         }
-        //making rows 0
-        for (int i = 0; i < rowsHavingZeroes.size(); i++) {
-            Arrays.fill(mat[rowsHavingZeroes.get(i)], 0);
+        for(int e:rows){//mak row zero
+            Arrays.fill(matrix[e],0);
         }
-        //making cols 0
-        for (int i = 0; i < colsHavingZeroes.size(); i++) {
-            int temp=nRows;
-            while (temp--!=0) {
-                mat[temp][colsHavingZeroes.get(i)]= 0;
+        // System.out.println(rows);
+        // System.out.println(cols);
+        for(int i=0;i<matrix.length;i++){//make colszero
+            for(int e:cols){
+                matrix[i][e]=0;
             }
         }
-       
         for (int i = 0; i < mat.length; i++) {
             for (int j = 0; j < mat[i].length; j++) {
                System.out.print(mat[i][j]+" ");
@@ -78,6 +75,20 @@ public class _22_setMatrixZero {
 
     public static void optimal(int mat[][]){
         //https://youtu.be/5TfyWZc_y-E
+
+        //PROCEDURE:
+        /*
+         * first mark if first row contains 0 or first col conatins zero or both
+         * u have dealt with first row and col, u safel start from 1,1
+         * traverse from 1,1 timmll m,n, if at any instance u find a zero lets say at (i,j), mark matrix[i][0](that rows' first elemnt)=matrix[0][j](hat cols's first row) as zer
+         * now u dont have to trvaerse for entire matrix, since u have marked which row and col have zero(by makring thier first elemnt)
+         * now just trvere throwgh 0th rows all cols and also 0th columns all rows and make 0
+         * deal with first and first col
+         */
+
+
+
+
         int rows = mat.length;
         int cols = mat[0].length;
         boolean fcol = false;

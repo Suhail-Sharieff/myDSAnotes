@@ -43,6 +43,9 @@ For example:
 
 22 ^ 26 = 12 10110 (22) ^ 11010 (26) = 01100 (12)
 
+## IMP LOGIC:
+Lets say we nned to find number x, such that upon xoring it with some known number (say 'a') , we would get another known number(say 'b'), ie find x such that **a^x=b, then x=a^b**
+
 
 ## Not Operation
 

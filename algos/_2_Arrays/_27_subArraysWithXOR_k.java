@@ -14,6 +14,9 @@ XOR is true if and only if the inputs differ (one is true, one is false)2.
 XOR is true if and only if the number of true inputs is odd.
 XOR of anything with 0 is that elemnt itsel a^0=a.
 
+IMP LOGIC:
+Lets say we nned to find number x, such that upon xoring it with some known number (say 'a') , we would get another known number(say 'b'), ie find x such that a^x=b, then x=a^b
+
 For ex:
 let a=10--->1010 in binary
 let b=6---->0110 in binary

@@ -63,11 +63,11 @@ public class _23_rotateMatrixBy90 {
 
         int len = mat.length;
 
-        // VVVVIMP: TRANSPOSE:
+        // VVVVIMP: TRANSPOSE: mitskae was: just swapped mat[i][j]=mat[j][i]
         // LHS:
         // to transpose , u dont have to proceed i from 0 to len, observe that i varies
         // from 0 to (len-2) and the j is always variing from (i+1) to (len-1)
-        for (int i = 0; i < len - 1; i++) {
+        for (int i = 0; i < len ; i++) {
             for (int j = i + 1; j < len; j++) {
                 int x = mat[i][j];
                 int y = mat[j][i];
@@ -77,7 +77,7 @@ public class _23_rotateMatrixBy90 {
             }
         }
 
-        // REVERSING EACH ROW
+        // REVERSING EACH ROW-- mistake took j till len
         for (int i = 0; i < len; i++) {
             for (int j = 0; j < len / 2; j++) {
                 int k = mat[i][j];

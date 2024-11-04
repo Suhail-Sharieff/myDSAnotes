@@ -122,5 +122,24 @@ Constraints:
         }
         return ans;
     }
+    public List<Integer> getRow(int rowIndex) {//beats 100
 
+        //logic:
+        //WKT ith row and jth column number will be iCj
+        //let prev*x=next
+        //ie  nCr*(x)=nC(r+1)
+        //then x= (n-r)/(r+1)
+        //this implies we will get the next number if we multiple x by previous value
+
+        List<Integer>ans=new ArrayList<>();
+        long prev=1;
+        ans.add(1);
+        for(int i=0;i<rowIndex;i++){
+            //prev*x=next
+            long next=(prev*(rowIndex-i))/(i+1);
+            ans.add((int)(next));
+            prev=next;
+        }
+        return ans;
+    }
 }
