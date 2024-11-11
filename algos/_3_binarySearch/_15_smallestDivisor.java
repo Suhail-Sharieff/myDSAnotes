@@ -55,6 +55,8 @@ public class _15_smallestDivisor {
     public static int optimal(int nums[],int threshold){//O(n*log(max))
         //asn lies between 1 and maxElemnt in nums[]
         Arrays.sort(nums);
+
+        //MISTAKE: taken low as min elemnt in array
         int low=1,high=nums[nums.length-1];
         while (low<=high) {
             int mid=(low+high)/2;

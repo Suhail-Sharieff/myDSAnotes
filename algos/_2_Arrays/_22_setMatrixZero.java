@@ -46,22 +46,22 @@ public class _22_setMatrixZero {
     public static void brute(int mat[][]){//O(mn)---O(m+n)
         List<Integer>rows=new ArrayList<>();
         List<Integer>cols=new ArrayList<>();
-        for(int i=0;i<matrix.length;i++){
-            for(int j=0;j<matrix[0].length;j++){
-                if(matrix[i][j]==0){
+        for(int i=0;i<mat.length;i++){
+            for(int j=0;j<mat[0].length;j++){
+                if(mat[i][j]==0){
                     rows.add(i);
                     cols.add(j);
                 }
             }
         }
         for(int e:rows){//mak row zero
-            Arrays.fill(matrix[e],0);
+            Arrays.fill(mat[e],0);
         }
         // System.out.println(rows);
         // System.out.println(cols);
-        for(int i=0;i<matrix.length;i++){//make colszero
+        for(int i=0;i<mat.length;i++){//make colszero
             for(int e:cols){
-                matrix[i][e]=0;
+                mat[i][e]=0;
             }
         }
         for (int i = 0; i < mat.length; i++) {
@@ -70,7 +70,7 @@ public class _22_setMatrixZero {
             }
             System.out.println();
         }
-        System.out.println(nRows+" "+nCols);
+        System.out.println(rows+" "+rows);
     }
 
     public static void optimal(int mat[][]){
