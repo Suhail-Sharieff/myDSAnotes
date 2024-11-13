@@ -6,6 +6,7 @@ say u need to find value of f(3) and u r given degree of polynomial deg=3,
 brute force:
 
 code:
+```cpp
 int ans=0;
 int x=3;
 int deg=3;
@@ -14,7 +15,7 @@ for(int i=0;i<a.length;i++){
     deg--;
 }
 return ans;
-
+```
 the time complexity is nlog(n) since for every elemnt in array we calcultate pow which takes log n time, observe that nOfMultiplications performed is n
 
 
@@ -27,7 +28,7 @@ logic: the eqn can be rewriiten as :
 
 , se that we have reduced the number of multplication in above eqn to just 3 ie equal to deg of polunomial:
 code:
-
+```java
 int ans=a[0];
 int x=3;
 int deg=3;
@@ -35,3 +36,4 @@ for(int i=1;i<a.length;i++){
     ans=a[i]+ans*x;
 }
 return ans;
+```

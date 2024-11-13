@@ -86,7 +86,7 @@ public class _19_painter {
 
     public static int func(List<Integer>li,int a){
         int sum=0;
-        int cnt=1;//VIMP NOT )
+        int cnt=1;//VIMP NOT 0
         for(int e:li){
             if(e+sum<=a){
                 sum+=e;

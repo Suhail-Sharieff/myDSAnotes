@@ -19,3 +19,7 @@ Binary Search is a powerful algorithm with specific use cases. Here are scenario
 
 4. **Distinct Patterns in Array**
    - When there is a distinct pattern in the elements before and after the midpoint, Binary Search can be utilized to exploit these patterns for efficient searching.
+
+
+5. **Dividing arrays into k parts such that somethng is mimimal or maximal**
+   - Try thinking of BS
