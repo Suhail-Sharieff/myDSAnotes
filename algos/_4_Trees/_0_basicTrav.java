@@ -1,5 +1,6 @@
 package _4_Trees;
 import java.util.*;
+
 public class _0_basicTrav {
     public static  void main(String[] args) {
         TreeNode root=TreeNode.constructTree(new Integer[]{1,2,3,4,5,6,7});
@@ -46,20 +47,18 @@ public class _0_basicTrav {
             return;
         }
         //if node is not null,psh t to statck and move left..if it is null(reached left most)->if(st.isEmpty), we r done break...else move right by printing it
-        Stack<TreeNode>st=new Stack<>();//LIFO
+       Stack<TreeNode>st=new Stack<>();
+       List<Integer>ans=new ArrayList<>();
         TreeNode temp=root;
-        while (!st.isEmpty()) {
-            if (temp!=null) {
+        while(!st.isEmpty()||temp!=null){
+            while(temp!=null){//move as left as possible
                 st.push(temp);
                 temp=temp.left;
-            }else{
-                if (st.isEmpty()) {
-                    break;
-                }
-                temp=st.pop();
-                System.out.println(temp.val);
-                temp=temp.right;
             }
+            //leftmost position we r in
+            temp=st.pop();
+            ans.add(temp.val);
+            temp=temp.right;
         }
         
     }

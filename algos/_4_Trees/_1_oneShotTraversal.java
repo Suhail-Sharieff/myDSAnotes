@@ -44,21 +44,27 @@ public class _1_oneShotTraversal {//using this method we would traverse throught
             TreeNode node=topPair.node;
             int state=topPair.state;
 
-            if (state==1) {
-                preOrder.add(node.val);
-                topPair.state++;
-                if (node.left!=null) {
-                    st.push(new pair(node.left, 1));
+            switch (state) {
+                case 1 -> {
+                    preOrder.add(node.val);
+                    topPair.state++;
+                    if (node.left!=null) {
+                        st.push(new pair(node.left, 1));
+                    }
                 }
-            }else if(state==2){
-                inOrder.add(node.val);
-                topPair.state++;
-                if (node.right!=null) {
-                    st.push(new pair(node.right, 1));
+                case 2 -> {
+                    inOrder.add(node.val);
+                    topPair.state++;
+                    if (node.right!=null) {
+                        st.push(new pair(node.right, 1));
+                    }
                 }
-            }else if(state==3){
-                postOrder.add(node.val);
-                st.pop();
+                case 3 -> {
+                    postOrder.add(node.val);
+                    st.pop();
+                }
+                default -> {
+                }
             }
         }
 
