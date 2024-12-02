@@ -67,7 +67,30 @@ The number of nodes in the tree is in the range [1, 1000].
  */
 /**
  * _10_verticalTraversal
+ * 
  */
+
+
+
+
+ //intuiton:
+
+ //base on fact that Level order can can also be done like this:
+ /*
+ Queue<TreeNode>q=new LinkedList<>();
+        q.offer(root);
+        List<Integer>ans=new ArrayList<>();
+        while (!q.isEmpty()) {
+            TreeNode front=q.poll();
+            ans.add(front.val);
+            if (front.left!=null) {
+                q.offer(front.left);
+            }
+            if (front.right!=null) {
+                q.offer(front.right);
+            }
+        }
+  */
 public class _10_verticalTraversal {
   public static void main(String[] args) {
 
