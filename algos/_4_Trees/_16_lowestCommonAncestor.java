@@ -93,3 +93,40 @@ Expected Auxiliary Space:O(Height of Tree).
     }
 
  }
+
+
+ class BruteForce {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+       TreeNode[] ans={null};
+       func(root,p,q,ans);
+        return ans[0];
+    }
+
+    public void func(TreeNode root,TreeNode p,TreeNode q,TreeNode[] ans){
+        if(root==null) return ;
+        boolean parr[]={false};
+        boolean qarr[]={false};
+
+        trav(root,p.val,parr);
+        trav(root,q.val,qarr);
+
+        if(parr[0] && qarr[0]){
+            //move deeper
+            // System.out.println("YEP "+" "+root.val);
+            ans[0]=root;
+             func(root.left,p,q,ans);
+             func(root.right,p,q,ans);
+        }
+    }
+
+    public void trav(TreeNode root,int val,boolean arr[]){
+       if(root==null) return;
+       trav(root.left,val,arr);
+        if(root.val==val){
+        arr[0]=true;
+        return;
+       }
+       trav(root.right,val,arr);
+
+    }
+}

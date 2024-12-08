@@ -64,7 +64,7 @@ public class _15_treePaths {
         sb.append(" -> ");
         optimal(root.left, ans, sb);
         optimal(root.right, ans, sb);
-        sb.setLength(len);//for list of integer, empty.remove(empty.size()-1)
+        sb.setLength(len);//for list of integer, empty.remove(empty.size()-1)--meaning, once u have traversed both left and right of some path, go back to the state where u ddint have ->
 
 
         //MISTAKE CODE://didnt reset the string builder
