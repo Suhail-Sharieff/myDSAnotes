@@ -3,54 +3,40 @@ package _4_Trees;
 public class test {
 
     public static void main(String[] args) {
-        int preOrder[]={3,9,20,15,7};
-        int inorder[]={9,3,15,20,7};
+        int inorder[]={9,3,15,20,7},postorder[]={9,15,7,20,3};
 
-        int preIdx[]={0};
-        TreeNode root=build(preOrder, inorder, 0, inorder.length-1,preIdx);
+        //inorder->left,root,right{used to build}
+        //post order->left,right,root{used to get whats root}
 
-        // TreeNode.displayLevelByLevel(root);
+        int postIdx[]={postorder.length-1};
+        TreeNode root=build(inorder, postorder, 0, postIdx[0], postIdx);
 
-
-
-    }
-
-    public static TreeNode build(int preOrder[],int inorder[],int inStart,int inEnd,int preIdx[]){
-        if (preIdx[0]>=preOrder.length||inStart>inEnd) {
-            return null;
-        }
-        //preorder's leftmost is root
-        int idxofRoot=idxOfRoot(preOrder[preIdx[0]], inorder);
-        TreeNode root=new TreeNode(preOrder[preIdx[0]++]);
-        TreeNode leftPart=build(preOrder, inorder, inStart  , idxofRoot-1,preIdx);
-        TreeNode rightPart=build(preOrder, inorder, idxofRoot+1, inEnd,preIdx);
-
-
-        root.left=leftPart;
-        root.right=rightPart;
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        System.out.println("--------------");
         TreeNode.displayLevelByLevel(root);
-        System.out.println("--------------");
-        return root;
-
-
 
     }
 
-    //preorder start will obviosly be the root, return idxof that root from inorder
-    public static int idxOfRoot(int targetFromPreorder,int inorder[]){
+    public static TreeNode build(int inorder[],int postorder[],int inStart,int inEnd,int postIdx[]){
+        //the last in postorder will be rrot
+       if (postIdx[0]<0 || inStart>inEnd ) {
+        return null;
+       }
+       int val=postorder[postIdx[0]--];
+       TreeNode root=new TreeNode(val);
+       int idx=idxOfRootInInorder(inorder, val);
+       TreeNode rightPart=build(inorder, postorder, idx+1, inEnd, postIdx);
+       TreeNode leftPart=build(inorder, postorder, inStart, idx-1, postIdx);
+       root.right=rightPart;
+       root.left=leftPart;
+       return root;
+    }
+    
+    public static int idxOfRootInInorder(int inorder[],int target){
         for(int i=0;i<inorder.length;i++){
-            if (inorder[i]==targetFromPreorder) {
+            if (inorder[i]==target) {
                 return i;
             }
         }
         return -1;
     }
+
 }
