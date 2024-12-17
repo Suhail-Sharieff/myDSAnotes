@@ -50,6 +50,7 @@ Expected Auxiliary Space:O(Height of Tree).
 
  package _4_Trees;
 
+import javax.swing.tree.TreeNode;
 
 /**
   * _16_lowestCommonAncestor
@@ -72,22 +73,19 @@ Expected Auxiliary Space:O(Height of Tree).
     //matching+matching--->we got our anwer
     public static TreeNode optimal(TreeNode root,TreeNode n1,TreeNode n2){//O(n)--O(1)
 
-        if (root==null||root.val==n1.val||root.val==n2.val) {
-            return root;
-        }
+       if(root==null) return null;
+        if(root.val==p.val || root.val==q.val) return root;
 
-        TreeNode leftSide=optimal(root.left, n1, n2);
-        TreeNode rightSide=optimal(root.right, n1, n2);
+        //base idea: if no p.val or q.val matches on left, mve right, and vice cersa
 
-        if(leftSide==null){
-            return rightSide;
-        }else if(rightSide==null){
-            return leftSide;
-        }
+        TreeNode hasLeft=lowestCommonAncestor(root.left,p,q);
+        TreeNode hasRight=lowestCommonAncestor(root.right,p,q);
 
-        //if both left and right r not null, we found our answer
+        if(hasLeft==null) return hasRight;
+        else if(hasRight==null) return hasLeft;
 
-        return root;
+        return  root;
+
 
 
     }

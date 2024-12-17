@@ -34,17 +34,17 @@ public class _21_printNodesInCompleteBT {
 
     public static void main(String[] args) {
         TreeNode root=TreeNode.constructTree(new Integer[]{1,2,3,4,5,6});
-        System.out.println(brute(root));
+        System.out.println(nNodeCnt(root));
         System.out.println(optimal(root));
     }
 
-    public static int brute(TreeNode root) {//O(n)--O(h)
+    public static int nNodeCnt(TreeNode root) {//O(n)--O(h)
         if(root==null){
             return 0;
         }
         
-        int left=brute(root.left);
-        int right=brute(root.right);
+        int left=nNodeCnt(root.left);
+        int right=nNodeCnt(root.right);
 
         return left+right+1;
     }

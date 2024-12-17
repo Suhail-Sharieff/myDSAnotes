@@ -46,6 +46,18 @@ public class _17_maxWidth {
     }
 
     //watch to understand: https://www.youtube.com/watch?v=ZbybYvcVLks&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz&index=100&ab_channel=takeUforward
+
+    //width: max width IN A LEVEL
+
+    //idea: if u give indexing, the width of that level is eqal of rihtMostIdx-leftmostIdx+1 of that level, consider below BT where node's ides r given
+
+    /*
+             1       ------>width: 1-1+1 = 1
+            / \
+           2   3     ----->width:3-2+1 = 2
+          / \  / \   
+         4   5 6  7  ---->width:7-4+1 = 4
+     */
     
     public static int optimal(TreeNode root){//the main thing here is we need to consider even the null values while taking width
         //so we assign for each node the index (just like heap and segment tree) starting from root having idx 1,(not 0 coz later we will use 2*idx), left child will have idx 2*idxOfParent and right has 2*idxOfParent+1  

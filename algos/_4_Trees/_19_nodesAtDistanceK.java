@@ -80,7 +80,7 @@ public class _19_nodesAtDistanceK {// slight modification of level order travers
 
         while (!q.isEmpty()) {
             int size = q.size();
-            if (travelledDistance == k) {
+            if (travelledDistance == k) {//DONT PUSH THIS AT LAST OF LOOP< COZ WHAT IF THEY GIVE K=0?
                 break;
             }
             for (int i = 0; i < size; i++) {
