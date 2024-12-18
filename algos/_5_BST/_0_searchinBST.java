@@ -30,7 +30,25 @@ root is a binary search tree.
  */
 public class _0_searchinBST {
 
-    public static TreeNode BST(TreeNode root,int target){
+
+    public static void brute(TreeNode root,int searchVal,TreeNode ans[]){//O(n)---O(n)
+        if (root==null) {
+            return;
+        }
+        System.out.print("Reached "+root.val+" -> ");
+        if (root.val==searchVal) {
+            ans[0]=root;
+        }
+        if (root.val<searchVal) {
+            //it will be present at right of that
+            brute(root.right, searchVal,ans);
+        }else{
+            brute(root.left, searchVal, ans);
+        }
+        System.gc();///this helps in clearing unwanted memory---memoery now beats 99.87 :)
+    }
+
+    public static TreeNode optimal(TreeNode root,int target){//O(n)---O(1)
         if (root==null) {
             return null;
         }
@@ -43,4 +61,5 @@ public class _0_searchinBST {
         }
         return root;
     }
+
 }
