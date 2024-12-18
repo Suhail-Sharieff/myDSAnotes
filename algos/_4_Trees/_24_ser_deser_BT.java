@@ -41,51 +41,58 @@ public class _24_ser_deser_BT {
 
     }
 
-    public static  String serialize(TreeNode root) {
-        if(root==null){
-            return "";
+    public static String serialize(TreeNode root){
+        if (root==null) {
+            return new String();
         }
-            Queue<TreeNode>q=new LinkedList<>();
-            q.offer(root);
-            StringBuilder sb=new StringBuilder();
-            while (!q.isEmpty()){
+        Queue<TreeNode>q=new LinkedList<>();
+        q.offer(root);
+        List<Integer>ans=new ArrayList<>();
+        while (!q.isEmpty()) {
+            int s=q.size();
+            for (int i = 0; i <s; i++) {
                 TreeNode curr=q.poll();
-                if(curr==null){
-                    sb.append("null ");
+                if (curr==null) {
+                    ans.add(null);
                     continue;
                 }
-                sb.append(curr.val+" ");
+                ans.add(curr.val);
+                // if (curr.left!=null) {
+                    q.offer(curr.left);
+                // }
+                // if (curr.right!=null) {
+                    q.offer(curr.right);
+                // }
+            }
+        }
+        return(ans.toString().replace(",", "").replace("[", "").replace("]", "").trim());
+    }
+
+    public static TreeNode deserialize(String s){
+        if (s.isEmpty()) {
+            return null;
+        }
+        String arr[]=s.split(" ");
+        TreeNode root=new TreeNode(Integer.parseInt(arr[0]));
+
+        Queue<TreeNode>q=new LinkedList<>();
+        q.offer(root);
+
+        for (int i = 1; i < arr.length; i++) {
+            TreeNode curr=q.poll();
+            if (!arr[i].equals("null")) {
+                curr.left=new TreeNode(Integer.parseInt(arr[i]));
                 q.offer(curr.left);
+            }
+            i++;
+            if (!arr[i].equals("null")) {
+                curr.right=new TreeNode(Integer.parseInt(arr[i]));
                 q.offer(curr.right);
             }
-            return sb.toString();
         }
-    
-        // Decodes your encoded data to tree.
-        public  static TreeNode deserialize(String data) {//IMP
-            if(data.length()==0){
-                return null;
-            }
-           Queue<TreeNode> q = new LinkedList<>();
-            String split[] = data.split(" ");
-            TreeNode root=new TreeNode(Integer.parseInt(split[0]));
-            q.offer(root);
-    
-            for (int i = 1; i < split.length; i++) {
-               TreeNode curr=q.poll();
-               if (!split[i].equals("null")) {
-                TreeNode leftNode=new TreeNode(Integer.parseInt(split[i]));
-                curr.left=leftNode;
-                q.offer(leftNode);
-               }
-               if (!split[++i].equals("null")) {//after left also we have null means its a leaf so we increment i
-                TreeNode rightNode=new TreeNode(Integer.parseInt(split[i]));
-                curr.right=rightNode;
-                q.offer(rightNode);
-               }
-            }
-            return root;
-        }
+        // TreeNode.displayLevelByLevel(root);
+        return root;
+    }
 
 
 

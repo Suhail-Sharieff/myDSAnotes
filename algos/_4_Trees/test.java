@@ -26,31 +26,29 @@ public class test{
     public static void main(String[] args) {
         TreeNode root=TreeNode.constructTree(new Integer[]{1, 2, 3, null, null, 4, 5 });
 
-        // String s=(serialize(root));
-        // System.out.println("serialized String: "+s);
-        // deseriaLize(s);
-        // TreeNode.displayLevelByLevel(deseriaLize(s));
-level(root);
+       String ser=level(root);
+       System.out.println(ser);
+       TreeNode ans=ser(ser);
+       
 
     }
 
-    public static void level(TreeNode root){
+    public static String level(TreeNode root){
         if (root==null) {
-            return;
+            return new String();
         }
         Queue<TreeNode>q=new LinkedList<>();
         q.offer(root);
-        List<List<Integer>>ans=new ArrayList<>();
+        List<Integer>ans=new ArrayList<>();
         while (!q.isEmpty()) {
             int s=q.size();
-            List<Integer>lev=new ArrayList<>();
             for (int i = 0; i <s; i++) {
                 TreeNode curr=q.poll();
                 if (curr==null) {
-                    lev.add(null);
+                    ans.add(null);
                     continue;
                 }
-                lev.add(curr.val);
+                ans.add(curr.val);
                 // if (curr.left!=null) {
                     q.offer(curr.left);
                 // }
@@ -58,9 +56,35 @@ level(root);
                     q.offer(curr.right);
                 // }
             }
-            ans.add(lev);
         }
-        System.out.println(ans);
+        return(ans.toString().replace(",", "").replace("[", "").replace("]", "").trim());
+    }
+
+    public static TreeNode ser(String s){
+        if (s.isEmpty()) {
+            return null;
+        }
+        int idx=0;
+        String arr[]=s.split(" ");
+        TreeNode root=new TreeNode(Integer.parseInt(arr[0]));
+
+        Queue<TreeNode>q=new LinkedList<>();
+        q.offer(root);
+
+        for (int i = 1; i < arr.length; i++) {
+            TreeNode curr=q.poll();
+            if (!arr[i].equals("null")) {
+                curr.left=new TreeNode(Integer.parseInt(arr[i]));
+                q.offer(curr.left);
+            }
+            i++;
+            if (!arr[i].equals("null")) {
+                curr.right=new TreeNode(Integer.parseInt(arr[i]));
+                q.offer(curr.right);
+            }
+        }
+        TreeNode.displayLevelByLevel(root);
+        return root;
     }
 
     public static void getPreOrder(TreeNode root,List<Lol>preOrder){
@@ -80,9 +104,6 @@ level(root);
         inorder.add(new Lol(root, false));
         getInorder(root.right, inorder);
     }
-
-
-
     public static String serialize(TreeNode root){
         if (root==null) {
             return new String();
@@ -130,7 +151,6 @@ level(root);
 
             return root;
     }
-
     public static int getIdx(int target,List<Lol>inorder){
         for (int i = 0; i < inorder.size(); i++) {
             if (inorder.get(i).node.val==target && !inorder.get(i).isVisited) {
