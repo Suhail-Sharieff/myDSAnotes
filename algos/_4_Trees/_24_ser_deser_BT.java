@@ -30,7 +30,7 @@ The number of nodes in the tree is in the range [0, 104].
 
 public class _24_ser_deser_BT {
     public static void main(String[] args) {
-
+        //MAIN CONCEPT: A tree can be constructed by using level order traversal given that we also have null shut in our level order list
         TreeNode root = TreeNode.constructTree(new Integer[] { 1, 2, 3, null, null, 4, 5 });
 
         String s=serialize(root);
