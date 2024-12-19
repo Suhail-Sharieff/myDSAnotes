@@ -19,6 +19,7 @@ public class TreeNode {
         this.right = null;
     }
 
+
     // Method to construct the binary tree from a level-order array
     public static TreeNode constructTree(Integer[] arr) {
         if (arr.length == 0 || arr[0] == null) return null;
@@ -102,6 +103,14 @@ public class TreeNode {
         }
         for (List<Integer> list : ans) {
             System.out.println(list);
+        }
+    }
+    @Override
+    public String toString() {
+        try {
+            return (this.val+"");
+        } catch (Exception e) {
+            return "null";
         }
     }
 }

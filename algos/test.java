@@ -1,30 +1,126 @@
-import _4_Trees.TreeNode;
+import _5_BST.TreeNode;
 
 public class test {
 
     public static void main(String[] args) {
-        TreeNode root=TreeNode.constructTree(new Integer[]{4,2,7,1,3});
-        int target=2;
-        TreeNode ans[]={null};
-        trav(root, target, ans);
-        System.out.println();
-        TreeNode.displayLevelByLevel(ans[0]);
-        
+        TreeNode root=TreeNode.constructTree(new Integer[]{1,2,3,null,null,6,7});
+        // System.out.println(ceil(28, root).val);
+        TreeNode.displayLevelByLevel(root);
+        // insertNode(new TreeNode(23), root);
+        deleteNode(7, root);
+        TreeNode.displayLevelByLevel(root);
     }
 
-    public static void trav(TreeNode root,int searchVal,TreeNode ans[]){
+
+
+
+    public static TreeNode ceil(int val,TreeNode root){
+        //ceil->smallest value that is greater than or equal to the val
         if (root==null) {
+            return null;
+        }
+        TreeNode temp=root;
+        TreeNode ans=null;
+        while (temp!=null) {
+            if (temp.val==val) {
+                return temp;
+            }
+            if (temp.val>val) {
+                ans=temp;
+                temp=temp.left;
+            }else{
+                temp=temp.right;
+            }
+        }
+        return ans;
+    }
+
+
+    public static void insertNode(TreeNode newNode,TreeNode root){
+        if (root==null) {
+            root=newNode;
             return;
         }
-        System.out.print("Reached "+root.val+" -> ");
-        if (root.val==searchVal) {
-            ans[0]=root;
+        TreeNode temp=root;
+        TreeNode prev=root;
+        while (temp!=null) {
+            prev=temp;
+            if (temp.val<newNode.val) {
+                //the value we wanna insert is greater 
+                temp=temp.right;
+            }else{
+                temp=temp.left;
+            }
         }
-        if (root.val<searchVal) {
-            //it will be present at right of that
-            trav(root.right, searchVal,ans);
+        if (newNode.val<=prev.val) {
+            prev.left=newNode;
         }else{
-            trav(root.left, searchVal, ans);
+            prev.right=newNode;
         }
     }
+
+
+    public static TreeNode find(int target,TreeNode root){
+        if (root==null) {
+            return null;
+        }
+        if (root.val==target) {
+            return root;
+        }
+        TreeNode l=find(target, root.left);
+        TreeNode r=find(target, root.right);
+        if (l!=null ) {
+            return l;
+        }else if(r!=null){
+            return r;
+        }
+        return null;
+    }
+
+
+
+    public static void deleteNode(int val,TreeNode root){
+        if (root==null) {
+            System.out.println("Empty Tree");
+            return;
+        }
+        TreeNode target=find(val, root);
+
+
+        if (target==null) {
+            System.out.println("Not found to delete");
+        }
+        
+        TreeNode substitue=ceil(val, root);
+
+        if (target==root) {
+            root=null;
+            return;
+        }
+
+
+        if (target.left==null && target.right==null) {
+            //is a leaf node
+            System.out.println("Curr val of target : "+target);
+            target=null;
+            System.out.println("Curr val of target : "+target);
+            return;
+        }
+
+        // target=substitue;
+
+
+    }
+
+    
+
+
+
+
+
+
+
 }
+
+
+
