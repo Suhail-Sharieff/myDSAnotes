@@ -35,7 +35,7 @@ All the values Node.val are unique.
 It's guaranteed that val does not exist in the original BST.
  */
 public class _3_insert {//first find the place where u need to insert and just inset it there
-    public TreeNode insertIntoBST(TreeNode root, int val) {
+    public TreeNode optimal(TreeNode root, int val) {//0ms
         if(root==null){
             return new TreeNode(val);
         }
@@ -58,5 +58,24 @@ public class _3_insert {//first find the place where u need to insert and just i
             }
         }
         return root;
+ 
+    }
+
+
+    public TreeNode brute(TreeNode root, int val) {//3ms
+        if(root==null) return new TreeNode(val);
+        TreeNode pos[]={null};
+        find(root,pos,val);
+        if(pos[0].val>val) pos[0].left=new TreeNode(val);
+        else pos[0].right=new TreeNode(val);
+        return root;
+    }
+    //function to find pos where val can be inserted
+    public void find(TreeNode root,TreeNode pos[],int val){
+        if(root==null) return;
+        pos[0]=root;
+        if(root.val<val) find(root.right,pos,val);
+        else find(root.left,pos,val);
+        System.gc();
     }
 }
