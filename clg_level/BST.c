@@ -49,6 +49,11 @@ void insertNode(TreeNode root,int val){
 
 TreeNode inorderSucc(TreeNode root){
     //succ is found on left most node of right part of the node we wanna delete
+    if (root==NULL)
+    {
+        return NULL;
+    }
+    
     root=root->right;
     while (root!=NULL && root->left!=NULL)
     {
@@ -76,7 +81,7 @@ TreeNode deleteNode(TreeNode root,int val){
     }
     
 
-    if (val<root->val
+    else if (val<root->val
     )
     {
         //find on left
