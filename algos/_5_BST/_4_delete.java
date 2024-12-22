@@ -1,100 +1,153 @@
 package _5_BST;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+
+/*
+Input: root = [1, N, 2, N, 8, 5, 11, 4, 7, 9, 12]
+            1
+             \
+              2
+                \
+                 8 
+               /    \
+              5      11
+            /  \    /  \
+           4    7  9   12
+key = 11
+Output: 1 2 4 5 7 8 9 12
+Explanation: In the given input, tree after deleting 11 will be
+             1
+              \
+               2
+                 \
+                  8
+                 /  \
+                5    12
+               / \   /
+              4   7 9 
+ */
 
 public class _4_delete {
     public static void main(String[] args) {
         TreeNode root=TreeNode.constructTree(new Integer[]{5,3,6,2,4,null,7});
         int key=3;
-        TreeNode.displayLevelByLevel(func(root, key));
-        
-        
-    }
-    public static TreeNode constructTree(Integer[] arr) {
-        if (arr.length == 0 || arr[0] == null) return null;
+        TreeNode.displayLevelByLevel(root);
 
-        TreeNode root = new TreeNode(arr[0]);
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-
-        int index = 1;
-        while (!queue.isEmpty() && index < arr.length) {
-            TreeNode current = queue.poll();
-
-            // Assign left child
-            if (index < arr.length && arr[index] != null) {
-                current.left = new TreeNode(arr[index]);
-                queue.add(current.left);
-            }
-            index++;
-
-            // Assign right child
-            if (index < arr.length && arr[index] != null) {
-                current.right = new TreeNode(arr[index]);
-                queue.add(current.right);
-            }
-            index++;
+        //IMP:
+        if(root.val==key) {
+            TreeNode.displayLevelByLevel( substitute(root));
+            return;
         }
 
-        return root;
-    }
-
-    public static TreeNode func(TreeNode root,int key){
-        TreeNode lca=lca(root, key);
-       
-            List<Integer>li=new ArrayList<>();
-            Queue<TreeNode>q=new LinkedList<>();
-            q.offer(root);
-            while (!q.isEmpty()) {
-                TreeNode curr=q.poll();
-                li.add(curr.val);
-                if (curr.left!=null) {
-                    q.offer(curr.left);
-                }
-                if (curr.right!=null) {
-                    q.offer(curr.right);
-                }
-            }
-            Integer arr[]=new Integer[li.size()];
-            li.toArray(arr);
-            if (lca!=null) {
-                // for (Integer integer : arr) {
-                //     if (integer==key) {
-                //         integer=lca.val;
-                //     }
-                //     if (integer==lca.val) {
-                //         integer=null;
-                //     }
-                // }
-                for (int i = 0; i < arr.length; i++) {
-                    if (arr[i]==key) {
-                        arr[i]=lca.val;
-                    }
-                    if (arr[i]==lca.val) {
-                        arr[i]=null;
-                    }
-                }
-            }
-            
-            return TreeNode.constructTree(arr);
-
+        deleteNode(root, key);
+        System.out.println("------");
+        TreeNode.displayLevelByLevel(root);
+        
     }
 
 
-    public static TreeNode lca(TreeNode root,int val){
-        TreeNode curr=root;
-        TreeNode ans=null;
-        while (curr!=null) {
-            if (curr.val>val) {
-                ans=curr;
-                curr=curr.left;
+    
+
+
+    public static void deleteNode(TreeNode root,int target){
+        if (root==null) {
+            return;
+        }
+        TreeNode temp=root;
+
+        while (temp!=null) {
+            if(temp.val==target){
+                TreeNode parentOfTarget=parentOf(target, root);
+                if (parentOfTarget.left==temp) {
+                    //we want to delete the node on left of parent
+                    parentOfTarget.left=substitute(temp);
+                }else{
+                    //we want to delete on right of parent
+                    parentOfTarget.right=substitute(temp);
+                }
+                break;
+            }else if(temp.val>target){
+                temp=temp.left;
             }else{
-                curr=curr.right;
+                temp=temp.right;
             }
         }
-        return ans;
+
+        
     }
+
+    //function to find paretn node of the node we wanna delete:
+    public  static TreeNode parentOf(int val,TreeNode root){
+        if(root==null){
+            return null;
+        }   
+        TreeNode temp=root;
+        TreeNode par=null;
+        while (temp!=null) {
+            if (temp.val==val) {
+                break;
+            }
+            par=temp;
+            if (temp.val>val) {
+                temp=temp.left;
+            }else if(temp.val<val){
+                temp=temp.right;
+            }
+        }
+        return par;
+    }
+
+    public static TreeNode substitute(TreeNode targetNode){
+        if (targetNode.left==null) {
+            return targetNode.right;
+        }else if(targetNode.right==null){
+            return targetNode.left;
+        }
+        //the target node has 2 children
+        //connect the right child of targetnode to right of rightmost node on (left of targetnode) 
+        TreeNode rightChildOfTarget=targetNode.right;
+        TreeNode rightMostOnLeftOfTargetNode=rightMost(targetNode.left);
+        rightMostOnLeftOfTargetNode.right=rightChildOfTarget;
+        return targetNode.left;//coz we have shifted complete right portion of target node to the left sie by attaching it to rightMostNode on left part of targetNode
+    }
+
+    public static TreeNode rightMost(TreeNode root){
+        if (root.right==null) {
+            return root;
+        }
+        return rightMost(root.right);
+    }
+
+
+    //optimal sultion--in the way that it avoids finding parent after we have reached target
+
+    public  TreeNode optimalDelete(TreeNode root, int target){
+        if (root==null) {
+            return null;
+        }
+        if (root.val==target) {
+            return substitute(root);
+        }
+        TreeNode temp=root;
+        while (root!=null) {//DONT USE WHLE(TEMP!=NULL)--X
+            if (root.val>target) {
+                //target is on left
+                if(root.left!=null && root.left.val==target){
+                    root.left=substitute(root.left);
+                    break;
+                }else{
+                    root=root.left;
+                }
+            }else{
+                //target will be on right
+                if (root.right!=null && root. right.val==target) {
+                    root.right=substitute(root.right);
+                    break;
+                } else{
+                    root=root.right;
+                }
+            }
+        }
+        return temp;
+    }
+
 }
