@@ -34,7 +34,7 @@ public class _4_delete {
 
         //IMP:
         if(root.val==key) {
-            TreeNode.displayLevelByLevel( substitute(root));
+            TreeNode.displayLevelByLevel( shiftEverythingOnLeftAndReturnLeft(root));
             return;
         }
 
@@ -59,10 +59,10 @@ public class _4_delete {
                 TreeNode parentOfTarget=parentOf(target, root);
                 if (parentOfTarget.left==temp) {
                     //we want to delete the node on left of parent
-                    parentOfTarget.left=substitute(temp);
+                    parentOfTarget.left=shiftEverythingOnLeftAndReturnLeft(temp);
                 }else{
                     //we want to delete on right of parent
-                    parentOfTarget.right=substitute(temp);
+                    parentOfTarget.right=shiftEverythingOnLeftAndReturnLeft(temp);
                 }
                 break;
             }else if(temp.val>target){
@@ -96,7 +96,7 @@ public class _4_delete {
         return par;
     }
 
-    public static TreeNode substitute(TreeNode targetNode){
+    public static TreeNode shiftEverythingOnLeftAndReturnLeft(TreeNode targetNode){
         if (targetNode.left==null) {
             return targetNode.right;
         }else if(targetNode.right==null){
@@ -125,14 +125,14 @@ public class _4_delete {
             return null;
         }
         if (root.val==target) {
-            return substitute(root);
+            return shiftEverythingOnLeftAndReturnLeft(root);
         }
         TreeNode temp=root;
         while (root!=null) {//DONT USE WHLE(TEMP!=NULL)--X
             if (root.val>target) {
                 //target is on left
                 if(root.left!=null && root.left.val==target){
-                    root.left=substitute(root.left);
+                    root.left=shiftEverythingOnLeftAndReturnLeft(root.left);
                     break;
                 }else{
                     root=root.left;
@@ -140,7 +140,7 @@ public class _4_delete {
             }else{
                 //target will be on right
                 if (root.right!=null && root. right.val==target) {
-                    root.right=substitute(root.right);
+                    root.right=shiftEverythingOnLeftAndReturnLeft(root.right);
                     break;
                 } else{
                     root=root.right;

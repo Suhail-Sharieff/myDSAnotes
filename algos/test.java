@@ -3,11 +3,11 @@ import _5_BST.TreeNode;
 public class test {
 
     public static void main(String[] args) {
-        TreeNode root=TreeNode.constructTree(new Integer[]{1,2,3,null,null,6,7});
-        // System.out.println(ceil(28, root).val);
+        TreeNode root=TreeNode.constructBST(new Integer[]{5,3,6,2,4,7});
+
         TreeNode.displayLevelByLevel(root);
-        // insertNode(new TreeNode(23), root);
-        deleteNode(7, root);
+        System.out.println("----------");
+        TreeNode.deleteFromBST(root, 4);
         TreeNode.displayLevelByLevel(root);
     }
 
