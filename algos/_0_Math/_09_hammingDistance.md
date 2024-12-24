@@ -20,7 +20,7 @@ A straightforward way to solve the problem is to go through all pairs of strings
 So we can optimize it using the following observation:
 ``
 The hamming distance between two strings 'a' and 'b' is always equal to number of '1's in the binary string of (intValue(a)^intValue(b))
-``
+`` coz xor of 2 different bits is always 1 and same bits is 0
 
 So Procedure is:
 - Let x = integer value of a

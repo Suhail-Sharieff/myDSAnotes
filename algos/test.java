@@ -6,15 +6,23 @@ import _5_BST.TreeNode;
 public class test {
 
     public static void main(String[] args) {
-       TreeNode root=TreeNode.constructTree(new Integer[]{8,3,10,1,6,null,14,null,null,4,7,13});
-      inor(root);
+       TreeNode root=TreeNode.constructTree(new Integer[]{2,1,3});
+        // isValidBST(root,new TreeNode[]{null});
+        TreeNode prev=null;
+        while (root!=null) {
+            prev=root;
+           
+        }
 
     }
 
-    static void inor(TreeNode root){
+    public static void isValidBST(TreeNode root,TreeNode prev[]) {
         if(root==null) return;
-        inor(root.right);
-        System.out.print(root.val+"->");
-        inor(root.left);
+       prev[0]=root;
+       isValidBST(root.left,prev);
+       System.out.println("prev: "+prev[0]+" curr: "+root);
+       isValidBST(root.right,prev);
+    //    if(prev[0].val>=root.val) return false;
+    //    return l&&r;
     }
 }

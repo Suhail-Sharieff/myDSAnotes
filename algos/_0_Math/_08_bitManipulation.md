@@ -124,3 +124,17 @@ cout << __builtin_popcount(x) << "\n"; // 5
 cout << __builtin_parity(x) << "\n"; // 1
 Note: The above functions only support int numbers, but there are also long long versions available with the suffix ll.
 ```
+## Some tricks :
+ https://www.youtube.com/watch?v=XjtYsFjXtoE&list=PLauivoElc3giVROwL-6g9hO-LlSen_NaV&index=5&ab_channel=Luv
+- ith bit of x is 1 : if ``x & ( 1 << i)`` is 1
+- if ith bit of x is 1 , to convert it to 0 : do  ``` x & ( ~ (1 << i) )```
+- if ith bit of x is 0 , to convert it to 1 : do  ``` x | (  (1 << i) )```
+- to toggle ith bit of x : `` x ^ (1 << i)``
+- to multiply x by 2 : `x<<2`
+- to divide x by 2 `x>>2`
+- to convert upper case to lowercase of some uppercase letter X  `` X | (1<<5) `` using observation that the lower case letter has 1 after its most significant 1 and upper has 0 after its most significant 1 and remaining numbers are same
+- to convert upper case X to lowercase ``X|' '``-->X or space
+- to convert lowercase x to uppercase ``x&_ ``-->x and underscore
+- to make all bits to 0 from right to left ie say from [0,i] do `` x & (~ ((1<<i)-1))``
+- x is power of 2 if ``(n>0&&(n&(n-1))==0)`` using observation that if x is exact power of 2 it will have say binary repr where theres only 1 one say like 10000, now when u do -1 for that number u get 01111, now with this if u do & with 1, u will get 1 showing its power of 2
+- to swap a and b : `(a=a^b) then (b=a^b) then (a=a^b) =>a and b r swapped`
