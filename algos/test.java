@@ -1,41 +1,34 @@
 
-import java.util.*;
 
 import _5_BST.TreeNode;
 
 public class test {
 
     public static void main(String[] args) {
-       TreeNode root=TreeNode.constructTree(new Integer[]{5,1,4,null,null,3,6});
-        // isValidBST(root,Integer.MIN_VALUE,-1);
-        Queue<TreeNode>q=new LinkedList<>();
-        q.offer(root);
-        while (!q.isEmpty()) {
-                TreeNode fornt=q.poll();
-                System.out.println(fornt);
-                if (fornt.right!=null) {
-                    q.offer(fornt.right);
-                }
-                if (fornt.left!=null) {
-                    q.offer(fornt.left);
-                }
-        }
+       int preorder[]={8,5,1,7,10,12};
+
+       TreeNode root=func(preorder, 0);
+
+
+       TreeNode.displayLevelByLevelWithNulls(root);
 
 
     }
 
-    public static void isValidBST(TreeNode root,int prev,int curr) {
-     if(root==null) return;
-       if (prev!=root.val) {
-        prev=root.val;
-        System.out.print(" prev: "+prev);
-       }
-       isValidBST(root.left,prev,curr);
-       if (prev!=curr) {
-        curr=root.val;
-        System.out.println(" curr: "+curr);
-       }
-       isValidBST(root.right,prev,curr);
+    static TreeNode func(int preorder[],int s){
+        if(s>=preorder.length) return null;
 
+        TreeNode root=new TreeNode(preorder[s]);
+        s++;
+        if(s<preorder.length && preorder[s]<root.val){
+            root.left=func(preorder,s);
+        }
+        s++;
+        if(s<preorder.length && preorder[s]>root.val){
+            root.right=func(preorder,s);
+        }
+
+
+        return  root;
     }
 }

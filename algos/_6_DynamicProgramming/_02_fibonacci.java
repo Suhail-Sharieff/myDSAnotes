@@ -49,7 +49,7 @@ public class _02_fibonacci {
         }
 
         //printing n fibo
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i <= n; i++) {
             System.out.print(dp[i]+" ");
         }
         
@@ -59,7 +59,7 @@ public class _02_fibonacci {
     //---------optimal: O(n)--O(1)
     public static void optimal(int n){
         int n1=0,n2=1;
-        for (int i = 2; i <n; i++) {
+        for (int i = 2; i <=n; i++) {
             int curr=n1+n2;
             System.out.print(curr+" ");
             n1=n2;

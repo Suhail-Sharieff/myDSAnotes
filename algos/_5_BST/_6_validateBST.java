@@ -102,11 +102,16 @@ public class _6_validateBST {
 
     //optimal:O(n)--O(n): initialize max as Long.MAX, min as Long.MIN,
     // now when we move left of root, every value should lie in range [min,root.val) abd when moved right it shuld lie in (root.val,max], if it doent return false
-    public boolean optimal(TreeNode root,long min,long max){
+    public static boolean optimal(TreeNode root,long min,long max){
         if(root==null) return true;
         if(root.val<=min || root.val>=max) return false;
         boolean isLeftBal=optimal(root.left,min,root.val);
         boolean isRightBal=optimal(root.right,root.val,max);
         return (isLeftBal && isRightBal);
+    }
+
+    public static void main(String[] args) {
+        TreeNode root=TreeNode.constructBST(new Integer[]{5,1,4,null,null,3,6});
+        System.out.println(optimal(root, Long.MIN_VALUE, Long.MAX_VALUE));
     }
 }
