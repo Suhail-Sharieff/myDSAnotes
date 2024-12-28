@@ -33,7 +33,8 @@ public class _01_coinCount {
         int arr[] = { 1, 3,4 };
        
         
-        soln2(arr, target, new int[target + 1], new int[target + 1]);
+        showWhichCoinsweUse(arr, target,new HashMap<>());
+        System.out.println();
         //nOf such ways for ex for above target and arr [[1,1,1,1,1],[1,1,3],[1,3,1],[3,1,1],[1,4],[4,1]]
         System.out.println(cnt(arr, target, new int[target+1], new int[target+1]));
 
@@ -91,31 +92,28 @@ public class _01_coinCount {
     }
 
     // now suppose we also wwant what coins we r choosing
-    public static void soln2(int coins[], int target, int dp[], int choosed[]) {
-        Arrays.fill(dp, Integer.MAX_VALUE);
-        dp[0] = 0;
-        for (int tar = 1; tar <= target; tar++) {
-            for (int coin : coins) {
-                if (tar - coin >= 0) {
-                    if (dp[tar - coin] + 1 < dp[tar]) {
-                        dp[tar] = dp[tar - coin] + 1;
-                        choosed[tar] = coin;
-                    }
+    static  int showWhichCoinsweUse(int coins[],int target,HashMap<Integer,Integer>hp){
+        //call like: System.out.println(showWhichCoinsweUse(coins, target,new HashMap<>()));
+        if(target==0) return 0;
+        int dp[]=new int[target+1];
+        Arrays.fill(dp,Integer.MAX_VALUE);
+        dp[0]=0;
+        for(int currTar=1;currTar<=target;currTar++){
+            int ans=Integer.MAX_VALUE;
+            for(int coinChosen : coins){
+                if(currTar-coinChosen>=0 && dp[currTar-coinChosen]!=Integer.MAX_VALUE){
+                    ans=Math.min(ans,dp[currTar-coinChosen]+1);
+                    hp.put(currTar, coinChosen);
                 }
             }
+            dp[currTar]=ans;
         }
-        if (dp[target] == Integer.MAX_VALUE) {
-            System.out.println("Not possible");
-            return;
-        }
-        System.out.println("choosed coins are:");
         while (target > 0) {
-            System.out.print(choosed[target] + " ");
-            target -= choosed[target];
+            System.out.print("For "+target+" we use coin:"+hp.get(target) + ", remaining is "+(target-hp.get(target))+" -> ");
+            target -= hp.get(target);
         }
-        System.out.println();
+        return dp[target];
     }
-
 
 
 //------------------TASK2: Count noOf Ways to of such solutions-------------------------------------
