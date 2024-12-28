@@ -138,3 +138,6 @@ Note: The above functions only support int numbers, but there are also long long
 - to make all bits to 0 from right to left ie say from [0,i] do `` x & (~ ((1<<i)-1))``
 - x is power of 2 if ``(n>0&&(n&(n-1))==0)`` using observation that if x is exact power of 2 it will have say binary repr where theres only 1 one say like 10000, now when u do -1 for that number u get 01111, now with this if u do & with 1, u will get 1 showing its power of 2
 - to swap a and b : `(a=a^b) then (b=a^b) then (a=a^b) =>a and b r swapped`
+- number x is odd if ``x&1`` is 1 else even
+- ``x<<1`` is as same as x**2 and `x>>1` as same as x/2
+- If number `x` is even, the number of `1s` in the binary repr of x is as same as number of 1s in binary repr of `x/2`. And if x is odd its as same as that of `[(x-1)/2]+1`

@@ -31,9 +31,8 @@ public class _01_coinCount {
         // int nOfCoins=3;
         int target = 5;
         int arr[] = { 1, 3,4 };
-        int ans = recursive(arr, target, new boolean[target + 1], new int[target + 1]);
-        System.out.println((ans == Integer.MAX_VALUE) ? -1 : ans);
-        System.out.println(soln1(arr, target, new int[target + 1]));
+       
+        
         soln2(arr, target, new int[target + 1], new int[target + 1]);
         //nOf such ways for ex for above target and arr [[1,1,1,1,1],[1,1,3],[1,3,1],[3,1,1],[1,4],[4,1]]
         System.out.println(cnt(arr, target, new int[target+1], new int[target+1]));
@@ -56,65 +55,56 @@ public class _01_coinCount {
         brute(nums, target, start + 1, empty, ans);
     }
 
-    public static int recursive(int arr[], int target, boolean ready[], int values[]) {// just memoize the recursion
-                                                                                       // O(nk),where n is the target
-                                                                                       // sum and k is the number of
-                                                                                       // coins.
-
-        if (target < 0) {
-            return Integer.MAX_VALUE;
-        }
-        if (target == 0) {
-            return 0;
-        }
-        if (ready[target]) {
-            return values[target];
-        }
-        int ans = Integer.MAX_VALUE;
-        for (int i = 0; i < arr.length; i++) {
-            int subResult = recursive(arr, target - arr[i], ready, values);
-            if (subResult != Integer.MAX_VALUE) {// VIMP
-                ans = Math.min(ans, subResult + 1); // Take one coin and add the result for the remaining target
+    public static int rec(int coins[],int target,int dp[]){
+        //call like: int dp[]=new int[amount+1];return rec(coins,amount,dp);
+        if(target==0) return 0;
+        if(target<0) return -1;
+        if(dp[target]!=0) return dp[target];
+        int min=Integer.MAX_VALUE;
+        for(int coin : coins){
+            int subRes=rec(coins,target-coin,dp);
+            if(subRes!=-1){
+                min=Math.min(min,subRes+1);
             }
         }
-        ready[target] = true;
-        values[target] = ans;
-        return ans;
+        dp[target]=(min==Integer.MAX_VALUE)?(-1):(min);
+        return dp[target];
     }
 
     // iterative solutions
 
-    public static int soln1(int coins[], int target, int values[]) {// o(target*nCoins)---O(target)
-        Arrays.fill(values, Integer.MAX_VALUE);
-        values[0] = 0;// VVVVIMP or else wrong ans
-        for (int tar = 1; tar <= target; tar++) {
-            for (int coin : coins) {
-                if (tar - coin >= 0) {
-                    values[tar] = Math.min(values[tar], values[tar - coin] + 1);
-                }
+    public int tabulation(int coins[],int target){
+        if(target==0) return 0;
+        int dp[]=new int[target+1];
+        //dp[i] represnts minimum number of coins needed to reach target i
+        Arrays.fill(dp,Integer.MAX_VALUE);
+        dp[0]=0;
+        for(int currTarget=1 ; currTarget<=target ; currTarget++ ){
+            for(int coin : coins){
+               if(currTarget-coin>=0 && dp[currTarget-coin]!=Integer.MAX_VALUE){
+                 dp[currTarget]=Math.min(dp[currTarget],1+dp[currTarget-coin]);
+               }
             }
+            
         }
-        if (values[target] == Integer.MAX_VALUE) {
-            return -1;
-        }
-        return values[target];
+        return dp[target]==Integer.MAX_VALUE?-1:dp[target];
     }
 
     // now suppose we also wwant what coins we r choosing
-    public static void soln2(int coins[], int target, int values[], int choosed[]) {
-        Arrays.fill(values, Integer.MAX_VALUE);
-        values[0] = 0;
+    public static void soln2(int coins[], int target, int dp[], int choosed[]) {
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[0] = 0;
         for (int tar = 1; tar <= target; tar++) {
             for (int coin : coins) {
                 if (tar - coin >= 0) {
-                    if (values[tar - coin] + 1 < values[tar]) {
-                        values[tar] = values[tar - coin] + 1;
+                    if (dp[tar - coin] + 1 < dp[tar]) {
+                        dp[tar] = dp[tar - coin] + 1;
                         choosed[tar] = coin;
                     }
                 }
             }
         }
-        if (values[target] == Integer.MAX_VALUE) {
+        if (dp[target] == Integer.MAX_VALUE) {
             System.out.println("Not possible");
             return;
         }
