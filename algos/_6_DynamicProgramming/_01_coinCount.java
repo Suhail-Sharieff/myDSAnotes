@@ -56,6 +56,19 @@ public class _01_coinCount {
         brute(nums, target, start + 1, empty, ans);
     }
 
+    public static int recurseWithoutDP(int coins[],int target){
+        //call like: int dp[]=new int[amount+1];return rec(coins,amount,dp);
+        if(target==0) return 0;
+        if(target<0) return -1;
+        int min=Integer.MAX_VALUE;
+        for(int coin : coins){
+            int subRes=recurseWithoutDP(coins,target-coin);
+            if(subRes!=-1){
+                min=Math.min(min,subRes+1);
+            }
+        }
+        return (min==Integer.MAX_VALUE)?(-1):(min);
+    }
     public static int rec(int coins[],int target,int dp[]){
         //call like: int dp[]=new int[amount+1];return rec(coins,amount,dp);
         if(target==0) return 0;
