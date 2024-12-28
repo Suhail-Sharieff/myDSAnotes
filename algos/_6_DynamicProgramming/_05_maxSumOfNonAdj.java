@@ -1,8 +1,5 @@
 package _6_DynamicProgramming;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 /*
 Problem statement
 You are given an array/list of ‘N’ integers. You are supposed to return the maximum sum of the subsequence with the constraint that no two elements are adjacent in the given array/list.
@@ -71,10 +68,23 @@ public class _05_maxSumOfNonAdj {
         }
         if (dp[idx] != -1)
             return dp[idx];
-        int ifPicked = (arr[idx] + memoize(arr, idx - 2, dp)) % mod;
-        int ifNot = (memoize(arr, idx - 1, dp)) % mod;
-        dp[idx] = Math.max(ifPicked, ifNot);
+        int ifPickedCurr = (arr[idx] + memoize(arr, idx - 2, dp)) % mod;
+        int ifNotPickedCurr = (memoize(arr, idx - 1, dp)) % mod;
+        dp[idx] = Math.max(ifPickedCurr, ifNotPickedCurr);
 
         return dp[idx];
+    }
+
+    public int tabulation(int[] arr) {
+        if(arr.length==0) return 0;
+        if(arr.length==1) return Math.max(arr[0], 0);
+        int dp[]=new int[arr.length];
+        dp[0]=arr[0];
+        for (int idx = 1; idx < arr.length; idx++) {
+            int ifPickedCurr=(idx>1)?(arr[idx]+dp[idx-2]):(arr[idx]);//NOT 0-----VVIMP
+            int ifNotPickedCurr=dp[idx-1];
+            dp[idx]=Math.max(ifPickedCurr, ifNotPickedCurr);
+        }
+        return dp[arr.length-1];
     }
 }
