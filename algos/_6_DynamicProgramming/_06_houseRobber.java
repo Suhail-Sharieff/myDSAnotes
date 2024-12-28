@@ -78,4 +78,26 @@ public class _06_houseRobber {//same logic as that of _05_...
         }
         return prev1;
     }
+
+
+    //------------------follow up: if houses r located circular, ie the first and last hoses r adjacent
+    public int loot(int[] nums, int start, int end) {
+        // call like this:------IMP
+        /*
+         * if(nums.length==1) return nums[0];
+         * if(nums.length==2) return Math.max(nums[0],nums[1]);
+         * int lootFirst=loot(nums,0,nums.length-2);//loot first dont loot last
+         * int lootLast=loot(nums,1,nums.length-1);//loot last dont loot first
+         * return Math.max(lootFirst,lootLast);
+         */
+        int prevRob = 0, maxRob = 0;
+
+        for (int i = start; i <= end; i++) {
+            int temp = Math.max(maxRob, prevRob + nums[i]);
+            prevRob = maxRob;
+            maxRob = temp;
+        }
+
+        return maxRob;
+    }
 }
