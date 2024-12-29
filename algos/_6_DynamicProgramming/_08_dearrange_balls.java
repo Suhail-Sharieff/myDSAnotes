@@ -76,19 +76,25 @@ public class _08_dearrange_balls {
         return dp[n];
     }
     
-    static int tabulate(int n){
+    static long tabulate(int n){
         if(n==1) return 0;
         if(n==2) return 1;
-        int dp[]=new int[n+1];
+        long dp[]=new long[n+1];
         Arrays.fill(dp,-1);
         dp[1]=0;
         dp[2]=1;
+		int MOD=1_000_000_007;
         for(int i=3;i<=n;i++){
-            int ifSwapped=(i-1)*(dp[i-2]);
-            int ifNotSwapped=(i-1)*(dp[i-1]);
-            dp[i]=ifSwapped+ifNotSwapped;
+            int ifSwapped = (int)(((long)(i - 1) * dp[i - 2]) % MOD);
+            int ifNotSwapped = (int)(((long)(i - 1) * dp[i - 1]) % MOD); 
+            dp[i] = (ifSwapped + ifNotSwapped) % MOD;
         }
         return dp[n];
+    }
+
+    public static void main(String[] args) {
+        int n=100;
+        System.out.println(tabulate(n));
     }
 
 
