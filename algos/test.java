@@ -1,33 +1,59 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class test {
 
     public static void main(String[] args) {
-        int coins[]={1,2,5}; 
+        int coins[]={1,2,3}; 
         int target=11;
-        System.out.println(showWhichCoinsweUse(coins, target,new HashMap<>()));
+
+       System.out.println(countDer(3));
+        
     }
-    static  int showWhichCoinsweUse(int coins[],int target,HashMap<Integer,Integer>hp){
-        //call like: System.out.println(showWhichCoinsweUse(coins, target,new HashMap<>()));
-        if(target==0) return 0;
-        int dp[]=new int[target+1];
-        Arrays.fill(dp,Integer.MAX_VALUE);
-        dp[0]=0;
-        for(int currTar=1;currTar<=target;currTar++){
-            int ans=Integer.MAX_VALUE;
-            for(int coinChosen : coins){
-                if(currTar-coinChosen>=0 && dp[currTar-coinChosen]!=Integer.MAX_VALUE){
-                    ans=Math.min(ans,dp[currTar-coinChosen]+1);
-                    hp.put(currTar, coinChosen);
+       static int countDer(int n) {
+        // Base case
+        int arr[]=new int[n];
+        HashMap<Integer,Boolean>hs=new HashMap<>();
+        for(int i=0;i<n;i++){
+            arr[i]=i+1;
+            hs.put(arr[i],false);
+            
+        }
+        
+        int ans[]={0};
+        func(arr,0,new ArrayList<>(),ans,hs);
+        
+        return ans[0];
+        
+    }
+    
+    public static void func(int arr[],int idx,List<Integer>empty,int ans[],
+    HashMap<Integer,Boolean>hs
+    ){
+        if(empty.size()==arr.length){
+            int i=1;
+            int cnt=0;
+            for(int e:empty){
+                if(e!=i++) cnt++;
+            }
+            System.out.println(empty);
+            if(cnt==arr.length) ans[0]++;
+            return;
+        }
+        for(int i=0;i<arr.length;i++){
+            if(hs.get(arr[i])==false){
+                if (arr[i]!=i+1) {
+                    empty.add(arr[i]);
+                    hs.put(arr[i],true);
+                }
+                func(arr,i+1,empty,ans,hs);
+                if (arr[i]!=i+1) {
+                    empty.remove(empty.size()-1);
+                    hs.put(arr[i],false);
                 }
             }
-            dp[currTar]=ans;
         }
-        while (target > 0) {
-            System.out.print("For "+target+" we use coin:"+hp.get(target) + ", remaining is "+(target-hp.get(target))+" -> ");
-            target -= hp.get(target);
-        }
-        return dp[target];
     }
 }
