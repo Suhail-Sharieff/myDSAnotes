@@ -34,6 +34,8 @@ Constraints:
 
 public class _08_dearrange_balls {
 
+    //brute force: for each permutation, check if all values satisfy idx!=a[i], if yes count such permutaions. TC n*n!---TLE
+
     //using math: NOTE: this will give approx anwers only and not exact ans:
     //Formula: No. of dearrangements for n didgit permutation is given by (n!)/e derived in that above videos u can see
 
