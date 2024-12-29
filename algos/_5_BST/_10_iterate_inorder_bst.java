@@ -47,7 +47,7 @@ Follow up:
 
 Could you implement next() and hasNext() to run in average O(1) time and use O(h) memory, where h is the height of the tree?
  */
-public class _10_iterate_inorder_bst {//all operations use O(1) time approx
+public class _10_iterate_inorder_bst {//all operations use O(1) time approx, what we have achived O(height) as SC instaed of O(N), coz we r pushing atmost Height nodes in one go
 
 //idea: push all shit on lefto curr node, when next is called push all stuff of poped root's right if exists and return it
 
