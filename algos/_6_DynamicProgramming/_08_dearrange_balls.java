@@ -45,6 +45,17 @@ public class _08_dearrange_balls {
 
     //D(n)=(n-1)[D(n-2)+D(n-1)]
 
+    /*
+Suppose we have an array [0 1 2] n = 3
+
+
+Now for 0, we have 2 blocks to place it [ X _ _  ]
+
+if we place 0 at 1st index, then we have n -1 places for 1 to be placed. [ _ 0 _ ], So f(n-1)
+
+if we place 0 at 2nd index, then we will be left with single block for 1 to get placed [ _ X 0 ], So f(n-2)
+     */
+
     //D(n)=(n!)[(1/2!)-(1/3!)+(1/4!)...((-1)^n)/n!] = (n!)/e
 
 
