@@ -1,4 +1,4 @@
-Graphs are a special type of data structures it is nothing but a binary tree in which a node can have multiple number of children they are actually not children's but here they are connections and each and every node shall now be called a vertex may be connected to another vertex or vertices by using edges. 
+Graphs are a special type of data structures it is nothing but a tree in which a node can have multiple number of children they are actually not children's but here they are connections and each and every node shall now be called a vertex may be connected to another vertex or vertices by using edges. 
 
 Adjacent vertex r those which r connected by a single egde
 
