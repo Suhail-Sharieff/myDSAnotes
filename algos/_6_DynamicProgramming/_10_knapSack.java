@@ -34,7 +34,9 @@ public class _10_knapSack {
         int weights[]={4,5,1},values[]={1,2,3};
         int maxCapacity=4;
 
-        int dp[][]=new int[weights.length+1][maxCapacity+1];
+        // int dp[][]=new int[weights.length+1][maxCapacity+1];
+
+        //ans:max(values[i]+weights[])
 
     }
 
@@ -78,7 +80,8 @@ public class _10_knapSack {
     }
     
 
-    //------------------tabulation:
+    //------------------tabulation://
+    //analyse usuing:https://www.youtube.com/watch?v=PfkBS9qIMRE&ab_channel=Jenny%27sLecturesCSIT
     public static int tabulate(int weights[],int values[],int maxCapacity){
         int dp[][]=new int[weights.length+1][maxCapacity+1];
 
