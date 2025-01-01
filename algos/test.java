@@ -1,59 +1,32 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import _4_Trees.TreeNode;
 
 public class test {
 
     public static void main(String[] args) {
-        int coins[]={1,2,3}; 
-        int target=11;
+        TreeNode root=TreeNode.constructTree(new Integer[]{4,3,null,1,2});
+       int ans[]={Integer.MIN_VALUE};
+       func(root, ans);
+       System.out.println(ans[0]);
+    }
 
-       System.out.println(countDer(3));
-        
+    public static void func(TreeNode root,int ans[]){
+        if(root==null) return;
+        if(validate(root, Integer.MIN_VALUE, Integer.MAX_VALUE)){
+            int sum=sum(root);
+            ans[0]=Math.max(ans[0], sum);
+        }
+        func(root.left, ans);
+        func(root.right, ans);
     }
-       static int countDer(int n) {
-        // Base case
-        int arr[]=new int[n];
-        HashMap<Integer,Boolean>hs=new HashMap<>();
-        for(int i=0;i<n;i++){
-            arr[i]=i+1;
-            hs.put(arr[i],false);
-            
-        }
-        
-        int ans[]={0};
-        func(arr,0,new ArrayList<>(),ans,hs);
-        
-        return ans[0];
-        
+
+    public static int sum(TreeNode root){
+        if(root==null) return 0;
+        return (root.val+sum(root.left)+sum(root.right));
     }
-    
-    public static void func(int arr[],int idx,List<Integer>empty,int ans[],
-    HashMap<Integer,Boolean>hs
-    ){
-        if(empty.size()==arr.length){
-            int i=1;
-            int cnt=0;
-            for(int e:empty){
-                if(e!=i++) cnt++;
-            }
-            System.out.println(empty);
-            if(cnt==arr.length) ans[0]++;
-            return;
-        }
-        for(int i=0;i<arr.length;i++){
-            if(hs.get(arr[i])==false){
-                if (arr[i]!=i+1) {
-                    empty.add(arr[i]);
-                    hs.put(arr[i],true);
-                }
-                func(arr,i+1,empty,ans,hs);
-                if (arr[i]!=i+1) {
-                    empty.remove(empty.size()-1);
-                    hs.put(arr[i],false);
-                }
-            }
-        }
+
+    public static  boolean validate(TreeNode root,long min,long max){
+        if(root==null) return true;
+        if(root.val<=min || root.val>=max) return false;
+        return validate(root.left,min,root.val)&&validate(root.right,root.val,max);
     }
 }
