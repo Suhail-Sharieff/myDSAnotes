@@ -77,7 +77,7 @@ public class _3_floodFill {
         Queue<int[]>q=new LinkedList<>();
         q.offer(new int[]{sr,sc});
         int nRows=image.length,nCols=image[0].length;
-        //IMP: in count islands we had to trverse in all 8 dirs, but here given hori or verti, so i have made all possible 4 dirs ie (left:x-1,y+0,...like that)
+        //IMP: in count islands we had to trverse in all 8 dirs, but here given hori or verti ie 4 possible dirs only (left,right,up,down), so i have made all possible 4 dirs ie (left:x-1,y+0,...like that)
         int dirs[][]={{-1,0},{1,0},{0,1},{0,-1}};
         //color (sr,sc) first
         int origColor=image[sr][sc];
