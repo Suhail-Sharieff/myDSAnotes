@@ -119,7 +119,7 @@ public class _2_ninjaTraining {
 
 
      //---------recursive: 0 to top approach,call like: return recursive(points, 0, -1);
-     public static int recursive(int points[][],int dayNumber,int taskNumberChosenOnPrevDay){
+     public static int recursive(int points[][],int dayNumber,int taskNumberChosenOnPrevDay){//TLE
         if(dayNumber==points.length-1){
             int ans=Integer.MIN_VALUE;
             int n=points.length-1;
@@ -154,7 +154,7 @@ public class _2_ninjaTraining {
         // Call the recursive function starting from day 0 with no previous task (as 3)
         return tabulate(points, 0, 3, dp);//IMP 3
      */
-    public static int tabulate(int points[][],int dayNumber,int taskNumberChosenOnPrevDay,int dp[][]){
+    public static int memoized(int points[][],int dayNumber,int taskNumberChosenOnPrevDay,int dp[][]){//STack overflow
         if(dayNumber==points.length-1){
             int ans=Integer.MIN_VALUE;
             int n=points.length-1;
@@ -167,13 +167,16 @@ public class _2_ninjaTraining {
             return ans;
         }
 
+        //dp[i][j] represents maximum sum till ith day if prevTaskNumber chosen was j---IMP
+        //dp[dayNumber][prevTaskNumber]
+
         if(dp[dayNumber][taskNumberChosenOnPrevDay]!=-1) return dp[dayNumber][taskNumberChosenOnPrevDay];
         int chosenDay[]=points[dayNumber];
 
         int max=Integer.MIN_VALUE;
         for (int currTaskNumber = 0; currTaskNumber < 3; currTaskNumber++) {
             if (currTaskNumber!=taskNumberChosenOnPrevDay) {
-                int scoreIfChosenThatTask=chosenDay[currTaskNumber]+tabulate(points, dayNumber+1, currTaskNumber, dp);
+                int scoreIfChosenThatTask=chosenDay[currTaskNumber]+memoized(points, dayNumber+1, currTaskNumber, dp);
                 max=Math.max(max, scoreIfChosenThatTask);
             }
         }
@@ -181,5 +184,34 @@ public class _2_ninjaTraining {
         return dp[dayNumber][taskNumberChosenOnPrevDay];
     }
 
+
+    //-------tabulated solution keeping in mind that dp[i][j] repersents maximum points that could be earned till ith day if we had chosen jth task previously. We will ove from 0 to top
+    public static int tabulate(int points[][]){
+        int dp[][]=new int[points.length][3];
+        //handle case when 0
+        //dp[i][j] represents on ih day what was maximum points earned when the previously chosen taskNumber was j
+        dp[0][0]=Math.max(points[0][1], points[0][2]);// prev day,taskNumber chosen was 0, so choose max amonng remining 2
+        dp[0][1]=Math.max(points[0][0], points[0][2]);/// prev day,taskNumber chosen was 1, so choose max amonng remining 2
+        dp[0][2]=Math.max(points[0][0], points[0][1]);/// prev day,taskNumber chosen was 2, so choose max amonng remining 2
+
+        ////dp[dayNumber][prevTaskNumber]
+        for(int dayNumber=1;dayNumber<points.length;dayNumber++){
+            for(int taskNumberChosenOnPrevDay=0;taskNumberChosenOnPrevDay<3;taskNumberChosenOnPrevDay++){
+                int max=0;
+                for(int currTaskNumber=0;currTaskNumber<3;currTaskNumber++){
+                    if (currTaskNumber!=taskNumberChosenOnPrevDay) {
+                        int scoreIfChosenThatTask=points[dayNumber][currTaskNumber]+dp[dayNumber-1][currTaskNumber];
+                        max=Math.max(max, scoreIfChosenThatTask);
+                    }
+                }
+                dp[dayNumber][taskNumberChosenOnPrevDay]=max;
+            }
+        }
+        int ans=0;
+       //now any 3 values in last row of dp will be having max ans as per the task chosen at last
+       for(int e : dp[points.length-1]) ans=Math.max(ans, e);
+       return ans;
+
+    }
 
 }
