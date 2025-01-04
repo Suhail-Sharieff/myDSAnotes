@@ -1,4 +1,4 @@
-package _6_DynamicProgramming;
+package _6_DynamicProgramming._1D;
 //pre-requisites:
 //watch:https://www.youtube.com/watch?v=pbXg5EI5t4c&ab_channel=Numberphile 
 

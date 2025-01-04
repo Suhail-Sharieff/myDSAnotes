@@ -1,4 +1,4 @@
-package _6_DynamicProgramming;
+package _6_DynamicProgramming._1D;
 /*
 You are climbing a staircase. It takes n steps to reach the top.
 

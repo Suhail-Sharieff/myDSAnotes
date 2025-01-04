@@ -1,4 +1,4 @@
-package _6_DynamicProgramming;
+package _6_DynamicProgramming._1D;
 
 //https://www.youtube.com/watch?v=H9bfqozjoqs&t=448s&ab_channel=NeetCode
 import java.util.*;

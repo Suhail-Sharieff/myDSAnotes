@@ -1,6 +1,5 @@
-package _6_DynamicProgramming;
+package _6_DynamicProgramming._2D;
 
-import java.util.ArrayList;
 
 /*
 You are given the weights and values of items, and you need to put these items in a knapsack of capacity capacity to achieve the maximum total value in the knapsack. Each item is available in only one quantity.
@@ -28,11 +27,11 @@ Constraints:
 1 ≤ wt[i] ≤ 103
  */
 
-public class _10_knapSack {
+public class _1_knapSack {
 
     public static void main(String[] args) {
-        int weights[]={4,5,1},values[]={1,2,3};
-        int maxCapacity=4;
+        // int weights[]={4,5,1},values[]={1,2,3};
+        // int maxCapacity=4;
 
         // int dp[][]=new int[weights.length+1][maxCapacity+1];
 
