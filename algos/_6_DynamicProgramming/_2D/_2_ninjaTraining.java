@@ -1,4 +1,7 @@
 package _6_DynamicProgramming._2D;
+
+import java.util.Arrays;
+
 /*
 Problem statement
 Ninja is planing this ‘N’ days-long training schedule. Each day, he can perform any one of these three activities. (Running, Fighting Practice or Learning New Moves). Each activity has some merit points on each day. As Ninja has to improve all his skills, he can’t do the same activity in two consecutive days. Can you help Ninja find out the maximum merit points Ninja can earn?
@@ -61,11 +64,11 @@ public class _2_ninjaTraining {
 
     public static void main(String[] args) {
         int points[][]={
-            {10,50,1},
-            {5,100,11},
-            // {1,8,13},
+            {10,40,70},
+            {20,50,80},
+            {30,60,90},
         };
-        // System.out.println(re(points));
+        System.out.println(tabulate(points));
     }
 
 
@@ -185,33 +188,58 @@ public class _2_ninjaTraining {
     }
 
 
-    //-------tabulated solution keeping in mind that dp[i][j] repersents maximum points that could be earned till ith day if we had chosen jth task previously. We will ove from 0 to top
+    //-------tabulated solution keeping in mind that dp[i][j] repersents maximum points that could be earned till ith day if we had chosen jth task currently. We will ove from 0 to top
+    //idea:
+    //consider matrix:
+    /*
+    [
+    {a,b,c}
+    {d,e,f}
+    {g,h,i}
+    ]
+
+    // then 2nd row of dp array is{(d+max(b,c), (e+max(a,c)), (f+max(a,b)))}...like that,
+    ie for each dp[i][j] will hold points[i][j]+[max(dp[i-1][j]) where i!=j]
+     */
     public static int tabulate(int points[][]){
         int dp[][]=new int[points.length][3];
         //handle case when 0
-        //dp[i][j] represents on ih day what was maximum points earned when the previously chosen taskNumber was j
-        dp[0][0]=Math.max(points[0][1], points[0][2]);// prev day,taskNumber chosen was 0, so choose max amonng remining 2
-        dp[0][1]=Math.max(points[0][0], points[0][2]);/// prev day,taskNumber chosen was 1, so choose max amonng remining 2
-        dp[0][2]=Math.max(points[0][0], points[0][1]);/// prev day,taskNumber chosen was 2, so choose max amonng remining 2
+        //dp[i][j] represents on ih day what was maximum points earned when the currently chosen taskNumber was j
+        dp[0][0] = points[0][0];
+        dp[0][1] = points[0][1];
+        dp[0][2] = points[0][2];
 
-        ////dp[dayNumber][prevTaskNumber]
+        ////dp[dayNumber][currTaskChosen]
         for(int dayNumber=1;dayNumber<points.length;dayNumber++){
-            for(int taskNumberChosenOnPrevDay=0;taskNumberChosenOnPrevDay<3;taskNumberChosenOnPrevDay++){
+            for(int currTaskNumber=0;currTaskNumber<3;currTaskNumber++){
+                //we want max among all [prev[i]+currDay[j]] where i!=j
                 int max=0;
-                for(int currTaskNumber=0;currTaskNumber<3;currTaskNumber++){
-                    if (currTaskNumber!=taskNumberChosenOnPrevDay) {
-                        int scoreIfChosenThatTask=points[dayNumber][currTaskNumber]+dp[dayNumber-1][currTaskNumber];
+                for(int prevTaskNumber=0;prevTaskNumber<3;prevTaskNumber++){
+                    if(prevTaskNumber!=currTaskNumber){
+                        int scoreIfChosenThatTask=points[dayNumber][currTaskNumber]+dp[dayNumber-1][prevTaskNumber];
                         max=Math.max(max, scoreIfChosenThatTask);
                     }
                 }
-                dp[dayNumber][taskNumberChosenOnPrevDay]=max;
+                dp[dayNumber][currTaskNumber]=max;
             }
         }
         int ans=0;
        //now any 3 values in last row of dp will be having max ans as per the task chosen at last
        for(int e : dp[points.length-1]) ans=Math.max(ans, e);
+
+
+       System.out.println("Matrix:");
+       for(int row[] : dp) System.out.println(Arrays.toString(row));
        return ans;
 
     }
 
+
+    //------------------views:
+    public static void display(int mat[][]){
+        for(int row[] : mat) System.out.println(Arrays.toString(row));
+    }
+
+
+   
 }
