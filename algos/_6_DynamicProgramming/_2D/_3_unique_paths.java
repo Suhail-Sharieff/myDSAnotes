@@ -1,4 +1,5 @@
 package _6_DynamicProgramming._2D;
+//https://www.youtube.com/watch?v=sdE0A2Oxofw&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY&index=9&ab_channel=takeUforward
 /*
 You are present at point ‘A’ which is the top-left cell of an M X N matrix, your destination is point ‘B’, which is the bottom-right cell of the same matrix. Your task is to find the total number of unique paths from point ‘A’ to point ‘B’.In other words, you will be given the dimensions of the matrix as integers ‘M’ and ‘N’, your task is to find the total number of unique paths from the cell MATRIX[0][0] to MATRIX['M' - 1]['N' - 1].
 
@@ -57,11 +58,11 @@ public class _3_unique_paths {
         };
         boolean isVis[][]=new boolean[mat.length][mat[0].length];
         int ans[]={0};
-        recursion(mat, 0, 0, new StringBuilder(),isVis,ans);
+        recursion_1(mat, 0, 0, new StringBuilder(),isVis,ans);
 
     }
 
-    //-----------------recursive solution is as same as that of rat in maze problem, but here we just need to move down or tight as mentioned in the question,if u want to know paths its foloowing to reach end point for fun u can use this
+    //-----------------recursive solution is as same as that of rat in maze problem in multipleCalls/_10_ratInMaze, but here we just need to move down or tight as mentioned in the question,if u want to know paths its foloowing to reach end point for fun u can use this
     //call like:
     /*
      int mat[][]={
@@ -73,7 +74,7 @@ public class _3_unique_paths {
         int ans[]={0};
         recursion(mat, 0, 0, new StringBuilder(),isVis,ans);
      */
-    public static void recursion(int mat[][], int i, int j, StringBuilder sb, boolean isVis[][], int ans[]) {
+    public static void recursion_1(int mat[][], int i, int j, StringBuilder sb, boolean isVis[][], int ans[]) {
         int nRows = mat.length, nCols = mat[0].length;
         if (i == mat.length - 1 && j == mat[0].length - 1) {
             System.out.println("(0,0)->"+sb);
@@ -85,12 +86,46 @@ public class _3_unique_paths {
             int x = i + dir[0];
             int y = j + dir[1];
             if (x < nRows && y < nCols && !isVis[x][y]) {
-                recursion(mat, x, y, sb.append("("+x+","+y+")->"), isVis, ans);
+                recursion_1(mat, x, y, sb.append("("+x+","+y+")->"), isVis, ans);
             }
         }
         isVis[i][j] = false;
     }
 
+    //recursion way2:----better and shorter than 1st way since we dont have to make matrix first and ans as well: O(2^n)--(m*n)
+    public static int recursion_2(int i,int j,int m,int n){
+        if(i==m-1 && j==n-1) return 1;//found 1 path
+        if(i>=m || j>=n) return 0;
+        int move_right=recursion_2(i, j+1, m, n);
+        int move_down=recursion_2(i+1,j,m,n);
+        return move_right+move_down;
+    }
 
-    //
+    //------------------memoization:
+    public static int memoize(int i,int j,int m,int n,int dp[][]){//0 to top appraoch--o(m*n)--(m*n)
+        if(i==m-1 && j==n-1) return 1;//found 1 path
+        if(i>=m || j>=n) return 0;
+        if(dp[i][j]!=-1) return dp[i][j];
+        int move_right=memoize(i, j+1, m, n,dp);
+        int move_down=memoize(i+1,j,m,n,dp);
+        dp[i][j]=move_right+move_down;
+        return dp[i][j];
+    }
+
+    //----------------tabulation
+    public static int tabulate(int m,int n){//very important
+        int dp[][]=new int[m][n];
+        dp[0][0]=1;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(i==0 && j==0) continue;
+                //LOGIC:UTILIZE PREVIOUS RESOURCES AND ASSIGN IT TO CURR
+                int move_down=(i-1>=0)?dp[i-1][j]:0;//utilize its upper row's resource 
+                int move_right=(j-1>=0)?dp[i][j-1]:0;//utilize its left col's resource 
+                dp[i][j]=move_down+move_right;
+            }
+        }
+        return dp[m-1][n-1];
+    }
+
 }
