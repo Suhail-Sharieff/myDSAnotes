@@ -51,7 +51,7 @@ Hence a total of 3 paths are available, so the output is 3.
 
 In test case 2, we are given a 1 x 6 matrix, hence we just have a single row to traverse and thus total path will be 1.
  */
-public class _3_unique_paths {
+public class _3_1_unique_paths {
 
     public static void main(String[] args) {
         // int mat[][]={
