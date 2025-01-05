@@ -65,7 +65,7 @@ public class _3_2_unique_paths {
 
     public void recursion_1(int mat[][],int i,int j,int ans[]){
         int nRows=mat.length,nCols=mat[0].length;
-        if(mat[0][0]==1 || mat[nRows-1][nCols-1]==1) return ;
+        if(mat[0][0]==1 || mat[nRows-1][nCols-1]==1) return ;//-----IMP: what if we had obstacle at starting pos itself or the last pos is obstacle, ieno change of reaching lasst cell
         if(i==nRows-1 && j==nCols-1 ){ans[0]++;return;}
         //down logic
         if(i+1<nRows && mat[i+1][j]!=1){
