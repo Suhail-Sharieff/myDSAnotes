@@ -1,4 +1,7 @@
 package _6_DynamicProgramming._2D;
+
+import java.util.Arrays;
+
 //https://www.youtube.com/watch?v=sdE0A2Oxofw&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY&index=9&ab_channel=takeUforward
 /*
 You are present at point ‘A’ which is the top-left cell of an M X N matrix, your destination is point ‘B’, which is the bottom-right cell of the same matrix. Your task is to find the total number of unique paths from point ‘A’ to point ‘B’.In other words, you will be given the dimensions of the matrix as integers ‘M’ and ‘N’, your task is to find the total number of unique paths from the cell MATRIX[0][0] to MATRIX['M' - 1]['N' - 1].
@@ -51,14 +54,15 @@ In test case 2, we are given a 1 x 6 matrix, hence we just have a single row to 
 public class _3_unique_paths {
 
     public static void main(String[] args) {
-        int mat[][]={
-            {0,0},
-            {0,0},
-            {0,0},
-        };
-        boolean isVis[][]=new boolean[mat.length][mat[0].length];
-        int ans[]={0};
-        recursion_1(mat, 0, 0, new StringBuilder(),isVis,ans);
+        // int mat[][]={
+        //     {0,0},
+        //     {0,0},
+        //     {0,0},
+        // };
+        // boolean isVis[][]=new boolean[mat.length][mat[0].length];
+        // int ans[]={0};
+        // recursion_1(mat, 0, 0, new StringBuilder(),isVis,ans);
+        tabulate(3, 3);
 
     }
 
@@ -112,7 +116,7 @@ public class _3_unique_paths {
         return dp[i][j];
     }
 
-    //----------------tabulation
+    //----------------tabulation, also observe that dp[i][j] represnts number of ways u can reach from mat[0][0] to mat[i][j]
     public static int tabulate(int m,int n){//very important
         int dp[][]=new int[m][n];
         dp[0][0]=1;
@@ -124,6 +128,8 @@ public class _3_unique_paths {
                 int move_right=(j-1>=0)?dp[i][j-1]:0;//utilize its left col's resource 
                 dp[i][j]=move_down+move_right;
             }
+            for(int e[]:dp)System.out.println(Arrays.toString(e));
+            System.out.println("----");
         }
         return dp[m-1][n-1];
     }
