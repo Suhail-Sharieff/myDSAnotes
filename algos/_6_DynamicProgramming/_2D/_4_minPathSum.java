@@ -39,12 +39,13 @@ public class _4_minPathSum {
             {0,1,1},
             {1,0,1},
         };
-        System.out.println(tabulate(mat));
+        // System.out.println(tabulate(mat));
+        brute_recursion(mat, mat.length, mat[0].length, 0, 0, new StringBuilder(), 0, new int[]{Integer.MAX_VALUE});
     }
    
     static void brute_recursion(int mat[][],int m,int n,int i,int j,StringBuilder sb,int sum,int ans[]){
         if(i==m-1 && j==n-1){
-            // System.out.println(new String(mat[0][0]+"->"+sb+" => "+(sum+mat[0][0])));
+            System.out.println(new String(mat[0][0]+"->"+sb+" => "+(sum+mat[0][0])));
             ans[0]=Math.min(ans[0], sum+mat[0][0]);
             return;
         }
