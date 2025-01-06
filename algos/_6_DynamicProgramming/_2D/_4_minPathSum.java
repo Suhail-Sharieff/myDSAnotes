@@ -42,6 +42,19 @@ public class _4_minPathSum {
         System.out.println(tabulate(mat));
     }
    
+    static void brute_recursion(int mat[][],int m,int n,int i,int j,StringBuilder sb,int sum,int ans[]){
+        if(i==m-1 && j==n-1){
+            // System.out.println(new String(mat[0][0]+"->"+sb+" => "+(sum+mat[0][0])));
+            ans[0]=Math.min(ans[0], sum+mat[0][0]);
+            return;
+        }
+        if (j+1<n) {
+            brute_recursion(mat,m, n, i, j+1, new StringBuilder(sb).append(mat[i][j+1]+"->"),sum+mat[i][j+1],ans);
+        }
+        if (i+1<m) {
+            brute_recursion(mat,m, n, i+1, j, new StringBuilder(sb).append(mat[i+1][j]+"->"),sum+mat[i+1][j],ans);
+        }
+      }
 
     public int recursion(int mat[][],int i,int j){
         int nRows=mat.length,nCols=mat[0].length;
