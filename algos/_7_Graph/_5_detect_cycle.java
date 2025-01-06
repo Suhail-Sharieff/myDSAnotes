@@ -1,0 +1,157 @@
+package _7_Graph;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+/*
+Given an undirected graph with V vertices labelled from 0 to V-1 and E edges, check whether the graph contains any cycle or not. The Graph is represented as an adjacency list, where adj[i] contains all the vertices that are directly connected to vertex i.
+
+NOTE: The adjacency list represents undirected edges, meaning that if there is an edge between vertex i and vertex j, both j will be adj[i] and i will be in adj[j].
+
+Examples:
+
+Input: adj = [[1], [0,2,4], [1,3], [2,4], [1,3]] 
+Output: 1
+Explanation: 
+
+1->2->3->4->1 is a cycle.
+Input: adj = [[], [2], [1,3], [2]]
+Output: 0
+Explanation: 
+
+No cycle in the graph.
+Constraints:
+1 ≤ adj.size() ≤ 105
+ */
+public class _5_detect_cycle {
+    
+    public static void main(String[] args) {
+        List<List<Integer>>adj=List.of(List.of(1),List.of(0,2,4),List.of(1,3),List.of(2,4),List.of(1,3));
+        usingBFS_func(adj);
+    }
+
+
+
+
+    //------------------------------------------------------------------USING BFS
+    //solution: if we find some vertex that [is not visited && already present in the queue], there is a cycle
+    //IMP watch:
+    //https://www.youtube.com/watch?v=BPlrALf1LDU&list=PLgUwDviBIf0oE3gA41TKO2H5bHpPd7fzn&index=12&ab_channel=takeUforward
+
+    public static  boolean usingBFS_func(List<List<Integer>>adj){//but why do we need this function additionally: what if our graph has disconnected componts, and any one of componts may heave cycles-------IMP
+        int nNodes=adj.size();
+        boolean isVis[]=new boolean[adj.size()];
+        for(int nodeNumber=0;nodeNumber<nNodes;nodeNumber++){
+            if(!isVis[nodeNumber]){
+                boolean hasCycles=bfs(adj,nodeNumber,isVis);
+                if(hasCycles==true) return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean bfs(List<List<Integer>>adj,int startNode,boolean isVis[]){
+        Queue<int[]>q=new LinkedList<>();
+        //each q elemnt will store [parent,curr]
+        q.offer(new int[]{-1,startNode});
+        isVis[startNode]=true;
+        while (!q.isEmpty()) {
+            int top[]=q.poll();
+            
+            int parentOfCurr=top[0];
+            int curr=top[1];
+
+            for(int neighBour : adj.get(curr)){
+                if(!isVis[neighBour]){
+                    q.offer(new int[]{curr,neighBour});
+                    isVis[neighBour]=true;
+                }else{//neighbour is visited
+                    //if its curr neighbour is visited but its not parent of it
+                    if(neighBour!=parentOfCurr){
+                        return true;
+                    }
+                }
+            }
+
+        }
+        return false;
+    }
+    
+    //------------------------------------------------------------------USING DFS
+
+
+    //same appraoch as that of bfs
+
+    public static boolean dfs(List<List<Integer>>adj,int startNode,boolean isVis[]){
+        isVis[startNode]=true;
+        for(int neighBour:adj.get(startNode)){
+            if(!isVis[neighBour]){
+                boolean check=dfs(adj, neighBour, isVis);
+                if(check) return true;
+            }else{//neighbur is visisted already
+                if(neighBour!=startNode) return true;
+            }
+        }
+        return false;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //-----------------------------my solution, used freq[nodeNumber] for each node, incremented fre[nodeNumber] each time its encountered though its visited already. Then if any of freq[nodeNumber]>=2 meaning it is neighbourer of 2 nodes at a time even after being visited, there;s a cycle
+    public boolean isCycle(ArrayList<ArrayList<Integer>> adj) {
+        // Code here
+        int nNodes=adj.size();
+        boolean isVis[]=new boolean[adj.size()];
+        for(int nodeNumber=0;nodeNumber<nNodes;nodeNumber++){
+            if(!isVis[nodeNumber]){
+                boolean hasCycles=hasCycles(adj,nodeNumber,isVis);
+                if(hasCycles==true) return true;
+            }
+        }
+        return false;
+    }
+     public boolean hasCycles(ArrayList<ArrayList<Integer>> adj,int startNode,boolean isVis[]) {
+        // Code here
+        int v=adj.size();
+        // boolean isVis[]=new boolean[v];
+        int freq[]=new int[v+1];
+        dfs(freq,isVis,v,adj,startNode);
+        // System.out.println(Arrays.toString(freq));
+        for(int e: freq)  if(e>=2) return true;
+        return false;
+        
+    }
+
+    
+    
+    public void dfs(int freq[],boolean isVis[],int v,ArrayList<ArrayList<Integer>> adj,int n){
+        if(n>=v) return;
+        isVis[n]=true;
+        // System.out.println(n);
+        for(int e : adj.get(n)){
+            if(!isVis[e]) dfs(freq,isVis,v,adj,e);
+            else freq[n]++;
+        }
+    }
+    
+}
