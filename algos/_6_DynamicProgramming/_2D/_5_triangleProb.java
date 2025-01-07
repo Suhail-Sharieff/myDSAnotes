@@ -67,9 +67,10 @@ public class _5_triangleProb {
             System.out.println(mat[0][0]+"->"+sb+"=> "+(sum+mat[0][0]));
             return mat[i][j];
         }
-        int move_down=recursion(mat,i+1,j,new StringBuilder(sb).append(mat[i+1][j]+"->"),sum+mat[i+1][j]);
 
-        int move_down_right=recursion(mat,i+1,j+1,new StringBuilder(sb).append(mat[i+1][j+1]+"->"),sum+mat[i+1][j+1]);
+        int move_down=(i+1<mat.length)?recursion(mat,i+1,j,new StringBuilder(sb).append(mat[i+1][j]+"->"),sum+mat[i+1][j]):Integer.MAX_VALUE;
+
+        int move_down_right=(i+1<mat.length && j+1<mat[0].length)?recursion(mat,i+1,j+1,new StringBuilder(sb).append(mat[i+1][j+1]+"->"),sum+mat[i+1][j+1]):Integer.MAX_VALUE;
 
         return mat[i][j]+Math.min(move_down_right,move_down);
 
@@ -83,27 +84,32 @@ public class _5_triangleProb {
             return mat[i][j];
         }
         if(dp[i][j]!=-1) return dp[i][j];
-        int move_down=memoize(mat,i+1,j,dp);
-        int move_down_right=memoize(mat,i+1,j+1,dp);
+        int move_down=(i+1<mat.length)?memoize(mat,i+1,j,dp):Integer.MAX_VALUE;
+
+        int move_down_right=(i+1<mat.length && j+1<mat[0].length)?memoize(mat,i+1,j+1,dp):Integer.MAX_VALUE;
+
         dp[i][j]=mat[i][j]+Math.min(move_down_right,move_down);
+
         return dp[i][j];
 
     }
 
-
-    public static int tabulate(int mat[][]){
+    //---VVIMP: the only difference between the _4_minPathSum tabulate function and here is that, there we had to compulsorily reach last point, here we r not asked to reach last, instead we need to find min sum till last, ie min sum could be stored in any one of the elemnt in last row, just find and eturn that min eleemnt
+     public static int tabulate(int mat[][]){
         int nRows=mat.length,nCols=mat[0].length;
         int dp[][]=new int[nRows][nCols]; 
         dp[0][0]=mat[0][0];
         for(int i=0;i<nRows;i++){
             for(int j=0;j<nCols;j++){
                 if(i==0 && j==0) continue;
-                int move_down=dp[i-1][j];
-                int move_down_right=dp[i-1][j-1];
+                int move_down=(i-1>=0)?dp[i-1][j]:Integer.MAX_VALUE;
+                int move_down_right=(i-1>=0 && j-1>=0)?dp[i-1][j-1]:Integer.MAX_VALUE;
 
                 dp[i][j]=mat[i][j]+Math.min(move_down, move_down_right);
             }
         }
-        return dp[nRows-1][nCols-1];
+        int ans=Integer.MAX_VALUE;
+        for(int e:dp[nRows-1]) ans=Math.min(ans,e);
+        return ans;
     }
 }
