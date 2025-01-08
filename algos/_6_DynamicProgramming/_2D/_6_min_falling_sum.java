@@ -10,6 +10,8 @@ public class _6_min_falling_sum {
             {7,8,9},
         };
         System.out.println(tabulate(mat));
+
+        
     }
 
 
@@ -103,5 +105,39 @@ public class _6_min_falling_sum {
 
         return ans;
 
+    }
+
+
+    //----------------follow up: u r now not allowed to move from one row to next row such that column of elemnt selected in 2 consecutive rows is not same: ie A falling path with non-zero shifts is a choice of exactly one element from each row of grid such that no two elements chosen in adjacent rows are in the same column.-----IMP, removind down dir wont work--becoz it will then just move diagonally one elemnt left or right, but not via enire row of elemnts---VVIMP
+    
+    public static int followUp(int [][] mat){
+        int nRows = mat.length, nCols = mat[0].length;
+
+        int dp[][]=new int[nRows][nCols];
+       
+
+        for(int i=0;i<dp[0].length;i++) dp[0][i]=mat[0][i];
+
+        for(int i=1;i<nRows;i++){
+            for(int j=0;j<nCols;j++){
+                int min=Integer.MAX_VALUE;
+                for(int k=0;k<nCols;k++){
+                    //if chosen col is !=k
+                    if(j!=k){
+                        min=Math.min(min, dp[i-1][k]);
+                    }
+                }
+
+                dp[i][j]=mat[i][j]+min;
+            }
+        }
+
+
+        int ans=Integer.MAX_VALUE;
+        for(int e:dp[nRows-1]) ans=Math.min(e,ans);
+
+        for(int e[]:dp) System.out.println(Arrays.toString(e));
+
+        return ans;
     }
 }
