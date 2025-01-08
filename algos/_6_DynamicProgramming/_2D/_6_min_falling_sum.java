@@ -108,6 +108,41 @@ public class _6_min_falling_sum {
     }
 
 
+    //-------------------space optimization:
+    public static int spaceOptimized(int mat[][]){
+        int nRows = mat.length, nCols = mat[0].length;
+
+        int dirs[][] = { { -1, +1 }, { -1, 0 }, { -1, -1 } };
+
+        int prevRow[]=new int[nCols];
+
+        for(int i=0;i<nCols;i++) prevRow[i]=mat[0][i];
+
+        for(int i=1;i<nRows;i++){
+            int[] currentRow = new int[nCols];
+            for(int j=0;j<nCols;j++){
+                int min=Integer.MAX_VALUE;
+                for(int []dir:dirs){
+                    int x = i + dir[0];
+                    int y = j + dir[1];
+                    if (x < nRows && x >= 0 && y < nCols && y >= 0) {
+                        min = Math.min(min, prevRow[y]);
+                    }
+                }
+
+                currentRow[j]=mat[i][j]+min;
+            }
+            prevRow=currentRow;
+        }
+
+
+        int ans=Integer.MAX_VALUE;
+        for(int e:prevRow) ans=Math.min(e,ans);
+
+
+        return ans;
+    }
+
     //----------------follow up: u r now not allowed to move from one row to next row such that column of elemnt selected in 2 consecutive rows is not same: ie A falling path with non-zero shifts is a choice of exactly one element from each row of grid such that no two elements chosen in adjacent rows are in the same column.-----IMP, removind down dir wont work--becoz it will then just move diagonally one elemnt left or right, but not via enire row of elemnts---VVIMP
     
     public static int followUp(int [][] mat){
