@@ -1,4 +1,4 @@
-package _6_DynamicProgramming._1D;
+package _6_DynamicProgramming._01_Grids._1D;
 
 /*
 You are given an integer ‘N’ denoting the length of the rod. You need to determine the maximum number of segments you can make of this rod provided that each segment should be of the length 'X', 'Y', or 'Z'.

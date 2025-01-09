@@ -1,4 +1,4 @@
-package _6_DynamicProgramming._2D;
+package _6_DynamicProgramming._01_Grids._2D;
 
 //IMP: previously u learnt how u can trvaerse via all paths when allowed to move in 4 dirs ie [ {i+1,j}, {i-1,j}, {i,j+1} or {i,j-1} ], here u will learn what if u want to trverse in dir other than this, like say down-right rather than just down ie [i+1][j+1], like that.....
 import java.util.List;

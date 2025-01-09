@@ -53,7 +53,7 @@ Hints:
 
  //we will same procedure as discussed:
  //main thing is we check from last to first, we return the min value of cost jumping from (i to i-1) and (i to i-2)
- package _6_DynamicProgramming._1D;
+ package _6_DynamicProgramming._01_Grids._1D;
  
  public class _04_frog_jump_1 {
  

@@ -1,4 +1,4 @@
-package _6_DynamicProgramming._2D;
+package _6_DynamicProgramming._01_Grids._2D;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package _6_DynamicProgramming._1D;
+package _6_DynamicProgramming._01_Grids._1D;
 //pre-requisites:
 //watch:https://www.youtube.com/watch?v=pbXg5EI5t4c&ab_channel=Numberphile 
 
