@@ -1,6 +1,6 @@
 package _6_DynamicProgramming._02_Subseq_Subset_Perm.Subset;
 
-
+//pre req: https://www.youtube.com/watch?v=_gPcYovP7wc&ab_channel=AdityaVerma
 /*
 Given an array of positive integers, arr[] and a value, target, determine if there is a subset of the given set with sum equal to given target. 
 
