@@ -1,32 +1,37 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class test {
 
     public static void main(String[] args) {
         // HashSet<List<Integer>>hs=new HashSet<>();
-        int mat[][]={
-            {1,2,3},
-            {4,5,6},
-            // {7,8,9},
-        };
-       
-        int m=mat.length,n=mat[0].length;
-        int ans[]={Integer.MAX_VALUE};
-        func(mat,m, n, 0, 0, new StringBuilder(),0,ans);
-        System.out.println(ans[0]);
-       
+
+            int arr[]={5, 2, 3 ,10, 6, 8};
+            int target=10;
+            List<List<Integer>>ans=new ArrayList<>();
+        func5(arr, target, new ArrayList<>(), ans, 0);
+        System.out.println(ans);
     }
 
-  static void func(int mat[][],int m,int n,int i,int j,StringBuilder sb,int sum,int ans[]){
-    if(i==m-1 && j==n-1){
-        // System.out.println(new String(mat[0][0]+"->"+sb+" => "+(sum+mat[0][0])));
-        ans[0]=Math.min(ans[0], sum+mat[0][0]);
-        return;
+
+    public static void func5(int nums[],int target,List<Integer>empty,List<List<Integer>>ans,int startIdx){//IF ARR IS SORTED
+        if (target==0) {
+            ans.add(new ArrayList<>(empty));
+            System.out.println(empty);
+            return;
+        }
+        for (int i =startIdx ; i < nums.length; i++) {
+            if (i>startIdx&&nums[i]==nums[i-1]) {//handle first case where start=0 && avoid dupli also
+                continue;
+            }
+            if (nums[i]>target) {
+                break;
+            }
+            empty.add(nums[i]);
+            func5(nums, target-nums[i], empty, ans, i+1);
+            // empty.remove(empty.size()-1);
+        }
     }
-    if (j+1<n) {
-        func(mat,m, n, i, j+1, new StringBuilder(sb).append(mat[i][j+1]+"->"),sum+mat[i][j+1],ans);
-    };
-    if (i+1<m) {
-        func(mat,m, n, i+1, j, new StringBuilder(sb).append(mat[i+1][j]+"->"),sum+mat[i+1][j],ans);
-    }
-  }
 }

@@ -1,6 +1,5 @@
 package _6_DynamicProgramming._02_Subseq_Subset_Perm.Subset;
 
-import java.util.Arrays;
 
 /*
 Given an array of positive integers, arr[] and a value, target, determine if there is a subset of the given set with sum equal to given target. 
@@ -108,6 +107,16 @@ public class _01_subset_sum {
 
         // The answer is whether we can achieve the target using all elements
         return dp[arr.length - 1][target];
+    }
+
+
+    //------------------------follow up question:
+    //Given an integer array nums, return true if you can partition the array into two subsets such that the sum of the elements in both subsets is equal or false otherwise.
+    public boolean canPartition(int[] nums) {
+        int totalSum=0;
+        for(int e:nums) totalSum+=e;
+        if(totalSum%2!=0) return false;//its not possible to divide an odd number into two equal halves
+        return tabulate(nums,totalSum/2);
     }
 
 }
