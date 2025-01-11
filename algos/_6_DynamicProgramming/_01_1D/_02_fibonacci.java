@@ -1,4 +1,4 @@
-package _6_DynamicProgramming._01_Grids._1D;
+package _6_DynamicProgramming._01_1D;
 
 
 public class _02_fibonacci {

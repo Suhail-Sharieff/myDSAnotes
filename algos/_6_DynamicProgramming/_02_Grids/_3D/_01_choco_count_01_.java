@@ -1,4 +1,4 @@
-package _6_DynamicProgramming._01_Grids._3D;
+package _6_DynamicProgramming._02_Grids._3D;
 //https://www.youtube.com/watch?v=QGfn7JeXK54&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY&index=14&ab_channel=takeUforward
 
 import java.util.Arrays;

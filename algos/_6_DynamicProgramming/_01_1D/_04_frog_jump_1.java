@@ -53,7 +53,7 @@ Hints:
 
  //we will same procedure as discussed:
  //main thing is we check from last to first, we return the min value of cost jumping from (i to i-1) and (i to i-2)
- package _6_DynamicProgramming._01_Grids._1D;
+ package _6_DynamicProgramming._01_1D;
  
  public class _04_frog_jump_1 {
  
@@ -68,6 +68,14 @@ Hints:
 
         //-----foloww up question
         System.out.println(func(heights, dp, 2));
+
+    }
+    //0 to top:
+    public static int rec(int n ,int arr[],int idx){
+        if(idx==n-1) return 0;
+        int way1=(idx+1<n)?(Math.abs(arr[idx]-arr[idx+1])+rec(n,arr,idx+1)):Integer.MAX_VALUE;
+        int way2=(idx+2<n)?(Math.abs(arr[idx]-arr[idx+2])+rec(n,arr,idx+2)):Integer.MAX_VALUE;
+        return Math.min(way1,way2);
 
     }
     //optimal1-------------move from (bottom to up) of rec tree

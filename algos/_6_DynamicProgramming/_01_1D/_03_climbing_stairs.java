@@ -1,4 +1,4 @@
-package _6_DynamicProgramming._01_Grids._1D;
+package _6_DynamicProgramming._01_1D;
 /*
 You are climbing a staircase. It takes n steps to reach the top.
 
@@ -47,6 +47,16 @@ public class _03_climbing_stairs {
             return dp[n];
         }
         dp[n]=nWays(n-1, dp)+nWays(n-2, dp);
+        return dp[n];
+     }
+
+     public static int tabulation(int n){//consider 1 based indexing
+        if(n==0) return 0;//no steps , no ways
+        if(n==1) return 1;//just 1 step, reached 1 step
+        if(n==2) return 2;// there r 2 stairs, either climb (1+1) or (2 directly)
+        int dp[]=new int[n+1];
+        dp[1]=1;dp[2]=2;
+        for(int i=3;i<=n;i++) dp[i]=dp[i-1]+dp[i-2];
         return dp[n];
      }
 }

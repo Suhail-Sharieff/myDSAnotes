@@ -1,4 +1,4 @@
-package _6_DynamicProgramming._01_Grids._2D;
+package _6_DynamicProgramming._02_Grids._2D;
 
 
 /*

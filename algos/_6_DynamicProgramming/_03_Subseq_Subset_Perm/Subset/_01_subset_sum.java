@@ -1,4 +1,4 @@
-package _6_DynamicProgramming._02_Subseq_Subset_Perm.Subset;
+package _6_DynamicProgramming._03_Subseq_Subset_Perm.Subset;
 
 //pre req: https://www.youtube.com/watch?v=_gPcYovP7wc&ab_channel=AdityaVerma
 /*

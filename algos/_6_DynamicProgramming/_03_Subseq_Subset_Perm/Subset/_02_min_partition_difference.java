@@ -1,4 +1,4 @@
-package _6_DynamicProgramming._02_Subseq_Subset_Perm.Subset;
+package _6_DynamicProgramming._03_Subseq_Subset_Perm.Subset;
 
 import java.util.ArrayList;
 import java.util.HashMap;
