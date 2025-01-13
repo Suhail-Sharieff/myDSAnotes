@@ -1,6 +1,7 @@
 package _6_DynamicProgramming._03_Subseq_Subset_Perm.Subset;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,12 +42,7 @@ nums.length == 2 * n
  */
 public class _02_min_partition_difference {
 
-    public static void main(String[] args) {
-        int nums[]={3,9,7,3};
-        int totSum=0;
-        for(int e:nums) totSum+=e;
-       System.out.println(recursion(nums, 0, 0, totSum, 0));
-    }
+   
     
 
     //-----------------raw brute force, o through all subsets and check 
@@ -121,7 +117,7 @@ public class _02_min_partition_difference {
     }
 
 
-    //-----------tabulaton:(case 1: target may be given as negative,, so we cannot use dp[idx][target])
+    //-----------tabulaton:(case 1: target is always positive and nums[i]>=0)
     /*
      call like:
      int totSum=0;
@@ -184,6 +180,69 @@ public class _02_min_partition_difference {
         }
 
         return ans;
+    }
+
+
+    //-------------------optimal approach:
+    public static int optimal(int nums[]){
+        int n = nums.length, sum = 0;
+        for (int num : nums) {
+            sum += num;  // To find the total sum of the array 
+        }
+
+        int N = n / 2; // Divide it into two equals parts as length is even
+        List<List<Integer>> left = new ArrayList<>(N + 1);
+        List<List<Integer>> right = new ArrayList<>(N + 1);
+        
+        for (int i = 0; i <= N; i++) {
+            left.add(new ArrayList<>());
+            right.add(new ArrayList<>());
+        }
+
+        // All possible sum in left and right part (Generating and storing using BIT-Masking)
+        for (int mask = 0; mask < (1 << N); ++mask) {  // (1<<n) means 2^n i.e we'll iterate through 0 to 2^n
+            int idx = 0, l_sum = 0, r_sum = 0;
+            for (int i = 0; i < N; ++i) {
+                if ((mask & (1 << i)) != 0) {  // To check if the bit is set or not 
+                    idx++;
+                    l_sum += nums[i];
+                    r_sum += nums[i + N];
+                }
+            }
+            left.get(idx).add(l_sum);
+            right.get(idx).add(r_sum);   // storing
+        }
+
+        for (int idx = 0; idx <= N; ++idx) {
+            Collections.sort(right.get(idx));   // as we'll perform binary search on right so we have to sort it first
+        }
+
+        int res = Math.min(Math.abs(sum - 2 * left.get(N).get(0)), Math.abs(sum - 2 * right.get(N).get(0)));  // To get the minimum answer from the max sum from both array
+        // iterating over left part
+        for (int idx = 1; idx < N; ++idx) { // iterate from 1 so we dont have to include 0 and check for all value except last as we have already considered it
+            for (int a : left.get(idx)) { // check the sum at each number position
+                int b = (sum - 2 * a) / 2; // find the value to be minimized 
+                int rightidx = N - idx; // find the number value in right array
+                List<Integer> v = right.get(rightidx); // store the vector in v at right number position
+                int pos = Collections.binarySearch(v, b); // binary search over right part
+
+                if (pos < 0) {
+                    pos = -(pos + 1); // if not found, get the insertion point
+                }
+                if (pos < v.size()) {
+                    res = Math.min(res, Math.abs(sum - 2 * (a + v.get(pos)))); // if found in vector then only update otherwise continue
+                }
+            }
+        }
+        return res;
+    }
+
+
+
+    public static void main(String[] args) {
+        int nums[]={3,9,7,3};
+        // int totSum=0;
+       optimal(nums);
     }
 
 
