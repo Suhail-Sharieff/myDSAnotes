@@ -65,14 +65,14 @@ public class _05_target_sum {
             }
             return 0;
         }
-        int x=recursion(nums,target,currSum+nums[idx],totalSum,idx-1,new StringBuilder(sb).append(nums[idx]+"->"));
-        int y=recursion(nums,target,currSum,totalSum,idx-1,new StringBuilder(sb));
+        int pick=recursion(nums,target,currSum+nums[idx],totalSum,idx-1,new StringBuilder(sb).append(nums[idx]+"->"));
+        int dontPick=recursion(nums,target,currSum,totalSum,idx-1,new StringBuilder(sb));
         
-        return x+y;
+        return pick+dontPick;
     }
 
     //------------------------memoization:use hashmap inplace of dp since target canbe negative and dp[idx][target] can give errors
-    public int memoize(int nums[],int target,int currSum,int totalSum,int idx,HashMap<String,Integer>hp){
+    public int memoize(int nums[],int target,int currSum,int totalSum,int idx,HashMap<String,Integer>dp){
         if(idx<0){
             int remSum=totalSum-currSum;
 
@@ -84,13 +84,67 @@ public class _05_target_sum {
             }
             return 0;
         }
-        if(hp.containsKey(idx+"|"+currSum)) return hp.get(idx+"|"+currSum);
+        if(dp.containsKey(idx+"|"+currSum)) return dp.get(idx+"|"+currSum);
 
-        int x=memoize(nums,target,currSum+nums[idx],totalSum,idx-1,hp);
-        int y=memoize(nums,target,currSum,totalSum,idx-1,hp);
+        int pick=memoize(nums,target,currSum+nums[idx],totalSum,idx-1,dp);
+        int dontPick=memoize(nums,target,currSum,totalSum,idx-1,dp);
 
-        hp.put(idx+"|"+currSum,x+y);
+        dp.put(idx+"|"+currSum,pick+dontPick);
 
-        return x+y;
+        return pick+dontPick;
     }
+
+
+    //----------------tabulation:
+
+    //we will derive tabulation using the following recursive code that also works:
+    public int recursion2(int nums[],int target,int currSum,int idx){
+        if(idx<0) return (currSum==target)?1:0;
+        int add=recursion2(nums,target,currSum+nums[idx],idx-1);
+        int sub=recursion2(nums,target,currSum-nums[idx],idx-1);
+        return add+sub;
+    }
+    public static int tabulation(int nums[], int target) {
+        int totalSum = 0;
+        for (int e : nums) totalSum += e;
+    
+        // Offset to handle negative sums
+        int offset = totalSum;
+        int range = 2 * totalSum + 1;
+    
+        // DP table: dp[idx][currSum + offset]
+        int[][] dp = new int[nums.length + 1][range];
+    
+        // Base case: At idx = -1, calculate possible ways to achieve target
+        dp[0][offset] = 1;  // currSum == 0 is the initial state
+    
+        // Fill the DP table
+        for (int idx = 1; idx <= nums.length; idx++) {
+            for (int currSum = -totalSum; currSum <= totalSum; currSum++) {
+                int adjustedSum = currSum + offset;
+    
+                // If out of range, skip
+                if (adjustedSum < 0 || adjustedSum >= range) continue;
+    
+                // Pick the current number
+                int pick = (currSum - nums[idx - 1] + offset >= 0 &&
+                            currSum - nums[idx - 1] + offset < range) 
+                           ? dp[idx - 1][currSum - nums[idx - 1] + offset] 
+                           : 0;
+    
+                // Don't pick the current number
+                int dontPick = (currSum + offset >= 0 && currSum + offset < range)
+                               ? dp[idx - 1][currSum + offset] 
+                               : 0;
+    
+                dp[idx][adjustedSum] = pick + dontPick;
+            }
+        }
+    
+        // Return the result for target
+        return (target + offset >= 0 && target + offset < range) 
+               ? dp[nums.length][target + offset] 
+               : 0;
+    }
+    
 }
