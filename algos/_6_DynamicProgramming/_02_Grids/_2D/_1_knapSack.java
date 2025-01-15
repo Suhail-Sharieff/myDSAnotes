@@ -95,7 +95,7 @@ public class _1_knapSack {
         for (int idx = 1; idx < weights.length; idx++) {
             int weightChosen=weights[idx];
             for(int currCapacity=0;currCapacity<=maxCapacity;currCapacity++){
-                int includeCurrWeight=(weightChosen<=maxCapacity && currCapacity>=weightChosen)?(values[idx]+dp[idx-1][currCapacity-weightChosen]):0;
+                int includeCurrWeight=(currCapacity>=weightChosen)?(values[idx]+dp[idx-1][currCapacity-weightChosen]):0;
                 int excludeCurrWeight=dp[idx-1][currCapacity];
 
                 dp[idx][currCapacity]=Math.max(includeCurrWeight,excludeCurrWeight);
