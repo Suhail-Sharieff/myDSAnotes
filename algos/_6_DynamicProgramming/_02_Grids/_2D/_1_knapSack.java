@@ -43,7 +43,7 @@ public class _1_knapSack {
     public static int recursion(int weights[],int values[],int maxCapacity,int idx){
         //we reached from last to first
         if(idx==0){
-            if(weights[idx]<=maxCapacity) return values[idx];
+            if(weights[0]<=maxCapacity) return values[0];
             return 0;
         }
         int includeCurrWeight=(weights[idx]<=maxCapacity)?(values[idx]+recursion(weights, values, maxCapacity-weights[idx], idx-1)):0;//include curr and move back AFTER UPDATING MAX_CAPACITY
@@ -63,9 +63,9 @@ public class _1_knapSack {
      */
     public static int memoize(int weights[],int values[],int maxCapacity,int idx,int dp[][]){
         if(idx==0){
-            if(weights[idx]<=maxCapacity){
-                dp[idx][maxCapacity]=values[idx];
-                return dp[idx][maxCapacity];
+            if(weights[0]<=maxCapacity){
+                dp[0][maxCapacity]=values[0];
+                return dp[0][maxCapacity];
             }
             return 0;
         }
@@ -84,7 +84,7 @@ public class _1_knapSack {
     public static int tabulate(int weights[],int values[],int maxCapacity){
         int dp[][]=new int[weights.length+1][maxCapacity+1];
 
-        //base case:
+        //base case:(as same as base case of recursion and memoization)
         for(int w=weights[0];w<=maxCapacity;w++){
             if(weights[0]<=maxCapacity){
                 dp[0][w]=values[0];
