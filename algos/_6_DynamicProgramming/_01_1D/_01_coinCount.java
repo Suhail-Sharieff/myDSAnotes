@@ -36,7 +36,7 @@ public class _01_coinCount {
         System.out.println();
         // nOf such ways for ex for above target and arr
         // [[1,1,1,1,1],[1,1,3],[1,3,1],[3,1,1],[1,4],[4,1]]
-        System.out.println(cnt(arr, target));
+        System.out.println(tabulate1(arr, target));
 
     }
 
@@ -172,18 +172,42 @@ public class _01_coinCount {
 
     // ------------------TASK2: Count noOf Ways to of such
     // solutions-------------------------------------
-
-    public int rec(int coins[], int target, int idx) {
+    public int recursion_cnt1(int coins[], int target, int idx) {
         if (target == 0)
             return 1;
         if (target < 0 || idx == coins.length)
             return 0;
         // Below line is vvvvvimp, observe that we dont have to incremnet idx by 1 if
-        // choosed
-        return rec(coins, target - coins[idx], idx) + rec(coins, target, idx + 1);
+        // choosed coz then it would mean that no repetitons will be allowed of coins
+        return recursion_cnt1(coins, target - coins[idx], idx) + recursion_cnt1(coins, target, idx + 1);
     }
 
-    public static int cnt(int coins[], int sum) {
+    public static int memoize_cnt(int nums[],int target,int idx,int dp[][]){
+		if(idx<0 || target<0) return 0;
+		if(dp[idx][target]!=-1) return dp[idx][target];
+		if(target==0) return 1;
+		int pick=memoize_cnt(nums, target-nums[idx], idx,dp); 
+		int dontpick=memoize_cnt(nums, target, idx-1,dp);
+		dp[idx][target]=pick+dontpick;
+		return pick+dontpick; 
+	}
+    public int tabulate_1(int target, int[] nums) {//follows recursion_1 code
+        int dp[][]=new int[nums.length][target+1];
+
+        for(int r[]:dp) r[0]=1;
+        for(int tar=1;tar<=target;tar++) if(tar%nums[0]==0) dp[0][tar]=1;
+
+        for(int i=1;i<nums.length;i++){
+            for(int tar=0;tar<=target;tar++){
+                int pick=(tar>=nums[i]) ? dp[i][tar-nums[i]]:0;
+                int dontPick=dp[i-1][tar];
+                dp[i][tar]=pick+dontPick;
+            }
+        }
+        return dp[nums.length-1][target];
+
+}
+    public static int tabulate_2(int coins[], int sum) {
         // Create a DP array to store the number of ways to make each sum
         int dp[] = new int[sum + 1];
 
