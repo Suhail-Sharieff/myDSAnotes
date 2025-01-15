@@ -57,11 +57,20 @@ grid[i][j] == 0 or grid[i][j] == 1
  */
 public class _9_nDistinct_Islands {
     public static void main(String[] args) {
-        int grid[][] = {{1},
-        {1},
-        {1},
-        {1}};
+        int grid[][] = {{1, 1, 0, 1, 1},
+        {1, 0, 0, 0, 0},
+        {0, 0, 0, 0, 1},
+        {1, 1, 0, 1, 1}};
 
+       
+        optimal(grid);
+
+    }
+
+
+    //solution is to like whenever we find a unvis node, we consider it as base, we will append it say as curr->, then we move iin all dirs, append(xDiff,yDiff) wrt base, observe that it would be same for same shaped islands, so we can use it
+
+     static int  optimal(int grid[][]){
         int nRows=grid.length;
         int nCols=grid[0].length;
 
@@ -77,9 +86,11 @@ public class _9_nDistinct_Islands {
             for(int j=0;j<nCols;j++){
                 if(grid[i][j]==1 && !isVis[i][j]){
                     Queue<int[]>q=new LinkedList<>();
-                    StringBuilder sb=new StringBuilder();
+                    StringBuilder sb=new StringBuilder("src->");
                     q.offer(new int[]{i,j});
-                    // isVis[i][j]=true;
+                    isVis[i][j]=true;
+                    int src_x=i;
+                    int src_y=j;
                     while (!q.isEmpty()) {
                         int top[]=q.poll();
                         for(int dir[]:dirs){
@@ -88,37 +99,38 @@ public class _9_nDistinct_Islands {
                             if(x>=0 && y>=0 && x<nRows && y<nCols){
                                 if(grid[x][y]==1 && !isVis[x][y]){
                                     q.offer(new int[]{x,y});
-                                    sb.append("("+dir[0]+","+dir[1]+")->");
+                                    sb.append("("+(x-src_x)+","+(y-src_y)+")->");
                                     isVis[x][y]=true;
                                 } 
                             }
                         }
                     }
-                    if(!sb.toString().isEmpty()) se.add(sb.toString());
+                    se.add(sb.toString());
                 }
             }
         }   
 
         System.out.println(se);
 
-        System.out.println(se.size());
+        return (se.size());
 
 
-
-        
 
     }
 
-    public static void dfs(int grid[][],boolean isVis[][],int i, int j,StringBuilder sb,Set<String>se){
-        int nRows=grid.length;
-        int nCols=grid[0].length;
-        isVis[i][j]=true;
-        if(i+1<nRows && grid[i+1][j]==1 && !isVis[i+1][j]) dfs(grid, isVis, i+1, j, new StringBuilder(sb).append('D'),se);
-        if(i-1>=0 && grid[i-1][j]==1 && !isVis[i-1][j]) dfs(grid, isVis, i-1, j, new StringBuilder(sb).append('U'),se);
-        if(j+1<nCols && grid[i][j+1]==1 && !isVis[i][j+1]) dfs(grid, isVis, i, j+1, new StringBuilder(sb).append('R'),se);
-        if(j-1>=0 && grid[i][j-1]==1 && !isVis[i][j-1]) dfs(grid, isVis, i, j-1, new StringBuilder(sb).append('L'),se);
-        System.out.print(sb);
-    }
+
+    //----------WRONG APPROACH: this would help in printling all paths and they would be identified as distinct, but we cant store in set,so use above approach itself
+
+    // public static void dfs(int grid[][],boolean isVis[][],int i, int j,StringBuilder sb,Set<String>se){
+    //     int nRows=grid.length;
+    //     int nCols=grid[0].length;
+    //     isVis[i][j]=true;
+    //     if(i+1<nRows && grid[i+1][j]==1 && !isVis[i+1][j]) dfs(grid, isVis, i+1, j, new StringBuilder(sb).append('D'),se);
+    //     if(i-1>=0 && grid[i-1][j]==1 && !isVis[i-1][j]) dfs(grid, isVis, i-1, j, new StringBuilder(sb).append('U'),se);
+    //     if(j+1<nCols && grid[i][j+1]==1 && !isVis[i][j+1]) dfs(grid, isVis, i, j+1, new StringBuilder(sb).append('R'),se);
+    //     if(j-1>=0 && grid[i][j-1]==1 && !isVis[i][j-1]) dfs(grid, isVis, i, j-1, new StringBuilder(sb).append('L'),se);
+    //     System.out.print(sb);
+    // }
 
     
 }
