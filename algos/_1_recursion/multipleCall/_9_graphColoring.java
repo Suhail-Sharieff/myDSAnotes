@@ -1,4 +1,7 @@
 package _1_recursion.multipleCall;
+
+import java.util.List;
+
 //STRIVER
 //https://www.youtube.com/watch?v=wuVwUK25Rfc&list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9&index=18
 //ALSO WATCH
@@ -39,6 +42,19 @@ public class _9_graphColoring {
         } else {
             System.out.println("Graph cannot be colored with at most " + M + " colors.");
         }
+    }
+
+    boolean graphColoring(int v, List<int[]> edges, int m) {
+        // code here
+        boolean hasE[][]= new boolean[v][v];
+        
+        for(int e[]:edges){
+            hasE[e[0]][e[1]]=true;
+            hasE[e[1]][e[0]]=true;
+        }
+        int colors[]=new int[v];
+        return func(hasE,m,v,colors,0);
+        
     }
 
     public static void printColorAssignment(int[] colors) {
