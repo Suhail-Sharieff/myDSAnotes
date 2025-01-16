@@ -1,6 +1,5 @@
 package _6_DynamicProgramming._03_Subseq_Subset_Perm.Subset;
 
-import java.util.Arrays;
 
 /*
  You are given ‘n’ items with certain ‘profit’ and ‘weight’ and a knapsack with weight capacity ‘w’.
