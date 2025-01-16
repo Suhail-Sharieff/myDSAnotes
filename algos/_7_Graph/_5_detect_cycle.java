@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+
+//---------------------------------------------------------------------UNDIRECTED GRAPH
 /*
 Given an undirected graph with V vertices labelled from 0 to V-1 and E edges, check whether the graph contains any cycle or not. The Graph is represented as an adjacency list, where adj[i] contains all the vertices that are directly connected to vertex i.
 
@@ -98,25 +100,6 @@ public class _5_detect_cycle {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //-----------------------------my solution, used freq[nodeNumber] for each node, incremented fre[nodeNumber] each time its encountered though its visited already. Then if any of freq[nodeNumber]>=2 meaning it is neighbourer of 2 nodes at a time even after being visited, there;s a cycle
     public boolean isCycle(ArrayList<ArrayList<Integer>> adj) {
         // Code here
@@ -152,6 +135,71 @@ public class _5_detect_cycle {
             if(!isVis[e]) dfs(freq,isVis,v,adj,e);
             else freq[n]++;
         }
+    }
+
+
+    //********************************************************************************************************* */
+
+    //-------------------------------------------------------------------------------DIRECTED GRAPH:
+    //Note that same code as that of undirectted wouldnt work coz in case of undir graph we didnt hhave dirs and there could possibly be many ways, but here we have directions, we can reach some nodes though it looks like a cycle in only 1 way as we move in 1 dir
+
+    //example:
+    /*
+ * Directed Graph :
+ * 
+ *        (0) ---> (1)
+ *         |        ^
+ *         |        |               if we apply same algo here i will say there is cycle, but in actuall there is no node from which if we start we can return at same point s
+ *         |        |                since this  is directed
+ *         v        |                       
+ *        (3) ---> (2)
+ 
+
+ * Undirected Graph :
+ * 
+ *        (0) ---- (1)
+ *         |        |                                           cycle exists here
+ *         |        |
+ *         |        |
+ *        (3)------(2)
+ * 
+ * Nodes: 0, 1, 2, 3
+ * Edges: (0 -> 1), (0 -> 3), (3 -> 2), (2 -> 1)
+ */
+
+    //watch:https://www.youtube.com/watch?v=Tl5qbEmEQyY&ab_channel=CodeHelp-byBabbar
+
+    //solution: to the same algo, we will store additionaly another array called dfs_done array . whenever we encounter a node that is not visited, we mark it visited , mark it as dfs_done , perform dfs on it, then after its dfs is done mark it as dfs_not done again..during this process if we encounter any neighbour for a node that is both visited and also dfs_done there exists a cycle in it, so we return true
+
+    public static boolean hasCycles_directed(ArrayList<ArrayList<Integer>>adj){
+        int nNodes=adj.size();
+        boolean []isVis=new boolean[nNodes];
+        boolean []dfs_done=new boolean[nNodes];
+
+        for(int nodeNumber=0;nodeNumber<nNodes;nodeNumber++){
+            if (!isVis[nodeNumber]) {
+                boolean hasCycles=dfs_directed(adj, isVis, dfs_done, nodeNumber);
+                if(hasCycles) return true;
+            }
+        }
+        return false;
+
+    }
+
+    static  boolean  dfs_directed(ArrayList<ArrayList<Integer>>adj, boolean isVis[],boolean dfs_done[],int nodeNumber){
+        isVis[nodeNumber]=true;
+        dfs_done[nodeNumber]=true;
+        for(int neighBour : adj.get(nodeNumber)){
+            if (!isVis[neighBour]) {
+                boolean hasCycle= dfs_directed(adj, isVis, dfs_done, neighBour);
+                if(hasCycle) return true;
+            }else{
+                //the node is visisted, check if its dfs is don or not
+                if(dfs_done[neighBour]) return true;
+            }
+        }
+        dfs_done[nodeNumber]=false;
+        return false;
     }
     
 }
