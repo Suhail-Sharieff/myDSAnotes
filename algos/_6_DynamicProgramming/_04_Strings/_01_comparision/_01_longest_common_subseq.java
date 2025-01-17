@@ -116,7 +116,7 @@ public class _01_longest_common_subseq {
     public int tab(String s1, String s2) {
 
         int dp[][]=new int[s1.length()+1][s2.length()+1];
-
+        //dp[i][j] represents max number of charaters from str1[0..i) and str2[0...j)]
 
         for (int i = 1; i <= s1.length(); i++) {//note eqaul sign
             for (int j = 1; j <= s2.length(); j++) {//note here too
