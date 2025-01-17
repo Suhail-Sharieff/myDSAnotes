@@ -64,5 +64,26 @@ public class test {
 
         return max;
     }
+
+    //----------------tabulation:
+    public static int tab(int prices[]){
+        int totalLength=prices.length;
+        int priceOfLen[]=new int[totalLength+1];//for 1 based indexing
+        for(int i=1;i<=totalLength;i++) priceOfLen[i]=prices[i-1];
+
+        int dp[]=new int[totalLength+1];
+        dp[0]=totalLength*priceOfLen[0];
+
+        for(int len=1;len<=totalLength;len++){
+            int max=0;
+            for(int chosenLen=1;chosenLen<=len;chosenLen++){
+                int subRes=priceOfLen[chosenLen]+dp[len-chosenLen];
+                max=Math.max(max, subRes);
+            }
+            dp[len]=max;
+        }
+
+        return dp[totalLength];
+    }
    
 }
