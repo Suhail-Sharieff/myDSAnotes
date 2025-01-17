@@ -1,34 +1,68 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class test {
 
 
+ public static void main(String[] args) {
+        int price[]={1, 10, 3, 1, 3, 1, 5, 9};//len1=>5,len2=>10
+        int lenOfRod=price.length;
 
-    public static void main(String[] args) {
-        int nums[]={4, 5, 5, 5, 2, 10, 7, 4, 10, 7, 9, 5, 1, 1, 8, 3, 10, 8, 2, 7, 9, 8, 5, 5, 10, 6, 4, 9, 3, 9, 4, 10, 7, 4, 7, 8, 3, 4, 4, 4, 10, 1, 1, 5, 6, 10, 2, 8, 6, 4, 1, 8, 4, 3, 4, 1, 1, 10, 7, 4, 8, 5, 8, 8, 1, 10, 5, 3, 10, 10, 6, 6, 8, 8, 3, 7};
-        int target=50;
-
-        System.out.println(findWays(nums, target));
+        // recursion(price, 0, 0, new ArrayList<>());
     }
 
-    public static int findWays(int nums[], int target) {
-        // Write your code here.
-        int dp[][]=new int[nums.length][target+1];
-        for(int e[]:dp) Arrays.fill(e,-1);
-        return cnt(nums, target, 0,dp);
-    }
-
-    public static int cnt(int nums[],int target,int idx,int dp[][]){
-        int mod=1_000_000_007;
-        if(target<0) return 0;
-        if(idx==nums.length){
-            if(target==0) return 1;
-            return 0;
+    //--------------------------recursion, i have converted preices array into 1 based indexing for clarity to call like:
+    /*
+     int len=price.length;
+        int v[]=new int [len+1];
+        for(int i=1;i<=len;i++){
+            v[i]=price[i-1];
         }
-        if(dp[idx][target]!=-1) return dp[idx][target]%mod;
-        int x=cnt(nums,target-nums[idx],idx+1,dp)%mod;
-        int y=cnt(nums,target,idx+1,dp)%mod;
-        dp[idx][target]=(x+y)%mod;
-        return dp[idx][target];
+        return recurion(v,len,len);
+     */
+
+    public static int recursion_1(int priceOfLen[],int length_of_cut_part,int totalLength){
+        if(totalLength==0) return 0;
+        if(totalLength==1) return totalLength*priceOfLen[1];
+
+
+        int cut=(totalLength>=length_of_cut_part)?(priceOfLen[length_of_cut_part]+recursion_1(priceOfLen, length_of_cut_part, totalLength-length_of_cut_part)):0;
+        int dont_cut=recursion_1(priceOfLen, length_of_cut_part-1, totalLength);
+
+        return Math.max(cut, dont_cut);
     }
+
+    //---------------recursion2
+    public static int recursion_2(int priceOfLen[],int totalLength){
+        if(totalLength==0) return 0;
+        if(totalLength==1) return totalLength*priceOfLen[1];
+
+        int max=0;
+        for(int chosenLen=1;chosenLen<=totalLength;chosenLen++){
+            int subRes=priceOfLen[chosenLen]+recursion_2(priceOfLen, totalLength-chosenLen);
+            max=Math.max(max, subRes);
+        }
+
+        return max;
+    }
+
+
+    //------------memoization
+    public static int memoize(int priceOfLen[],int totalLength,int dp[]){
+        if(totalLength==0) return 0;
+        if(totalLength==1) return totalLength*priceOfLen[1];
+        
+        if(dp[totalLength]!=-1) return dp[totalLength];
+
+        int max=0;
+        for(int chosenLen=1;chosenLen<=totalLength;chosenLen++){
+            int subRes=priceOfLen[chosenLen]+memoize(priceOfLen, totalLength-chosenLen,dp);
+            max=Math.max(max, subRes);
+        }
+        dp[totalLength]=max;
+
+        return max;
+    }
+   
 }
