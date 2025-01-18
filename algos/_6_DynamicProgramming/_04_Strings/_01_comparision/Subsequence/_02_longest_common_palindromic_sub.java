@@ -61,4 +61,45 @@ public class _02_longest_common_palindromic_sub {
         }
         return dp[s1.length()][s2.length()];
     }
+
+
+
+
+
+    ///////////////////////FOLOOW UP:
+    /*
+    Given a string s. In one step you can insert any character at any index of the string.
+
+Return the minimum number of steps to make s palindrome.
+
+A Palindrome String is one that reads the same backward as well as forward.
+
+ 
+
+Example 1:
+
+Input: s = "zzazz"
+Output: 0
+Explanation: The string "zzazz" is already palindrome we do not need any insertions.
+Example 2:
+
+Input: s = "mbadm"
+Output: 2
+Explanation: String can be "mbdadbm" or "mdbabdm".
+Example 3:
+
+Input: s = "leetcode"
+Output: 5
+Explanation: Inserting 5 characters the string becomes "leetcodocteel".
+ 
+
+Constraints:
+
+1 <= s.length <= 500
+s consists of lowercase English letters.
+     */
+    //the below is ans coz if we calculate lcs for plaindromic string, we will get max possible value of string which is palindrome, so to make it 100% palindrome we just need to subtract length and that paindrome lcs. General idea is we try to keep palindromic portion (longest) asit is, and replace others, we we need (len-longest_ppalindromic_subseq) operations to make it complete palindrome
+     public int minInsertions(String s) {
+        return s.length()-tab1(s);
+    }
 }
