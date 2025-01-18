@@ -1,48 +1,68 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Stack;
 
 public class test {
 
     public static void main(String[] args) {
-        String s = "abaaa", t = "baabaca";
+        int graph[][]={
+            {},
+            {3},
+            {3},
+            {},
+            {0,1},
+            {0,2},
+        };
 
-        int dp[][] = new int[s.length() + 1][t.length() + 1];
-        for (int i = 1; i <= s.length(); i++) {
-            for (int j = 1; j <= t.length(); j++) {
-                if (s.charAt(i - 1) == t.charAt(j - 1)) {
-                    dp[i][j] = 1 + dp[i - 1][j - 1];
-                } else {
-                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
-                }
-            }
+        HashMap<Integer,Integer>hp=new HashMap<>();
+
+
+
+        boolean isVis[]=new boolean[graph.length];
+        for(int i=0;i<graph.length;i++)hp.put(i, 0);
+        for(int i=0;i<graph.length;i++){
+                dfs(i, hp, graph, isVis);
         }
 
-        for (int[] e : dp) {
-            System.out.println(Arrays.toString(e));
+        System.out.println(hp);
+
+        List<ppppp>li=new ArrayList<>();
+
+        for(var e:hp.entrySet()){
+            li.add(new ppppp(e.getKey(), e.getValue()));
         }
-        HashSet<String>hs=new HashSet<>();
-        lcs_subseq(s, t, hs, s.length(), t.length(), dp, new StringBuilder());
-        List<String>ans=new ArrayList<>(hs);
-        ans.sort(null);
+        Collections.sort(li,(x,y)->x.f-y.f);
+
+        List<Integer>ans=new  ArrayList<>();
+        for(var e:li){
+            ans.add(e.v);
+        }
         System.out.println(ans);
-        
     }
 
-    public static void lcs_subseq(String s1,String s2,Set<String>ans,int i, int j,int dp[][],StringBuilder sb){
-        if(i==0 || j==0){
-            ans.add(new String(sb.reverse()));
-            System.out.println(sb);
-            sb.reverse();
-            return;
+    public static void dfs(int n,HashMap<Integer,Integer>hs,int graph[][],boolean isVis[]){
+       isVis[n]=true;
+       Stack<Integer>st=new Stack<>();
+       st.push(n);
+
+
+        for(int e:graph[n]){
+            hs.put(e, hs.getOrDefault(e, 0)+1);
+            // if(!isVis[e]){
+                st.push(e);
+            // }
         }
-        if(s1.charAt(i-1)==s2.charAt(j-1)){
-            lcs_subseq(s1, s2, ans, i-1, j-1, dp, new StringBuilder(sb).append(s1.charAt(i-1)));
-        }else{
-            if(i>=1 && dp[i-1][j]==dp[i][j]){
-                lcs_subseq(s1, s2, ans, i-1, j, dp, sb);
-            }
-            if(j>=1 && dp[i][j-1]==dp[i][j]){
-                lcs_subseq(s1, s2, ans, i, j-1, dp, sb);
-            }
-        }
+       
+    }
+
+   
+}
+
+class ppppp{
+    int v,f;
+    public ppppp(int x,int y){
+        this.v=x;this.f=y;
     }
 }
