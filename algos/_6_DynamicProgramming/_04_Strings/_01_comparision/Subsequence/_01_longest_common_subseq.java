@@ -1,4 +1,4 @@
-package _6_DynamicProgramming._04_Strings._01_comparision;
+package _6_DynamicProgramming._04_Strings._01_comparision.Subsequence;
 
 import java.util.ArrayList;
 import java.util.Collections;

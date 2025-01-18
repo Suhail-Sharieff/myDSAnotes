@@ -201,5 +201,29 @@ public class _5_detect_cycle {
         dfs_done[nodeNumber]=false;
         return false;
     }
-    
+    //the below uses kahn's algo as described in _12_top_sort, since it works only for DAG(Directed acyclic graph), if we try to apply for a cyclic graph, we will arrive at a point where the q becomes empty without goin through all nodes, ie fails to add all nodes topologically
+    public static boolean kahn_algo_to_detect_cycle(ArrayList<ArrayList<Integer>>adj){
+        int nNodes=adj.size();
+
+        int in_degree[]=new int[nNodes];
+        for(int nodeNumber=0;nodeNumber<nNodes;nodeNumber++){
+            for(int e:adj.get(nodeNumber)) in_degree[e]++;
+        }
+
+        Queue<Integer>q=new LinkedList<>();
+        for(int nodeNumber=0;nodeNumber<nNodes;nodeNumber++) if(in_degree[nodeNumber]==0) q.offer(nodeNumber);
+
+        ArrayList<Integer>ans=new ArrayList<>();
+        
+        while (!q.isEmpty()) {
+            int topNodeNumber=q.poll();
+            ans.add(topNodeNumber);
+            for(int neigh:adj.get(topNodeNumber)){
+                in_degree[neigh]--;
+                if(in_degree[neigh]==0) q.offer(neigh);
+            }
+        }
+
+        return ans.size()!=nNodes;
+    }
 }
