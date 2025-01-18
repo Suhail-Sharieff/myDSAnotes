@@ -15,7 +15,7 @@ public class callable {
         FutureTask<Integer>task=new FutureTask<>(someHeavyOperation);
         new Thread(task).start();
 
-        System.out.println("im executed first becoz some other thread is doint thatHeavyOperation");
+        System.out.println("im executed first becoz some other thread is doinh thatHeavyOperation");
 
         int result=task.get();
 

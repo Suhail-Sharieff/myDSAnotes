@@ -2,6 +2,7 @@ package _6_DynamicProgramming._04_Strings._01_comparision;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Set;
 
 /*
 Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0.
@@ -130,4 +131,31 @@ public class _01_longest_common_subseq {
         return dp[s1.length()][s2.length()];
     }
 
+
+    //----------------------------------FOLLOW UP: print all those LCS(Longest common subseq)----VIMP
+    //https://www.youtube.com/watch?v=-zI4mrF2Pb4&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY&index=27&ab_channel=takeUforward
+    //since we r appending to sb by rtversing from end of each of s1 and s2, we need to reverse it thats all
+    public static void lcs_subseq(String s1,String s2,Set<String>ans,int i, int j,int dp[][],StringBuilder sb){
+        if(i==0 || j==0){//see the change
+            ans.add(new String(sb.reverse()));
+            // System.out.println(sb);
+            sb.reverse();
+            return;
+        }
+        if(s1.charAt(i-1)==s2.charAt(j-1)){
+            lcs_subseq(s1, s2, ans, i-1, j-1, dp, new StringBuilder(sb).append(s1.charAt(i-1)));
+        }else{
+            if(i>=1 && dp[i-1][j]==dp[i][j]){
+                lcs_subseq(s1, s2, ans, i-1, j, dp, sb);
+            }
+            if(j>=1 && dp[i][j-1]==dp[i][j]){
+                lcs_subseq(s1, s2, ans, i, j-1, dp, sb);
+            }
+        }
+    }
+
 }
+
+
+
+
