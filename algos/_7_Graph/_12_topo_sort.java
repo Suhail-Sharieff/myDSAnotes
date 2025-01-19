@@ -85,7 +85,7 @@ public class _12_topo_sort {
     public static List<Integer> kahn_algo(ArrayList<ArrayList<Integer>>adj){
         int nNodes=adj.size();
 
-        int in_degree[]=new int[nNodes];
+        int in_degree[]=new int[nNodes];//here ith value represents number of incoming edges to ith node
         for(int nodeNumber=0;nodeNumber<nNodes;nodeNumber++){
             for(int e:adj.get(nodeNumber)) in_degree[e]++;
         }
@@ -96,7 +96,7 @@ public class _12_topo_sort {
         ArrayList<Integer>ans=new ArrayList<>();
         
         while (!q.isEmpty()) {
-            int topNodeNumber=q.poll();
+            int topNodeNumber=q.poll();//feel: detach that node from its neigh bour and move next
             ans.add(topNodeNumber);
             for(int neigh:adj.get(topNodeNumber)){
                 in_degree[neigh]--;

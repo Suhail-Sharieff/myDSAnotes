@@ -99,7 +99,52 @@ Constraints:
 s consists of lowercase English letters.
      */
     //the below is ans coz if we calculate lcs for plaindromic string, we will get max possible value of string which is palindrome, so to make it 100% palindrome we just need to subtract length and that paindrome lcs. General idea is we try to keep palindromic portion (longest) asit is, and replace others, we we need (len-longest_ppalindromic_subseq) operations to make it complete palindrome
-     public int minInsertions(String s) {
+     public int minOprToMakeStrPalindrome(String s) {
         return s.length()-tab1(s);
+    }
+
+
+    //---------------------FOLOOW UP:
+    /*
+     * 
+     Given two strings word1 and word2, return the minimum number of steps required to make word1 and word2 the same.
+
+In one step, you can delete exactly one character in either string.
+
+ 
+
+Example 1:
+
+Input: word1 = "sea", word2 = "eat"
+Output: 2
+Explanation: You need one step to make "sea" to "ea" and another step to make "eat" to "ea".
+Example 2:
+
+Input: word1 = "leetcode", word2 = "etco"
+Output: 4
+ 
+
+Constraints:
+
+1 <= word1.length, word2.length <= 500
+word1 and word2 consist of only lowercase English letters.
+     */
+
+    public int minOprToMakeStrsEqaul(String x,String y){
+        int dp[][]=new int[x.length()+1][y.length()+1];
+        for(int i=1;i<=x.length();i++){
+            for(int j=1;j<=y.length();j++){
+                if(x.charAt(i-1)==y.charAt(j-1)){
+                    dp[i][j]=1+dp[i-1][j-1];
+                }else{
+                    dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);
+                }
+            }
+        }
+        int lcs= dp[x.length()][y.length()];
+
+        int ans=(x.length()-lcs)+(y.length()-lcs);
+
+        return ans;
     }
 }
