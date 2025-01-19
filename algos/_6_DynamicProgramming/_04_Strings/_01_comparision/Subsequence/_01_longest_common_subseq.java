@@ -132,6 +132,36 @@ public class _01_longest_common_subseq {
     }
 
 
+    //suppose u want ot print ONLY ! SUCH SUBSTRING:
+    public static String one_such_lcs(String x,String y){
+        int dp[][]=new int[x.length()+1][y.length()+1];
+        StringBuilder sb=new StringBuilder();
+        for(int i=1;i<=x.length();i++){
+            for(int j=1;j<=y.length();j++){
+               if(x.charAt(i-1)==y.charAt(j-1)){
+                    dp[i][j]=dp[i-1][j-1]+1;
+                }else{
+                    dp[i][j]=Math.max(dp[i-1][j], dp[i][j-1]);
+                }
+            }
+        }
+        int i=x.length(),j=y.length();
+        while(i>0 && j>0){
+            if(x.charAt(i-1)==y.charAt(j-1)){
+                sb.append(x.charAt(i-1));
+                i--;j--;
+            }else{
+                if(dp[i-1][j]>dp[i][j-1]){
+                    i--;
+                }else{
+                    j--;
+                }
+            }
+        }
+        return(sb.reverse().toString());
+    }
+
+
     //----------------------------------FOLLOW UP: print all those LCS(Longest common subseq)----VIMP
     //https://www.youtube.com/watch?v=-zI4mrF2Pb4&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY&index=27&ab_channel=takeUforward
     //since we r appending to sb by rtversing from end of each of s1 and s2, we need to reverse it thats all
