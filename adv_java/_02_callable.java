@@ -1,8 +1,10 @@
+package adv_java;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
-public class callable {
+public class _02_callable {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         Callable<Integer> someHeavyOperation=()->{
             int k=0;
