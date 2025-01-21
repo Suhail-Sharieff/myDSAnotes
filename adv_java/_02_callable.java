@@ -4,6 +4,9 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
+//process is defined as a task that is being executed by a thread
+// thread is defined as a small sequence of instructions that are being executed by a process
+
 public class _02_callable {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         Callable<Integer> someHeavyOperation=()->{
