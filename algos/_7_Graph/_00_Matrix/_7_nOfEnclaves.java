@@ -1,11 +1,11 @@
-package _7_Graph;
+package _7_Graph._00_Matrix;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class _8_nOfEnclaves {
+public class _7_nOfEnclaves {
     public static void main(String[] args) {
         
     }

@@ -1,4 +1,4 @@
-package _7_Graph;
+package _7_Graph._02_Dir_Unweigh;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -27,7 +27,7 @@ Constraints:
 1 ≤ k ≤ 26
 1 ≤ Length of words ≤ 50
  */
-public class _14_alien_dictionary {
+public class _04_alien_dictionary {
 
 
     //solution, u just need to figre out which charatcer comes brfore which, liek if a comes before b, make a->b, ie create an edge FROM a to b, create a graph of all k characters, the answer will be topo sort of that one

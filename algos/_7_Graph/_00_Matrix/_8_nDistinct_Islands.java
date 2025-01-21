@@ -1,4 +1,4 @@
-package _7_Graph;
+package _7_Graph._00_Matrix;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -55,7 +55,7 @@ Constraints:
 1 ≤ n, m ≤ 500
 grid[i][j] == 0 or grid[i][j] == 1
  */
-public class _9_nDistinct_Islands {
+public class _8_nDistinct_Islands {
     public static void main(String[] args) {
         int grid[][] = {{1, 1, 0, 1, 1},
         {1, 0, 0, 0, 0},

@@ -1,4 +1,4 @@
-package _7_Graph;
+package _7_Graph._01_Undir_Unweigh;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -27,7 +27,7 @@ No cycle in the graph.
 Constraints:
 1 ≤ adj.size() ≤ 105
  */
-public class _5_detect_cycle {
+public class _01_detect_cycle {
     
     public static void main(String[] args) {
         List<List<Integer>>adj=List.of(List.of(1),List.of(0,2,4),List.of(1,3),List.of(2,4),List.of(1,3));

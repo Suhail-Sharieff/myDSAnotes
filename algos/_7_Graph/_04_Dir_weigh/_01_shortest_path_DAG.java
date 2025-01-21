@@ -1,4 +1,4 @@
-package _7_Graph;
+package _7_Graph._04_Dir_weigh;
 /*
 
 //MUST WATCH:https://www.youtube.com/watch?v=ZUFQfFaU-8U&list=PLgUwDviBIf0oE3gA41TKO2H5bHpPd7fzn&index=29&ab_channel=takeUforward
@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
-public class _15_shortest_path_DAG {
+public class _01_shortest_path_DAG {
 
   // Solution exp:
 

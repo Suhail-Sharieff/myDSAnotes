@@ -1,4 +1,4 @@
-package _7_Graph;
+package _7_Graph._02_Dir_Unweigh;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -37,7 +37,7 @@ Some of the key significances of topological sorting include: Task Scheduling: I
 
 In simple words, if the directed graph has X->Y<-Z as nodes, then X,Z,Y or Z,X,Y is answer, ie the node being pointed to must be after the one that points to it
  */
-public class _12_topo_sort {
+public class _02_topo_sort {
 
 
     //*******************************************************USING DFS */

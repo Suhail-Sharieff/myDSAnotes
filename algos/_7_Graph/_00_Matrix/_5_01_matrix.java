@@ -1,4 +1,4 @@
-package _7_Graph;
+package _7_Graph._00_Matrix;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,7 +28,7 @@ Output: [[0,0,0],[0,1,0],[1,2,1]]
  
  */
 
-public class _6_01_matrix {
+public class _5_01_matrix {
 
     public static void main(String[] args) {
         int mat[][] = {

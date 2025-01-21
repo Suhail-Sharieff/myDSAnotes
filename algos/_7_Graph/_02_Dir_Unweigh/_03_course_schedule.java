@@ -1,4 +1,4 @@
-package _7_Graph;
+package _7_Graph._02_Dir_Unweigh;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -37,7 +37,7 @@ prerequisites[i].length == 2
 All the pairs prerequisites[i] are unique.
  */
 
-public class _13_course_schedule {
+public class _03_course_schedule {
 
     public static void main(String[] args) {
         int numCourses=2;

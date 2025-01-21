@@ -1,4 +1,4 @@
-package _7_Graph;
+package _7_Graph._01_Undir_Unweigh;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

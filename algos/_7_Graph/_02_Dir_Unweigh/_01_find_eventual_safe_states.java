@@ -1,4 +1,4 @@
-package _7_Graph;
+package _7_Graph._02_Dir_Unweigh;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,7 @@ graph[i] is sorted in a strictly increasing order.
 The graph may contain self-loops.
 The number of edges in the graph will be in the range [1, 4 * 104].
  */
-public class _11_find_eventual_safe_states {
+public class _01_find_eventual_safe_states {
 
     //solution: just add all nodes that doesnt have cycles, eventually remining always will lead to terminal
     public static void main(String[] args) {

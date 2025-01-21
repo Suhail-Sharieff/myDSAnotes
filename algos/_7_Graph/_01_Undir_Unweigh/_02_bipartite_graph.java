@@ -1,4 +1,4 @@
-package _7_Graph;
+package _7_Graph._01_Undir_Unweigh;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -32,7 +32,7 @@ Constraints:
 1 ≤ adj.size() ≤ 104
 1 ≤ adj[i][j] ≤ 104
  */
-public class _10_bipartite_graph {
+public class _02_bipartite_graph {
 
     //solution: pls checkout recursion/_9_graph_coloring as well for good understanding, but here bipartitemeans we choose 2 colors(0 and 1), go through each node, curroupt all its neighbours and paint them wrt to baseNode ie if base node has 0 we paint neighbour as 1 and vice versa, at any point of time we find that the node is already visited and its color is as same as the base/parent node, ie obviously it has violtaed bipartite condition, so return false;
 

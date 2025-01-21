@@ -1,4 +1,4 @@
-package _7_Graph;
+package _7_Graph._00_Matrix;
 //shows how we can spread from (i,j) in a matrix to its neighbours
 import java.util.LinkedList;
 import java.util.Queue;

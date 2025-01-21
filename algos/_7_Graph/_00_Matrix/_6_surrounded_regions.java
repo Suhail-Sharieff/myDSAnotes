@@ -1,4 +1,4 @@
-package _7_Graph;
+package _7_Graph._00_Matrix;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -52,7 +52,7 @@ Constraints:
 1 ≤ mat[0].size() ≤ 100
  */
 
-public class _7_surrounded_regions {
+public class _6_surrounded_regions {
 
 
     //solution: we need to mark all 'O's which r surrounded by 'X' ie those 'O's and all thier relatives dont have any relation with boundary, ie that region will not have any memember touching boundary and hence safe to convert to 'X'. So we first corrupt 'O's on all 4 boundaries of grid by marking them and all thier relatives as visisted. Next, we get remaining 0's within matrix tat r Os and not visited, do normal bfs on them and thier relatives and mark them as 'X'

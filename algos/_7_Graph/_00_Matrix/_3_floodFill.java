@@ -1,4 +1,4 @@
-package _7_Graph;
+package _7_Graph._00_Matrix;
 
 import java.util.Arrays;
 import java.util.LinkedList;
