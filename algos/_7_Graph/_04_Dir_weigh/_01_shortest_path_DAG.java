@@ -44,6 +44,10 @@ public class _01_shortest_path_DAG {
    * dist[neighbour] to min(dis[neighbour],wt+dis[top])
    */
 
+
+
+   //lesson learnt: u dont have to use recursion to find at how much distance is some node located from src, just do make use of toposort or some array way
+
   public static void main(String[] args) {
     int graph[][] = { // NOTE THE GRAPH HAS EDGES LIST WRITH CORRESPONDING WTS, ITS NOT LIKE NORMAL
                       // ADJ LIST
