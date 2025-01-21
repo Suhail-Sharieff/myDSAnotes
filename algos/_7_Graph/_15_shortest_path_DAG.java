@@ -35,6 +35,8 @@ public class _15_shortest_path_DAG {
 
   // prereq: toposort using BFS as described in _12_toposort
   /*
+  intution: WKT toposort's first elemnt is always the one having no incoming edges, ie if we start from any node we cant reach it, so lets start from that node and from there we r dam sure that we can trverse others since gievn that graph is DAG, before we move to the next neighbour, we will make ans[neigh] whcih represents the distance of neigh node from the base (topo's first node), as weightOfEdgeBtwParentAndMe+dis[par] ie dis[neigh]=wt+dis[par] where dis[par] represents distance of parent from base node, this tradition we ill carry further, if we encounter the node, whose value ws already there, just take min value
+  
    * First get adj list where
    * nodeNumber:[[neighBourNodeNumber,wt_with_that_neighBour],.....]
    * Get toposort statck(as described in _12_toposort(using DFS))
