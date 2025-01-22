@@ -2,6 +2,7 @@ package _7_Graph._02_Dir_Unweigh;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -63,7 +64,10 @@ public class _05_word_ladder {
         List<String> wordList = Arrays.asList("hot", "dot", "dog", "lot", "log", "cog");
 
         // know_one_such_short_sequence(beginWord, endWord, wordList);
-        follow_up_brute(beginWord, endWord, wordList);
+        // follow_up_brute(beginWord, endWord, wordList);
+
+        optimalFunc(beginWord, endWord, wordList);
+
 
     }
 
@@ -221,6 +225,63 @@ public class _05_word_ladder {
         }
         System.out.println(ans);
         return (ans);
+    }
+
+
+    //---------------------OPTIMAL: like in finding min sequence to reach targget, we will Make a map<string,int>, where int is number of steps (shrtest) we took to reach that word, once done, we ill back track from the final word to top, instaed of cecking the entire wordList we check the words in hashMap only since they r convertable
+
+    public static List<List<String>> optimalFunc(String beginWord,String endWord,List<String>wordList){
+        if(!wordList.contains(endWord)) return new ArrayList<>();//IMP, othere wise hashmap will have null exception
+        HashMap<String,Integer>hs=(word_minStepsToMakeIt(beginWord, endWord, wordList));
+        List<String>curr=new ArrayList<>();curr.add(endWord);
+        List<List<String>>ans=new ArrayList<>();
+        dfs(hs, endWord, beginWord, curr,ans);
+        System.out.println(ans);
+        return ans;
+    }
+
+    public static HashMap<String,Integer>word_minStepsToMakeIt(String beginWord,String endWord,List<String>wordList){
+        HashSet<String>set=new HashSet<>(wordList);
+        Queue<Pair>q=new LinkedList<>();
+        HashMap<String,Integer>hs=new HashMap<>();
+        hs.put(beginWord, 1);
+        q.offer(new Pair(beginWord, 1));
+        while (!q.isEmpty()) {
+
+            Pair front=q.poll();
+
+            if(front.s.equals(endWord)) break;
+
+            String curr=front.s;
+            int val=front.val;
+            List<String>transformations=getTransformationsOf(curr, set);
+            for(String e:transformations){
+                q.offer(new Pair(e, val+1));
+                hs.putIfAbsent(e, val+1);//ONLY PUT IF ABSENT,OR ELSE IT MAY OVERIDE PRE EXISTING VAL AND GIVE WRONG ANS---IMP
+                set.remove(e);
+            }
+        }
+        return hs;
+    }
+
+    public static void dfs(HashMap<String,Integer>word_minStepsToReachIt,String currWord,String beginWord,List<String>currList,List<List<String>>ans){
+        if(currWord.equals(beginWord)) {
+            ans.add(new ArrayList<>(currList.reversed()));
+            return;
+        }
+        for(int i=0;i<currWord.length();i++){
+            for(char c='a';c<='z';c++){
+                char arr[]=currWord.toCharArray();
+                arr[i]=c;
+                String newString=new String(arr);
+                if (word_minStepsToReachIt.containsKey(newString) && word_minStepsToReachIt.get(newString)<word_minStepsToReachIt.get(currWord)) {
+                    // System.out.println(currWord+" matches "+newString);
+                    currList.add(newString);
+                    dfs(word_minStepsToReachIt, newString, beginWord, currList,ans);
+                    currList.remove(currList.size()-1);
+                }
+            }
+        }
     }
 
     private static List<String> getTransformationsOf(String currrWord, HashSet<String> wordList) {
