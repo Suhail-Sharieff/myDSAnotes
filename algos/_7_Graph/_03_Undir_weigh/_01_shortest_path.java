@@ -44,36 +44,24 @@ public class _01_shortest_path {
 
     static int[] bfs(int adj[][], int src) {
         int nNodes = adj.length;
-        boolean isVis[] = new boolean[adj.length];
-
-        int dis[] = new int[adj.length];
+        int dis[] = new int[nNodes];
         Arrays.fill(dis, Integer.MAX_VALUE);
         dis[src] = 0;
-        
         Queue<Integer> q = new LinkedList<>();
-
-        int distance_from_src[] = new int[nNodes];
-        Arrays.fill(distance_from_src, Integer.MAX_VALUE);
-        distance_from_src[src] = 0;
-
         q.offer(src);
-        isVis[src] = true;
 
         while (!q.isEmpty()) {
-            int top = q.poll();
-            if (distance_from_src[top] != Integer.MAX_VALUE) {//----NOTE: dont place this inside for loop to check, u will get TLE. This if means that if there's a node that is diconnected,(so its encountered with IntMAx value), then waste to run loop for it
-                for (int neighbour : adj[top]) {
-                    if (!isVis[neighbour]) {
-                        q.offer(neighbour);
-                        isVis[neighbour] = true;
-                        distance_from_src[neighbour] = Math.min(distance_from_src[neighbour],
-                                1 + distance_from_src[top]);//coz given that edges have unit weight, we add 1
+            int front = q.poll();
+            if (dis[front] != Integer.MAX_VALUE) {
+                for (int n : adj[front]) {
+                    if (dis[front] + 1 < dis[n]) {//MISTAKE CODE: i didnt write this if statement, i wrote directly Math.min(dis[n],dis[front]+1);q.offer(n);, which means im updating the distance array, but see that we r pushng it in queue also everytime,which is wrong, so only push into queue when u get a smaller value, else not need
+                        dis[n] = Math.min(dis[n], 1 + dis[front]);
+                        q.offer(n);
                     }
                 }
             }
-
         }
 
-        return distance_from_src;
+        return Arrays.stream(dis).map((e) -> (e != Integer.MAX_VALUE ? e : -1)).toArray();
     }
 }
