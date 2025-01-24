@@ -1,4 +1,4 @@
-package _7_Graph._00_Matrix;
+package _7_Graph._00_Matrix._01_BFS_DFS;
 
 import java.util.ArrayList;
 import java.util.List;
