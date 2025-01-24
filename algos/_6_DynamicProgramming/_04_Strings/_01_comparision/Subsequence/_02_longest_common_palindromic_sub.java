@@ -7,7 +7,7 @@ public class _02_longest_common_palindromic_sub {
     }
     public int rec(String s,int i,int j){
         if(i>j) return 0;
-        if(i==j) return 1;
+        if(i==j) return 1;//VVIMP
 
         if(s.charAt(i)==s.charAt(j)) return rec(s,i+1,j-1)+2;//+2 coz 1 first and other last caracter
         return Math.max(rec(s,i+1,j),rec(s,i,j-1));

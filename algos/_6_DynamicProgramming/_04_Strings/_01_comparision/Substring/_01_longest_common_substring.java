@@ -33,7 +33,7 @@ public class _01_longest_common_substring {
             for(int j=1;j<=str2.length();j++){
                 if(str1.charAt(i-1)==str2.charAt(j-1)){
                     dp[i][j]=1+dp[i-1][j-1];
-                }else{
+                }else{//see the change here
                     dp[i][j]=0;
                 }
                 max=Math.max(dp[i][j],max);

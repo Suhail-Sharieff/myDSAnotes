@@ -2,6 +2,7 @@ package _6_DynamicProgramming._04_Strings._01_comparision.Subsequence;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /*
@@ -132,7 +133,8 @@ public class _01_longest_common_subseq {
     }
 
 
-    //suppose u want ot print ONLY ! SUCH SUBSTRING:
+    //suppose u want ot print ONLY ! SUCH SUBSTRING:https://www.youtube.com/watch?v=-zI4mrF2Pb4&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY&index=27&ab_channel=takeUforward
+    //idea : fill dp table. Start from, the last cell of dp table, if ith and jth char r equal append to sb, move to upper left ie i-1,j-1 and repea same procedure for all same chars, if same chars r not found at i,j, move to the point having max vale ie [i-1,j] or [i,j-1] and same procdure, u will get ans in reverse order, so return it after reversing
     public static String one_such_lcs(String x,String y){
         int dp[][]=new int[x.length()+1][y.length()+1];
         StringBuilder sb=new StringBuilder();
@@ -166,7 +168,7 @@ public class _01_longest_common_subseq {
     //https://www.youtube.com/watch?v=-zI4mrF2Pb4&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY&index=27&ab_channel=takeUforward
     //since we r appending to sb by rtversing from end of each of s1 and s2, we need to reverse it thats all
     public static void lcs_subseq(String s1,String s2,Set<String>ans,int i, int j,int dp[][],StringBuilder sb){
-        if(i==0 || j==0){//see the change
+        if(i==0 || j==0){//see the change, ie this time its not i<0 || j<0
             ans.add(new String(sb.reverse()));
             // System.out.println(sb);
             sb.reverse();
@@ -183,7 +185,22 @@ public class _01_longest_common_subseq {
             }
         }
     }
-
+    public static void main(String[] args) {
+        String x="rabbbit",y="rabbit";
+        Set<String>set=new HashSet<>();
+        int dp[][]=new int[x.length()+1][y.length()+1];
+        for(int i=1;i<=x.length();i++){
+            for(int j=1;j<=y.length();j++){
+                if(x.charAt(i-1)==y.charAt(j-1)){
+                    dp[i][j]=1+dp[i-1][j-1];
+                }else{
+                    dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);
+                }
+            }
+        }
+        lcs_subseq(x, y, set, x.length(), y.length(), dp, new StringBuilder());
+        System.out.println(set);
+    }
 }
 
 
