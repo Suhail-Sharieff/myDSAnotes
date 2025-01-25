@@ -1,7 +1,7 @@
 package _7_Graph._00_Matrix._02_djikstra;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Arrays;
+import java.util.PriorityQueue;
 
 /*
 You are a hiker preparing for an upcoming hike. You are given heights, a 2D array of size rows x columns, where heights[row][col] represents the height of cell (row, col). You are situated in the top-left cell, (0, 0), and you hope to travel to the bottom-right cell, (rows-1, columns-1) (i.e., 0-indexed). You can move up, down, left, or right, and you wish to find a route that requires the minimum effort.
@@ -44,37 +44,41 @@ columns == heights[i].length
  */
 public class _02_path_with_min_effort {
     public static void main(String[] args) {
-        int mountain[][]={
+        int heights[][]={
             {1,2,2},
             {3,8,2},
             {5,3,5}
         };
-        func(mountain);
+        System.out.println(djikstra(heights));
 
     }
-    public static void func(int mountain[][]){
-        int nRows=mountain.length,nCols=mountain[0].length;
-        boolean isVis[][]=new boolean[nRows][nCols];
-        Queue<int[]>q=new LinkedList<>();
-        q.offer(new int[]{0,0});
-
-        int musibath[][]=new int[nRows][nCols];
-        musibath[0][0]=0;
-        int dirs[][] = { { -1, -1 }, { -1, 0 }, { -1, 1 }, { 0, -1 }, { 0, 1 }, { 1, -1 }, { 1, 0 }, { 1, 1 } };
-        isVis[0][0]=true;
-        while (!q.isEmpty()) {
-            int[] front=q.poll();
-            System.out.print("["+front[0]+","+front[1]+"]("+mountain[front[0]][front[1]]+")->");
-            for(int dir[]:dirs){
-                int x=front[0]+dir[0];
-                int y=front[1]+dir[1];
-                if(x>=0 && y>-0 && x<nRows && y<nCols){
-                    if(!isVis[x][y]){
-                        q.offer(new int[]{x,y});
-                        isVis[x][y]=true;
+    public static int djikstra(int heights[][]){
+        int nRows = heights.length, nCols = heights[0].length;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((x,y)->x[0]-y[0]);
+        int dis[][] = new int[nRows][nCols];
+        for (int r[] : dis)
+        Arrays.fill(r, Integer.MAX_VALUE);
+        dis[0][0] = 0;
+        pq.offer(new int[] { 0, 0, 0 });//store elemnts in pq in format [weight,xPos,yPos]
+        int dirs[][] = { { -1, 0 }, { 1, 0 }, { 0, 1 }, { 0, -1 } };
+        while (!pq.isEmpty()) {
+            int[] front = pq.poll();
+            for (int dir[] : dirs) {
+                int curr_max_effort=front[0];
+                int x = dir[0] + front[1];
+                int y = dir[1] + front[2];
+                if (x >= 0 && y >= 0 && x < nRows && y < nCols) {
+                    int abs_diff=Math.abs(heights[front[1]][front[2]] - heights[x][y]);
+                    int new_max_effort_needed = Math.max(abs_diff,curr_max_effort);
+                    if (new_max_effort_needed < dis[x][y]) {
+                        dis[x][y] =  new_max_effort_needed;
+                        pq.offer(new int[]{dis[x][y],x,y});
                     }
                 }
             }
         }
+        // for(int r[]:dis) System.out.println(Arrays.toString(r));
+        return dis[nRows-1][nCols-1];
     }
 }
+
