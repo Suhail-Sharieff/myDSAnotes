@@ -1,5 +1,6 @@
 package _5_BST;
 
+import javax.swing.tree.TreeNode;
 
 /*
 Input: root = [1, N, 2, N, 8, 5, 11, 4, 7, 9, 12]
@@ -27,6 +28,7 @@ Explanation: In the given input, tree after deleting 11 will be
  */
 
 public class _4_delete {
+    // //idea is to shift right subtree of nodeTodelete, towards the right of the rightMostChildOfLeftOfNodeToDelete,ie inorder predeccor ke right me nodeToDelete ka right rakh do
     public static void main(String[] args) {
         TreeNode root=TreeNode.constructTree(new Integer[]{5,3,6,2,4,null,7});
         int key=3;
