@@ -39,6 +39,7 @@ public class _02_djikstra {
         );
         System.out.println(dijkstra_using_queue(adj, 2));
         System.out.println(dijkstra_using_PriorityQueue(adj, 2));
+        print_shortest_path(adj, 0, 2);
     }
 
     // -------------------USING QUEUE: u just put nodeNumber in queue and do normal
@@ -111,6 +112,43 @@ public class _02_djikstra {
             }
         }
         return Arrays.stream(dis).boxed().toList();
+    }
+
+
+    //FOLLOW UP: --------------------print that shortest path:
+    public static void print_shortest_path(List<List<int[]>>adj,int src,int dest){
+        int nNodes=adj.size();
+        Queue<int[]>q=new LinkedList<>();
+        q.offer(new int[]{src,0});//nodeNumber,wt
+        int parent_of[]=new int[nNodes];
+
+        int dis[]=new int[nNodes];Arrays.fill(dis, Integer.MAX_VALUE);dis[src]=0;
+
+        for(int i=0;i<nNodes;i++) parent_of[i]=i;
+
+        while (!q.isEmpty()) {
+            int front[]=q.poll();
+            List<int[]>curr=adj.get(front[0]);
+                for(int []pair:curr){
+                    int node=pair[0];
+                    int w=pair[1];
+                    if(dis[front[0]]+w<dis[node]){
+                        dis[node]=dis[front[0]]+w;
+                        parent_of[node]=front[0];//store the node from which it is getting shortest path from
+                        q.offer(new int[]{node,dis[node]});
+                    }
+                }
+        }
+        // System.out.println(Arrays.toString(dis));
+        //start from destination, check who is parent of it, append to string, next go to its parent,continue this until u get src
+        int currNode=dest;
+        StringBuilder sb=new StringBuilder();
+        while (currNode!=src) {
+            sb.append(currNode+"->");
+            currNode=parent_of[currNode];
+        }
+        sb.append(src);
+        System.out.println(sb.reverse());
     }
 
 
