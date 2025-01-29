@@ -1,6 +1,5 @@
 package _5_BST;
 
-import javax.swing.tree.TreeNode;
 
 /*
 Input: root = [1, N, 2, N, 8, 5, 11, 4, 7, 9, 12]
