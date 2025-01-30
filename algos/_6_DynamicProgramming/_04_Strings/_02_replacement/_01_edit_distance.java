@@ -1,11 +1,48 @@
 package _6_DynamicProgramming._04_Strings._02_replacement;
 
+
+/*
+Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2.
+
+You have the following three operations permitted on a word:
+
+Insert a character
+Delete a character
+Replace a character
+ 
+
+Example 1:
+
+Input: word1 = "horse", word2 = "ros"
+Output: 3
+Explanation: 
+horse -> rorse (replace 'h' with 'r')
+rorse -> rose (remove 'r')
+rose -> ros (remove 'e')
+Example 2:
+
+Input: word1 = "intention", word2 = "execution"
+Output: 5
+Explanation: 
+intention -> inention (remove 't')
+inention -> enention (replace 'i' with 'e')
+enention -> exention (replace 'n' with 'x')
+exention -> exection (replace 'n' with 'c')
+exection -> execution (insert 'u')
+ 
+
+Constraints:
+
+0 <= word1.length, word2.length <= 500
+word1 and word2 consist of lowercase English letters.
+ */
 public class _01_edit_distance {
 
     public static void main(String[] args) {
         String x = "horse";
         String y = "ros";
-        System.out.println(rec(x, y, x.length() - 1, y.length() - 1));
+        // System.out.println(rec(x, y, x.length() - 1, y.length() - 1));
+        print_Operations(x, y);
         /*
         //---------------output of recursion: read from bottom to top(coz this is DFS call)
         Using delete: comparing: [,]={1} ->Using replace: comparing: [rorse,r]={0} ->Using insert: comparing: [horser,]={1} ->
@@ -162,5 +199,50 @@ e:[5, 4, 4, 3]
             prevRow=currRow.clone();
         }
         return prevRow[len2];
+     }
+
+
+
+     //------------FOLLOW UP: Print what operations u perform / what word u get after each opr to convert x to y in minimum steps
+     public static void print_Operations(String x,String y){
+        int len1=x.length(),len2=y.length();
+        int dp[][]=new int[len1+1][len2+1];
+        for(int i=1;i<=len1;i++){
+            for(int j=1;j<=len2;j++){
+                dp[i][0]=j;
+                dp[0][j]=i;
+                if(x.charAt(i-1)==y.charAt(j-1)){
+                    dp[i][j]=dp[i-1][j-1];
+                }else{
+                    dp[i][j]=Math.min(dp[i-1][j-1],Math.min(dp[i-1][j], dp[i][j-1]))+1;
+                }
+            }
+        }
+        int i=len1,j=len2;
+        StringBuilder sb=new StringBuilder();
+        StringBuilder currWord=new StringBuilder(x);
+        while (i>0 && j>0) {
+            if(x.charAt(i-1)==y.charAt(j-1)){
+                i--;j--;
+            }else{
+                int min=Math.min(dp[i-1][j-1],Math.min(dp[i-1][j], dp[i][j-1]));
+                if(min==dp[i-1][j-1]){//replace ith by j
+                    sb.append("REPLACE "+x.charAt(i-1)+" by "+y.charAt(j-1)+" -> ");
+                    currWord.setCharAt(i-1, y.charAt(j-1));
+                    i--;j--;
+                }
+                else if(min==dp[i-1][j]){//delete ith
+                    sb.append("DELETE "+x.charAt(i-1)+" -> ");
+                    currWord.deleteCharAt(i-1);
+                    i--;
+                }else{//insert jth at i+1
+                    sb.append("INSERT "+y.charAt(j-1)+" at "+i+" -> ");
+                    currWord.insert(i, y.charAt(j-1));
+                    j--;
+                }
+                System.out.println("Currword status: "+currWord);
+            }
+        }
+        System.out.println(sb);
      }
 }
