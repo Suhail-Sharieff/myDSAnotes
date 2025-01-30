@@ -131,4 +131,36 @@ Using delete: comparing: [hors,ro]={2} ->Using replace: comparing: [horss,ros]={
         }
         return dp[len1][len2];
     }
+    /*
+    dp Array looks like this:
+  _   r  o  s
+_:[0, 1, 2, 3]
+h:[1, 1, 2, 3]
+o:[2, 2, 1, 2]
+r:[3, 2, 2, 2]
+s:[4, 3, 3, 2]
+e:[5, 4, 4, 3]
+     */
+
+     public static int space_optimized(String x,String y){//observe the obove dp array and see 
+        int len1=x.length(),len2=y.length();
+        int prevRow[]=new int[len2+1];
+        for(int i=0;i<=len2;i++) prevRow[i]=i;
+        for(int i=1;i<=len1;i++){
+            int currRow[]=new int[len2+1];
+            currRow[0]=i;//_----IMP, dont forget this
+            for(int j=1;j<=len2;j++){
+                if(x.charAt(i-1)==y.charAt(j-1)){
+                    currRow[j]=prevRow[j-1];
+                }else{
+                    int delete=prevRow[j];
+                    int replace=prevRow[j-1];
+                    int insert=currRow[j-1];
+                    currRow[j]=1+Math.min(delete, Math.min(replace, insert));
+                }
+            }
+            prevRow=currRow.clone();
+        }
+        return prevRow[len2];
+     }
 }
