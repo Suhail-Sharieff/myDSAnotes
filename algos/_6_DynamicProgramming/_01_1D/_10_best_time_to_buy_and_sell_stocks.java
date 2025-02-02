@@ -3,7 +3,8 @@ package _6_DynamicProgramming._01_1D;
 public class _10_best_time_to_buy_and_sell_stocks {
 
     public static void main(String[] args) {
-        Part1.maxProfit(new int[]{7,1,5,3,6,4});
+        // Part1.maxProfit(new int[]{7,1,5,3,6,4});
+        Part2.printTransactions(new int[]{7,1,5,3,6,4});
     }
 }
 
@@ -197,7 +198,6 @@ Constraints:
         for(int i=prices.length-1;i>=0;i--){
             int max=0;
             for(int in_buying_state=0;in_buying_state<=1;in_buying_state++){
-                
                 if(in_buying_state==1){
                     int buy_now=dp[i+1][0]-prices[i];
                     int dont_buy_now=dp[i+1][1];
@@ -211,6 +211,48 @@ Constraints:
             }
         }
         return dp[0][1];
+        //alternate loop:
+        /*
+         for (int i = n - 1; i >= 0; i--) {
+            dp[i][1] = Math.max(-prices[i] + dp[i+1][0], dp[i+1][1]);
+            dp[i][0] = Math.max(prices[i] + dp[i+1][1], dp[i+1][0]);
+        }
+         */
+    }
+    //---------------printOperations,very easy
+    static void printTransactions(int prices[]){
+        //build dp table:
+        //(im using alternate for loop as described above)
+        int dp[][]=new int[prices.length+1][2];
+        for(int i=prices.length-1;i>=0;i--){
+            //in selling state
+            dp[i][0]=Math.max(dp[i+1][1]+prices[i], dp[i+1][0]);
+            //in buying state
+            dp[i][1]=Math.max(dp[i+1][0]-prices[i], dp[i+1][1]);
+        }
+        // // Start at day 0 with the in_buying_state "can buy" (i.e. not holding any stock).
+        int i=0;
+        int in_buying_state=1;
+        while (i<prices.length) {
+            if (in_buying_state==1) {
+                if(dp[i+1][0]-prices[i]>=dp[i+1][1]){
+                    System.out.print("Buy at day " + i + " (price: " + prices[i] + ")->");
+                    in_buying_state = 0;  // after buying, switch to holding in_buying_state.
+                    i++;      // move to the next day after action.
+                    continue;
+                }
+            }else{
+                if(dp[i+1][1]+prices[i]>=dp[i+1][0]){
+                    System.out.println("Sell at day " + i + " (price: " + prices[i] + ")");
+                    in_buying_state = 1;  // after buying, switch to holding in_buying_state.
+                    i++;      // move to the next day after action.
+                    continue;
+                }
+            }
+            // If no action was taken at day i, move to the next day.
+            i++;
+        }
+        System.out.println("NET PROFIT :"+dp[0][1]);
     }
     //-----------spcae optimization, replace dp[i+1] with  prev and dp[i] as curr
     public int space_optimal(int prices[]){
