@@ -99,5 +99,45 @@ I would write it as: "at most two buy and two sell transactions".
 
         return max;
     }
+    //-------------tabulation:main thing is we move reverse fo both i and nChosen
+    public int tab(int[] prices) {
+        int dp[][][]=new int[prices.length+1][2][3+1];
+        for(int i=prices.length-1;i>=0;i--){
+            for(int nChosen=2;nChosen>=0;nChosen--){
+                dp[i][1][nChosen]=Math.max(
+                    dp[i+1][0][nChosen+1]-prices[i],
+                    dp[i+1][1][nChosen]
+                );
+                dp[i][0][nChosen]=Math.max(
+                    dp[i+1][1][nChosen]+prices[i],
+                    dp[i+1][0][nChosen]
+                );
+            }
+        }
+        // for(int e:dp[0][1])System.out.println(e);
+        return dp[0][1][0];
+    }
+
+
+    //-----------space optimize
+   public int space_optimal(int prices[]){
+    int prev [][]=new int[2][3+1];//dp[i+1]
+    for(int i=prices.length-1;i>=0;i--){
+        int curr[][]=new int[2][3+1];
+        for(int nChosen=2;nChosen>=0;nChosen--){
+            curr[1][nChosen]=Math.max(
+                prev[0][nChosen+1]-prices[i],
+                prev[1][nChosen]
+            );
+            curr[0][nChosen]=Math.max(
+                prev[1][nChosen]+prices[i],
+                prev[0][nChosen]
+            );
+        }
+        prev=curr.clone();
+    }
+    // for(int r[]:prev)System.out.println(Arrays.toString(r));
+    return prev[1][0];
+   }
 }
 
