@@ -45,6 +45,18 @@ Constraints:
 1 <= Data of a node <= 105
  */
 public class _12_bottomView {
+    static class co_ordinate {
+
+        public TreeNode node;
+        public int xPos;
+        public int yPos;
+    
+        public co_ordinate(TreeNode node, int xPos, int yPos) {
+            this.node = node;
+            this.xPos = xPos;
+            this.yPos = yPos;
+        }
+    }
 
     public static void main(String[] args) {
         
@@ -165,15 +177,4 @@ public class _12_bottomView {
 
     }
 }
-class co_ordinate {
 
-    public TreeNode node;
-    public int xPos;
-    public int yPos;
-
-    public co_ordinate(TreeNode node, int xPos, int yPos) {
-        this.node = node;
-        this.xPos = xPos;
-        this.yPos = yPos;
-    }
-}

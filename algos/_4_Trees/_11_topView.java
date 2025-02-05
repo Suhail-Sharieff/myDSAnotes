@@ -42,6 +42,19 @@ Since this is a function problem. You don't have to take input. Just complete th
 
 
 public class _11_topView {
+    static class co_ordinate {
+
+        public TreeNode node;
+        public int xPos;
+        public int yPos;
+    
+        public co_ordinate(TreeNode node, int xPos, int yPos) {
+            this.node = node;
+            this.xPos = xPos;
+            this.yPos = yPos;
+        }
+    }
+    
     public static void main(String[] args) {
         TreeNode root=TreeNode.constructTree(new Integer[]{10,20,30,40,6090,100});
 
@@ -148,17 +161,5 @@ public class _11_topView {
     }
 }
 
-class co_ordinate {
-
-    public TreeNode node;
-    public int xPos;
-    public int yPos;
-
-    public co_ordinate(TreeNode node, int xPos, int yPos) {
-        this.node = node;
-        this.xPos = xPos;
-        this.yPos = yPos;
-    }
-}
 
 

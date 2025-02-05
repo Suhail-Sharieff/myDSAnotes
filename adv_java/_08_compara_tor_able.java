@@ -5,22 +5,23 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-class Way1 {
-    String name;
-    int age;
-
-    public Way1(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-
-    @Override
-    public String toString() {
-        return "Way1 [name=" + name + ", age=" + age + "]";
-    }
-}
 
 public class _08_compara_tor_able {
+    static 
+    class Way1 {
+        String name;
+        int age;
+    
+        public Way1(String name, int age) {
+            this.name = name;
+            this.age = age;
+        }
+    
+        @Override
+        public String toString() {
+            return "Way1 [name=" + name + ", age=" + age + "]";
+        }
+    }
 
     public static void main(String[] args) {
         List<Way1> Way1s = new ArrayList<>();
@@ -50,26 +51,27 @@ public class _08_compara_tor_able {
         System.out.println(Way2s);
         
     }
+
+    static      //using comparable interface
+    class Way2 implements Comparable<Way2> {
+       String name;
+       int age;
+   
+       public Way2(String name, int age) {
+           this.name = name;
+           this.age = age;
+       }
+   
+       @Override
+       public String toString() {
+           return "Way2 [name=" + name + ", age=" + age + "]";
+       }
+   
+       @Override//nwo in main method we can use Collections.sort(Way2s);
+       public int compareTo(Way2 o) {
+           return this.age - o.age;
+       }
+   }
 }
 
 
-     //using comparable interface
-     class Way2 implements Comparable<Way2> {
-        String name;
-        int age;
-    
-        public Way2(String name, int age) {
-            this.name = name;
-            this.age = age;
-        }
-    
-        @Override
-        public String toString() {
-            return "Way2 [name=" + name + ", age=" + age + "]";
-        }
-    
-        @Override//nwo in main method we can use Collections.sort(Way2s);
-        public int compareTo(Way2 o) {
-            return this.age - o.age;
-        }
-    }

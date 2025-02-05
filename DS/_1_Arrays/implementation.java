@@ -1,54 +1,56 @@
 import java.util.Scanner;
 //implements insertion,deletion
-class Array {
 
-    private int arr[];
-    private int noOfElements;
-    private int maxSize;
-
-    public Array(int maxSize) {
-        arr = new int[maxSize];
-        noOfElements = 0;
-        this.maxSize=maxSize;
-    }
-
-    public void insert(int toInsert) {
-        if (noOfElements==maxSize) {
-            System.out.println("cant insert");
-            return;
-        }
-        arr[noOfElements++] = toInsert;
-    }
-
-    public void displayArray() {
-        System.out.println("Array Elements:");
-        for (int i = 0; i < noOfElements; i++) {
-            System.out.print(arr[i] + " ");
-        }
-        System.out.println();
-    }
-    
-    public void deleteElement(int elementToDelete) {
-        int j;
-        for (j = 0; j < noOfElements; j++) {
-            if (elementToDelete == arr[j]) {
-                break;
-            }
-        }
-        if (j == noOfElements) { // If element not found
-            System.out.println("Elemnt not found to delete");
-        } else {
-            for (int k = j; k < noOfElements - 1; k++) {
-                arr[k] = arr[k + 1];
-            }
-            noOfElements--;
-            System.out.println("Elemnt deleted successfully. Modified Array is:");
-            displayArray();
-        }
-    }
-
-}
 public class implementation {
+
+    static class Array {
+
+        private int arr[];
+        private int noOfElements;
+        private int maxSize;
+    
+        public Array(int maxSize) {
+            arr = new int[maxSize];
+            noOfElements = 0;
+            this.maxSize=maxSize;
+        }
+    
+        public void insert(int toInsert) {
+            if (noOfElements==maxSize) {
+                System.out.println("cant insert");
+                return;
+            }
+            arr[noOfElements++] = toInsert;
+        }
+    
+        public void displayArray() {
+            System.out.println("Array Elements:");
+            for (int i = 0; i < noOfElements; i++) {
+                System.out.print(arr[i] + " ");
+            }
+            System.out.println();
+        }
+        
+        public void deleteElement(int elementToDelete) {
+            int j;
+            for (j = 0; j < noOfElements; j++) {
+                if (elementToDelete == arr[j]) {
+                    break;
+                }
+            }
+            if (j == noOfElements) { // If element not found
+                System.out.println("Elemnt not found to delete");
+            } else {
+                for (int k = j; k < noOfElements - 1; k++) {
+                    arr[k] = arr[k + 1];
+                }
+                noOfElements--;
+                System.out.println("Elemnt deleted successfully. Modified Array is:");
+                displayArray();
+            }
+        }
+    
+    }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
