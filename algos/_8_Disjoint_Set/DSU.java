@@ -1,14 +1,14 @@
 package _8_Disjoint_Set;
 
 import java.util.Arrays;
-
-class Disjoint_Set {
+//https://www.youtube.com/watch?v=zEAmQqOpfzM&t=1275s&ab_channel=Luv
+public class DSU {//O(4alpha)---revrese akkerman function
 
     private int nNodes;
     private int parent[];
     private int size[];
 
-    public Disjoint_Set(int nNodes) {
+    public DSU(int nNodes) {
         this.nNodes = nNodes;
         this.parent = new int[this.nNodes];
         this.size = new int[this.nNodes];
@@ -21,7 +21,7 @@ class Disjoint_Set {
     private int get_parent_of(int nodeNumber) {
         if (parent[nodeNumber] == nodeNumber)
             return nodeNumber;
-        parent[nodeNumber]=get_parent_of(parent[nodeNumber]);
+        parent[nodeNumber]=get_parent_of(parent[nodeNumber]);//path compression
         return parent[nodeNumber];
     }
 
@@ -70,20 +70,18 @@ class Disjoint_Set {
     return adj;
    }
 
+
+   public static void main(String[] args) {
+    DSU graph = new DSU(5);
+    // graph.displayDSU();
+    graph.join(0, 3);
+    // graph.displayDSU();
+    graph.join(3, 4);
+    graph.displayDSU();
+    graph.get_adj();
+    System.out.println("Are 0 and 4 connected? " + graph.belong_to_same_component(0, 4));
+    System.out.println("Are 1 and 2 connected? " + graph.belong_to_same_component(1, 2));
+    System.out.println("Number of connected components: " + graph.get_number_of_connected_components());
 }
 
-public class DSU {
-
-    public static void main(String[] args) {
-        Disjoint_Set graph = new Disjoint_Set(5);
-        // graph.displayDSU();
-        graph.join(0, 3);
-        // graph.displayDSU();
-        graph.join(3, 4);
-        graph.displayDSU();
-        graph.get_adj();
-        System.out.println("Are 0 and 4 connected? " + graph.belong_to_same_component(0, 4));
-        System.out.println("Are 1 and 2 connected? " + graph.belong_to_same_component(1, 2));
-        System.out.println("Number of connected components: " + graph.get_number_of_connected_components());
-    }
 }
