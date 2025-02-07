@@ -18,7 +18,7 @@ public class DSU {//O(4alpha)---revrese akkerman function
         }
     }
 
-    private int get_parent_of_with_path_compression(int nodeNumber) {
+    public int get_parent_of_with_path_compression(int nodeNumber) {
         if (parent[nodeNumber] == nodeNumber)
             return nodeNumber;
         parent[nodeNumber]=get_parent_of_with_path_compression(parent[nodeNumber]);//path compression
