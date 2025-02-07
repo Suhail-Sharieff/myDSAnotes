@@ -78,10 +78,11 @@ public class _03_accounts_merge {
         }   
 
         for(int i=0;i<accounts.size();i++){
+            if(ans.get(i).isEmpty()) continue;
             Collections.sort(ans.get(i));
             ans.get(i).addFirst(accounts.get(i).get(0));
         }
-        return(ans.stream().filter(e->e.size()!=1).toList());//filtered with size 1 coz they contain only names of ppl
+        return(ans.stream().filter(e->!e.isEmpty()).toList());
     }
 
 
