@@ -1,6 +1,7 @@
 package _8_Disjoint_Set;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /*
@@ -74,7 +75,7 @@ Explanation:
  
 
 Your Task:
-You don't need to read or print anything. Your task is to complete the function numOfIslands() which takes an integer n denoting no. of rows in the matrix, an integer m denoting the number of columns in the matrix and a 2D array of size k denoting  the number of operators.
+You don't need to read or print anything. Your task is to complete the function numOfIslands() which takes an integer n denoting no. of nRows in the matrix, an integer m denoting the number of columns in the matrix and a 2D array of size k denoting  the number of operators.
 
 Expected Time Complexity: O(m * n)
 Expected Auxiliary Space: O(m * n)
@@ -95,25 +96,26 @@ public class _04_nIslands_2 {
         };
         int nRows=4,nCols=5;
         System.out.println(brute_force(nRows, nCols, queries));
+        System.out.println(optimal_using_DSU(nRows, nCols, queries));
     }
 
     // -----------------brute force
-    static List<Integer> brute_force(int rows, int cols, int[][] queries) {
+    static List<Integer> brute_force(int nRows, int nCols, int[][] queries) {
         // Your code here
-        int mat[][] = new int[rows][cols];
+        int mat[][] = new int[nRows][nCols];
         List<Integer> ans = new ArrayList<>();
         for (int q[] : queries) {
             mat[q[0]][q[1]] = 1;
-            ans.add(nIslands(mat, rows, cols));
+            ans.add(nIslands(mat, nRows, nCols));
         }
         return ans;
     }
 
-    static int nIslands(int mat[][], int rows, int cols) {
-        boolean isVis[][] = new boolean[rows][cols];
+    static int nIslands(int mat[][], int nRows, int nCols) {
+        boolean isVis[][] = new boolean[nRows][nCols];
         int cnt = 0;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
+        for (int i = 0; i < nRows; i++) {
+            for (int j = 0; j < nCols; j++) {
                 if (mat[i][j] == 1 && !isVis[i][j]) {
                     cnt++;
                     bfs(mat, isVis, i, j);
@@ -138,5 +140,46 @@ public class _04_nIslands_2 {
 
             }
         }
+    }
+
+
+
+    //--------------------------optimal appraoch:https://www.youtube.com/watch?v=Rn6B-Q4SNyA&list=PLgUwDviBIf0oE3gA41TKO2H5bHpPd7fzn&index=51&t=3s&ab_channel=takeUforward
+    //idea is that we treat each cell as the index 0,1,2,3....m*n. Whenever a query is cllled, first verify if already land is ther or not, if land is not there cnt++ for every query(we assume that it will be separate component, later we will adjust it ), form a land there, go in 4 dirs of that query cell, check if any neighbour is land and has dismillar parent of itslef, if there it doent have same ultimate parent, then they r to be connected, connect them using join function, decreemnt the cnt, same then for that query curr cnt is ans.
+    static List<Integer> optimal_using_DSU(int nRows,int nCols,int [][]queries){
+        int mat[][]=new int[nRows][nCols];
+        int cnt=0;
+        int dirs[][]={{-1,0},{1,0},{0,1},{0,-1}};
+        DSU dsu=new DSU(nRows*nCols);
+        int ans[]=new int[queries.length];
+        int i=0;
+        for(int q[]:queries){
+            if(mat[q[0]][q[1]]==1){
+                ans[i++]=cnt;
+                continue;
+            }
+            //make land there
+            mat[q[0]][q[1]]=1;
+            int currCellNumber=q[0]*nCols+q[1];//MISTAKE: wrote nRows in place of nCols
+            cnt++;
+            for(int dir[]:dirs){
+                int x=q[0]+dir[0];
+                int y=q[1]+dir[1];
+                if(x>=0 && y>=0 && x<nRows && y<nCols){
+
+                    int neighBourCellNumber=x*nCols+y;////MISTAKE: wrote nRows in place of nCols
+
+                    if(mat[x][y]==1){
+                        if(dsu.get_parent_of_with_path_compression(currCellNumber)!=dsu.get_parent_of_with_path_compression(neighBourCellNumber)){
+                            dsu.join(currCellNumber, neighBourCellNumber);
+                            cnt--;
+                        }
+                    }
+                }
+            }
+            ans[i++]=cnt;
+        }
+        // System.out.println(Arrays.toString(ans));
+        return Arrays.stream(ans).boxed().toList();
     }
 }
