@@ -33,10 +33,10 @@ public class DSU {//O(4alpha)---revrese akkerman function
     }
 
 
-    public void join(int u, int v) {
-        if(u!=v){
+    public void join(int u, int v) {//MISTAKE : wrote the code under if(u!=v)---PLS dont use this
             int root_of_u = get_parent_of_with_path_compression(u);
             int root_of_v = get_parent_of_with_path_compression(v);
+            if(root_of_u==root_of_v) return;
             if(size[root_of_u]>=size[root_of_v]){
                 parent[root_of_v]=root_of_u;
                 size[root_of_u]+=size[root_of_v];
@@ -45,7 +45,6 @@ public class DSU {//O(4alpha)---revrese akkerman function
                 size[root_of_v]+=size[root_of_u];
             }
             
-        }
     }
 
     public int get_number_of_connected_components() {
