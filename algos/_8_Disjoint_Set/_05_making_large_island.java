@@ -156,12 +156,8 @@ public class _05_making_large_island {
 
     public int get_maxSize() {
         int max = 0;
-        for (int i = 0; i < parent.length; i++) {
-            if (find(i) == i) { // Only check roots
-                max = Math.max(max, size[i]);
-            }
-        }
-        return max;
+       for(int e:size)max=Math.max(e,max);
+       return max;
     }
 
     public int find(int u) {
