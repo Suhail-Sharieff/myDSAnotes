@@ -1,4 +1,4 @@
-package _8_Disjoint_Set;
+package _7_Graph._02_Dir_Unweigh;
 
 
 //KOSARAJU ALGORITHM
@@ -108,7 +108,7 @@ import java.util.Stack;
  Now what we do is in the entire graph we will reverse whatever the edges which are presentsay if there is an edge from zero to one we convert it into 1 to 0 and so on for throughout the edgesthe advantage of doing this is thatthe strongly connected components will still remain the same but however now they will get Isolatedthis is becausethe edge that was connecting one strongly correctedcomponent to another strongly connected component has been reversed which meanswe cannot move now from one strongly connected component to another strongly connected component or in other words each strongly connected component has been isolated within itselfso hence we can use this property to print each and every isolated component. Now we start doing ADFS by maintaining an ease visited arrayfrom the top of the stack.Will pop out the topmost element from the stack and perform the dfs the dfs happens within all the nodes of only that particular strongly connected component because we have isolated that component by another strongly connected component by reversing the edgesso all the nodes of that particular top elementwill be touched by the dfs and the dfs will endby making visited all the elements of that particular strongly connected component next similarly we will do for the next elements and we will move on this is how we will print or we can even count the number of strongly connected components in a graph
  */
 
-public class _07_strongly_connected_componenets {
+public class _06_strongly_connected_componenets {
     public static void main(String[] args) {
         int adj[][] = {
                 { 2, 3 }, // connections of 0,{0->2} and {0->3}
