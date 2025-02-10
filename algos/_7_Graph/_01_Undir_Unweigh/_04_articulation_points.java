@@ -3,7 +3,6 @@ package _7_Graph._01_Undir_Unweigh;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /*
 Given an undirected connected graph with V vertices and adjacency list adj. You are required to find all the vertices removing which (and edges through it) disconnects the graph into 2 or more components(so called articulation points) and return it in sorted manner.
