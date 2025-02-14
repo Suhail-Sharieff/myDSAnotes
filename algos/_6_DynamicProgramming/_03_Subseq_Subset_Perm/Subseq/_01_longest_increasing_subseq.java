@@ -8,7 +8,7 @@ import java.util.List;
 
 /*
 Given an integer array nums, return the length of the longest strictly increasing 
-subsequence
+subsequence or another way of same question:Given a set of distinct positive integers nums, return the largest subsequnce length as answer such that every pair (nums[i], nums[j] ) of elements in this subset satisfies nums[i]< nums[j] for all i<j
 .
 
  
@@ -194,6 +194,9 @@ public class _01_longest_increasing_subseq {
 
 
     //-----------------------------more optimal approach: o(nLogn)-----o(n)
+    //Follow up: Can you come up with an algorithm that runs in O(n log(n)) time complexity?
+
+    
     //the below algorithm is intuition behind the optimal approach
     /*
     public static void print_all_increasing_subsequences(int nums[]){
