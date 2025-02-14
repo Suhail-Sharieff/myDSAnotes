@@ -1,4 +1,4 @@
-package _6_DynamicProgramming._03_Subseq_Subset_Perm.Subseq;
+package _6_DynamicProgramming._04_Strings._01_comparision.Subsequence;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +36,7 @@ Constraints:
 
 Follow up: Can you come up with an algorithm that runs in O(n log(n)) time complexity?
  */
-public class _01_longest_increasing_subseq {
+public class _05_longest_increasing_subseq {
     public static void main(String[] args) {
         int nums[] = { 10, 9, 2, 5, 3, 7, 101, 18 };
         test(nums, 0, new ArrayList<>(), Integer.MIN_VALUE);
