@@ -1,6 +1,8 @@
 package _6_DynamicProgramming._03_Subseq_Subset_Perm.Subseq;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -76,12 +78,164 @@ public class _01_longest_increasing_subseq {
 
 
     //------------------smart mem,teaches how u can hadle -ve idx as well, since u kow that prev_idx can vary from -1 to n ie only 1 negative value,instaed of storing precomputed value at dp[idx][prev_idx], store at dp[idx][prev_idx+1], solves preoblem of prev_idx being -ve
-    public int mem(int nums[],int i,int prev_idx,int dp[][]){//)(n^2)
-        if(i>=nums.length) return 0;
-        if(dp[i][prev_idx+1]!=-1) return dp[i][prev_idx+1];
-        int pick_curr=(prev_idx==-1 || nums[i]>nums[prev_idx])?1+mem(nums, i+1, i,dp):0;
-        int dont_pick_curr=mem(nums, i+1, prev_idx,dp);
-        dp[i][prev_idx+1]=Math.max(pick_curr, dont_pick_curr);
-        return dp[i][prev_idx+1];
+    public int top_down_mem(int nums[],int idx,int prev_idx,int dp[][]){//)(n^2)
+        if(idx>=nums.length) return 0;
+        if(dp[idx][prev_idx+1]!=-1) return dp[idx][prev_idx+1];
+        int pick_curr=(prev_idx==-1 || nums[idx]>nums[prev_idx])?1+top_down_mem(nums, idx+1, idx,dp):0;
+        int dont_pick_curr=top_down_mem(nums, idx+1, prev_idx,dp);
+        dp[idx][prev_idx+1]=Math.max(pick_curr, dont_pick_curr);
+        return dp[idx][prev_idx+1];
     }
+
+    //-----tab:
+    public int top_down_tab(int nums[]){
+        int dp[][]=new int[nums.length][nums.length+1];
+        //see in the above recursive solution that we r moving from 0 to end, so in tab we move revrese
+        int len=nums.length;
+        for(int idx=len-1;idx>=0;idx--){//idx moving from n-1 to 0 , here reverse
+            for(int prev_idx=idx-1;prev_idx>=-1;prev_idx--){//prev_idx moving from  idx-1 to -1, revrese------VVVIMP Skill,also mind that for dp[x][y], we need to always take dp[x][y+1]---IMP
+                int pick_curr=(prev_idx==-1 || nums[idx]>nums[prev_idx])?1+dp[idx+1][idx+1]:0;//MISTAKE: took as dp[idx+1][idx]
+                int dont_pick_curr=dp[idx+1][prev_idx+1];//make sure its prev_idx+1
+                dp[idx][prev_idx+1]=Math.max(pick_curr, dont_pick_curr);
+            }
+        }
+        return dp[0][0];
+    }
+
+    /////////////--prere to write tab code: read keys.md, hwo to write tab code:
+    public int down_top_mem(int nums[],int idx,int prev_idx,int dp[][]){
+        if(idx<0) return 0;
+        if(dp[idx][prev_idx+1]!=-1) return dp[idx][prev_idx+1];
+        int pick=(prev_idx==-1||nums[idx]<nums[prev_idx])?1+down_top_mem(nums,idx-1,idx,dp):0;
+        int dont_pick=down_top_mem(nums,idx-1,prev_idx,dp);
+        dp[idx][prev_idx+1]=Math.max(pick,dont_pick);
+        return dp[idx][prev_idx+1];
+    }
+
+   //tabulation is complex for this, just folow above's tabulation
+
+   //------------------apCE OPTIMIZATION{TAKEN WRT TO TOP_DOWN_TAB}
+    public int space_optimal_better(int nums[]){//assume dp[idx] as curr, dp[idx+1] as next//O(n^2)-----O(2n)
+        int len=nums.length;
+        int next[]=new int[len+1];
+        for(int idx=len-1;idx>=0;idx--){
+            int curr[]=new int[len+1];
+            for(int prev_idx=idx-1;prev_idx>=-1;prev_idx--){
+                int pick_curr=(prev_idx==-1 || nums[idx]>nums[prev_idx])?1+next[idx+1]:0;
+                int dont_pick_curr=next[prev_idx+1];
+                curr[prev_idx+1]=Math.max(pick_curr, dont_pick_curr);
+            }
+            next=curr.clone();
+        }
+        return next[0];
+    }
+
+    //https://www.youtube.com/watch?v=IFfYfonAFGc&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY&index=43&t=235s&ab_channel=takeUforward
+    public int space_optimal_best(int nums[]){//O(n^2)----O(n)--------Its also an algorithmc approach
+        /*
+        Approach:initialize maxLen(ie max_lengths array) to 1. For each i, go from 0 to i, if nums[j]<nums[i], take 1+lenOfThatSegment
+         */
+        int len=nums.length;
+        int max_lengths[]=new int[len];
+        Arrays.fill(max_lengths, 1);
+        for(int i=1;i<len;i++){
+            for(int j=0;j<i;j++){
+                if(nums[j]<nums[i]){
+                    max_lengths[i]=Math.max(max_lengths[i], 1+max_lengths[j]);
+                }
+            }
+        }
+        //max length can be present anywhere in ans array
+        int max=0;
+        for(int e:max_lengths) max=Math.max(e,max);
+        return max;
+    }
+
+    //--------------------printing LIS(uses the spae_optimal_best)
+    //idea: if we get that nums[i]>nums[j], we updtate max_lengths, also then we will take parent of that thrgh which its able to increase its length, ie in parent array we store that parent elemnent's idx becozuse of which its max_len incresed
+    public void print_LIS(int nums[]){
+        int len=nums.length;
+        int max_lengths[]=new int[len];
+
+        int parent[]=new int[len];
+        for(int i=0;i<len;i++) parent[i]=i;
+
+        Arrays.fill(max_lengths, 1);
+        for(int i=1;i<len;i++){
+            for(int j=0;j<i;j++){
+                if(nums[j]<nums[i]){
+                    if (1+max_lengths[j] > max_lengths[i]) {
+                        max_lengths[i]=1+max_lengths[j];
+                        parent[i]=j;
+                    }
+                }
+            }
+        }
+        //get idx where we have max_len
+        int max_len_idx=0;
+        int max=0;
+        for(int i=0;i<len;i++){
+            if(max_lengths[i]>max){
+                max=max_lengths[i];
+                max_len_idx=i;
+            }
+        }
+        List<Integer>lis=new ArrayList<>();
+        lis.add(nums[max_len_idx]);
+        while (parent[max_len_idx]!=max_len_idx) {
+            max_len_idx=parent[max_len_idx];
+            int par=nums[max_len_idx];
+            lis.add(par);
+        }
+        System.out.println(lis.reversed());
+    }
+
+
+
+
+    //-----------------------------more optimal approach: o(nLogn)-----o(n)
+    //the below algorithm is intuition behind the optimal approach
+    /*
+    public static void print_all_increasing_subsequences(int nums[]){
+        List<List<Integer>>li=new ArrayList<>();
+        li.add(new ArrayList<>());
+        li.get(0).add(nums[0]);
+        int sz=1;
+        for(int i=1;i<nums.length;i++){
+            for(int j=0;j<sz;j++){
+
+
+                int last_elemnt_in_that_list=li.get(j).getLast();
+                if(last_elemnt_in_that_list<nums[i]){
+                    li.get(j).add(nums[i]);
+                }else{
+                    List<Integer>new_list=new ArrayList<>();
+                    new_list.add(nums[i]);
+                    li.add(new ArrayList<>(new_list));
+                    sz++;
+                }
+            }
+        }
+        System.out.println(li);
+        //then to print LIS, return the longest in li
+    }
+        */
+
+        //but we can't use the above algo coz its extremely heavy operation such that it exceeds Memory limit just for an array size 3,so we can use same approach , but we will create only 1 list, overide the same lsit again and again, note that we cant use this method to print LIS, coz we r replacing elemnts and thus it may not be in subsequnce order, but it always gives corect lenth of subseq
+        //prereq: Collections.binarySerch(list,key) will return the idx of key if found, OR else it returns the negative 1 based indexing of the pos where that elemnt must be inserted ie lowerbound=abs(idxReturned)-1;
+        public static void most_optimal(int nums[]){
+            List<Integer>li=new ArrayList<>();
+            li.add(nums[0]);
+            for(int i=1;i<nums.length;i++){
+                int last_elemnt_in_that_list=li.getLast();
+                if(nums[i]>last_elemnt_in_that_list){
+                    li.add(nums[i]);
+                }else{
+                    int idx_to_replace=Collections.binarySearch(li,nums[i]);
+                    if(idx_to_replace<0) idx_to_replace=Math.abs(idx_to_replace)-1;
+                    li.set(idx_to_replace, nums[i]);
+                }
+            }
+            System.out.println(li);
+        }
 }
