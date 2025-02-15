@@ -23,8 +23,12 @@ Constraints:
 1 <= n <= 8
  */
 public class _01_generate_parenthesis {
-    List<String>li=new ArrayList<>();
-    public void rec(int left,int right,int n,String s){
+    public static void main(String[] args) {
+        rec(0,0,3,"");
+        System.out.println(li);
+    }
+    static List<String>li=new ArrayList<>();
+    static void rec(int left,int right,int n,String s){
         if(n*2==s.length()){
             li.add(s);
             return;
@@ -39,9 +43,5 @@ public class _01_generate_parenthesis {
 
 
 
-    public List<String> generateParenthesis(int n) {
-        //left right deal separately
-        rec(0,0,n,"");
-        return li;
-    }
+    
 }
