@@ -1,5 +1,7 @@
 package some_preq._01_Queries;
 /*
+SCANLINE ALGORITHM :
+
 Starting with a 1-indexed array of zeros and a list of queries, for each operation add a value to each array element between two given indices, inclusive. Once all queries have been performed, return the maximum value in the array after all queries r performed.
 //https://www.hackerrank.com/challenges/crush/problem
  */
