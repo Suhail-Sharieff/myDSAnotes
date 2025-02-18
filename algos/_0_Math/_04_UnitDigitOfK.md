@@ -3,6 +3,7 @@
 - (a*b) % k = ( (a%k) * (b%k) ) % k
 - (a-b) % k = ( (a%k) - (b%k) + m) % k
 - (a/b) % k = ( (a%k) * Inverse(b) ) % k
+- (a^b) % k = ( (a%k)^b ) % k 
 ---
 # Fermat's Little Theorm (Eulers's therom)
 Let `p` be a prime number, then:
