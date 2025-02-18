@@ -542,3 +542,24 @@ $n$ 
 </math>
 
 
+## Application of Euler's Totient Function  
+
+Euler's Totient Function $ \phi(n) $ plays a crucial role in efficiently computing large exponentiations of the form $ a^b \mod \text{MOD} $. A key property derived from Euler’s theorem states that for any integer $ a $ coprime to $ \text{MOD} $:  
+
+$
+a^{\phi(\text{MOD})} \equiv 1 \pmod{\text{MOD}}
+$
+
+Using this property, the exponentiation \( a^b \mod \text{MOD} \) can be significantly simplified when \( b \) is very large. Instead of directly computing \( a^b \), we can reduce the exponent using Euler’s totient function:
+
+$
+a^b \mod \text{MOD} = a^{b \mod \phi(\text{MOD})} \mod \text{MOD}
+$
+
+This reduction helps in cases where \( b \) is extremely large, making direct computation infeasible. Instead, we compute \( b \mod \phi(\text{MOD}) \), which significantly reduces the size of the exponent, allowing efficient modular exponentiation using methods like **binary exponentiation**.  
+
+Sippose $MOD$ is prime, replace $\phi(\text{MOD})$ with $(MOD-1)$ coz $\phi(\text{MOD})$ is $(MOD-1)$
+
+This technique is particularly useful in competitive programming, cryptography, and number theory problems where large modular exponentiation is required.
+
+
