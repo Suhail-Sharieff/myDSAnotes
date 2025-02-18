@@ -51,7 +51,7 @@ public class _01_etf {
         return (int)(Math.pow(prime_number, k-1)*(prime_number-1));
     }
 
-    static HashMap<Integer,Integer> prime_factorization(int n){
+    static HashMap<Integer,Integer> prime_factorization(int n){//O(sqrt(n))
         HashMap<Integer,Integer>p_n=new HashMap<>();
         int num=2;
         while (n>1) {

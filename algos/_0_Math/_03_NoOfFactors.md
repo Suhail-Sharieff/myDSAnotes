@@ -4,7 +4,7 @@
 
 This guide explains how to calculate the number of factors of a given number `k` using its prime factorization.
 
-## Steps to Find the Number of Factors
+## Steps to Find the Number of Factors/Divisors
 
 1. **Prime Factorization**:
    - First, perform the prime factorization of `k`.
@@ -21,6 +21,17 @@ This guide explains how to calculate the number of factors of a given number `k`
      ```
      Where `n1`, `n2`, `n3`, ..., `nz` are the powers of the prime factors in the factorization of `k`.
 
+
+# Sum of Divisors/Factors:
+$$ 
+\sum{divisors(k)=}
+\frac{a^{n1+1}-1}{a-1}\ *
+\frac{b^{n2+1}-1}{b-1}\ *
+.......
+\frac{x^{n+1}-1}{x-1}\ 
+
+$$
+where a,b,...x r prime factors obtained during prime factorization of 'k'
 ### Example
 
 Consider the number `k = 180`.
