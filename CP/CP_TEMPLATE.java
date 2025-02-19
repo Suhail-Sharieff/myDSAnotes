@@ -18,6 +18,7 @@ public class CP_TEMPLATE {
     }
 
     public static void solve() throws IOException {
+       
         
     }
 
