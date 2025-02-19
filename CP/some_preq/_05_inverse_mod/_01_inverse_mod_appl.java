@@ -8,13 +8,17 @@ FERMAT LiTTLe Theorm:
 It says that:
 
 [A^(m-1)] % m = 1
-Given that m&a r coprimes and a is not div by m(In most cases m&a r given as coprimes, if not just use extended Euclid algo)
+Given that m&a r coprimes and a is not div by m(m is prime)&(In most cases m&a r given as coprimes, if not just use extended Euclid algo)
 
 then 
 [b^(m-1)] %m =1
 also,
 [b^(m-2)] %m = b^(-1) ie we multiplied b^(-1) on BS
-ie [b^(m-2)]%m =inverse(b)
+ie [b^(m-2)]%m =inverse(b)-----------------VIMP
+
+
+
+
 LHS we can easily calculte in logM time using Euclid Algo to get inverse(m-2)
  */
 
