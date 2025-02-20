@@ -29,3 +29,7 @@ then loop as
 ```java
 for(int i=0;i<n;i++)
 ```
+
+
+
+NOTE: When converting from Mem to tab, suppose in mem, we went from 0 to n, in tab, always move from n to 0------VVIMP
