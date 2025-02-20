@@ -176,6 +176,7 @@ public class _03_Matrix_Chain_Multiplication {
             MyMat res=get_final_optimal_matrix_recursion(arr, 1, arr.length-1);
            System.out.println( MyMat.print_chain_with_dimensions(res));
            System.out.println(MyMat.print_chain_with_chars(res));
+           System.out.println("Final Matrix obtained = "+res);
 
         }
 
