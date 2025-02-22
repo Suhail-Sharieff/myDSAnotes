@@ -122,4 +122,185 @@ public class _07_find_intersection {
     }
 
     //---------------optimal:O(n1+n2)----O(1)
+    //Short explaination: say the length from intersection point is 'x'
+    //SAy length of l1 till common point(excluding) be 'a'
+    //SAy length of l1 till common point(excluding) be 'b'
+    /*
+    Now if we some how bring 2 pointers each in one of l1 and l2 at same vertical level, we can just trverse for remining untill both pointers get equal.
+
+    Say ptr1 is traveelling via l1 and ptr2 via l2. Say ptr1 has reached last node after intersection point ie it must have travelled (a+x) distance, similarly ptr2 must have travelled (b+x) distance, now "some how making them to reach at same vertical level", mathematically means that we need to make (a+x) equal to (b+x), to achive it so, add b to first term(means move ptr1 to l2 head) and a to second term(move ptr2 to l1 head), we get first term as (a+x+b) and second term as (b+x+a),aah they r equal , meaning they would arrive at same point , so now we can do a normal trversal and check for common point
+
+     */
+    /*
+Visualization of this solution:
+Case 1 (Have Intersection & Same Len):
+
+       a
+A:     a1 → a2 → a3
+                   ↘
+                     c1 → c2 → c3 → null
+                   ↗            
+B:     b1 → b2 → b3
+       b
+            a
+A:     a1 → a2 → a3
+                   ↘
+                     c1 → c2 → c3 → null
+                   ↗            
+B:     b1 → b2 → b3
+            b
+                 a
+A:     a1 → a2 → a3
+                   ↘
+                     c1 → c2 → c3 → null
+                   ↗            
+B:     b1 → b2 → b3
+                 b
+A:     a1 → a2 → a3
+                   ↘ a
+                     c1 → c2 → c3 → null
+                   ↗ b            
+B:     b1 → b2 → b3
+Since a == b is true, end loop while(a != b), return the intersection node a = c1.
+
+Case 2 (Have Intersection & Different Len):
+
+            a
+A:          a1 → a2
+                   ↘
+                     c1 → c2 → c3 → null
+                   ↗            
+B:     b1 → b2 → b3
+       b
+                 a
+A:          a1 → a2
+                   ↘
+                     c1 → c2 → c3 → null
+                   ↗            
+B:     b1 → b2 → b3
+            b
+A:          a1 → a2
+                   ↘ a
+                     c1 → c2 → c3 → null
+                   ↗            
+B:     b1 → b2 → b3
+                 b
+A:          a1 → a2
+                   ↘      a
+                     c1 → c2 → c3 → null
+                   ↗ b           
+B:     b1 → b2 → b3
+A:          a1 → a2
+                   ↘           a
+                     c1 → c2 → c3 → null
+                   ↗      b           
+B:     b1 → b2 → b3
+A:          a1 → a2
+                   ↘                a = null, then a = b1
+                     c1 → c2 → c3 → null
+                   ↗           b           
+B:     b1 → b2 → b3
+A:          a1 → a2
+                   ↘ 
+                     c1 → c2 → c3 → null
+                   ↗                b = null, then b = a1 
+B:     b1 → b2 → b3
+       a
+            b         
+A:          a1 → a2
+                   ↘ 
+                     c1 → c2 → c3 → null
+                   ↗
+B:     b1 → b2 → b3
+            a
+                 b         
+A:          a1 → a2
+                   ↘ 
+                     c1 → c2 → c3 → null
+                   ↗ 
+B:     b1 → b2 → b3
+                 a
+A:          a1 → a2
+                   ↘ b
+                     c1 → c2 → c3 → null
+                   ↗ a
+B:     b1 → b2 → b3
+Since a == b is true, end loop while(a != b), return the intersection node a = c1.
+
+Case 3 (Have No Intersection & Same Len):
+
+       a
+A:     a1 → a2 → a3 → null
+B:     b1 → b2 → b3 → null
+       b
+            a
+A:     a1 → a2 → a3 → null
+B:     b1 → b2 → b3 → null
+            b
+                 a
+A:     a1 → a2 → a3 → null
+B:     b1 → b2 → b3 → null
+                 b
+                      a = null
+A:     a1 → a2 → a3 → null
+B:     b1 → b2 → b3 → null
+                      b = null
+Since a == b is true (both refer to null), end loop while(a != b), return a = null.
+
+Case 4 (Have No Intersection & Different Len):
+
+       a
+A:     a1 → a2 → a3 → a4 → null
+B:     b1 → b2 → b3 → null
+       b
+            a
+A:     a1 → a2 → a3 → a4 → null
+B:     b1 → b2 → b3 → null
+            b
+                 a
+A:     a1 → a2 → a3 → a4 → null
+B:     b1 → b2 → b3 → null
+                 b
+                      a
+A:     a1 → a2 → a3 → a4 → null
+B:     b1 → b2 → b3 → null
+                      b = null, then b = a1
+       b                   a = null, then a = b1
+A:     a1 → a2 → a3 → a4 → null
+B:     b1 → b2 → b3 → null
+            b                   
+A:     a1 → a2 → a3 → a4 → null
+B:     b1 → b2 → b3 → null
+       a
+                 b
+A:     a1 → a2 → a3 → a4 → null
+B:     b1 → b2 → b3 → null
+            a
+                      b
+A:     a1 → a2 → a3 → a4 → null
+B:     b1 → b2 → b3 → null
+                 a
+                           b = null
+A:     a1 → a2 → a3 → a4 → null
+B:     b1 → b2 → b3 → null
+                      a = null
+Since a == b is true (both refer to null), end loop while(a != b), return a = null.
+
+Notice that if list A and list B have the same length, this solution will terminate in no more than 1 traversal; if both lists have different lengths, this solution will terminate in no more than 2 traversals -- in the second traversal, swapping a and b synchronizes a and b before the end of the second traversal. By synchronizing a and b I mean both have the same remaining steps in the second traversal so that it's guaranteed for them to reach the first intersection node, or reach null at the same time (technically speaking, in the same iteration) -- see Case 2 (Have Intersection & Different Len) and Case 4 (Have No Intersection & Different Len).
+     */
+//https://www.youtube.com/watch?v=0DYoPz2Tpt4&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz&index=248&ab_channel=takeUforward
+    public ListNode optimal(ListNode l1,ListNode l2){//O(n1+n2)----O(1)
+        if(l1==null || l2==null) return null;
+        ListNode h1=l1,h2=l2;//store heads of both
+        ListNode ptr1=l1,ptr2=l2;
+        while (ptr1!=ptr2) {
+            ptr1=ptr1.next;
+            ptr2=ptr2.next;
+            if(ptr1==ptr2) return ptr1;
+            if(ptr1==null) ptr1=h2;
+            if(ptr2==null) ptr2=h1;
+        }
+        return ptr1;//or can return ptr2 also
+    }
+     
 }
