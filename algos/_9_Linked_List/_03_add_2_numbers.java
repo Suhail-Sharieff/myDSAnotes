@@ -26,7 +26,7 @@ Output: [8,9,9,9,0,0,0,1]
 Constraints:
 
 The number of nodes in each linked list is in the range [1, 100].
-0 <= Node.val <= 9
+0 <= ListNode.val <= 9
 It is guaranteed that the list represents a number that does not have leading zeros.
  */
 public class _03_add_2_numbers {
@@ -93,4 +93,60 @@ public class _03_add_2_numbers {
         return head.next;
     }
 
+
+
+    //-------------------------------FOLLOW UP:
+    /*
+    You are given a linked list where each element in the list is a node and have an integer val. You need to add 1 to the number formed by concatinating all the list node numbers together and return the head of the modified linked list. 
+
+Note: The head represents the first element of the given array.
+
+Examples :
+
+Input: LinkedList: 9->9->9
+Output: 1->0->0->0
+
+Explanation: 9->9->9 represents 999 and when 1 is added it becomes 1000. 
+Input: LinkedList: 9
+Output: 10->NULL
+ 
+Explanation:  9 represents 9 and when 1 is added it becomes 10. 
+Expected Time Complexity: O(n)
+Expected Auxiliary Space: O(1)
+
+Constraints:
+1 <= len(list) <= 105
+0 <= list[i] <= 9
+     */
+    public ListNode addOne(ListNode head) {
+        //solution: reverse the LL, add 1 as same as the way u did above, return reverse
+        if(head.next==null) return new ListNode(head.val+1);
+        // code here.
+        ListNode x=new ListNode(1);
+        ListNode rev=rev(head,null);
+        ListNode ptr=rev;
+        ListNode prev=null;
+        // System.out.println(ptr.val);
+        int carry=0;
+        while(ptr!=null){
+            prev=ptr;
+            int v1=ptr.val;
+            int v2=(x!=null)?x.val:0;
+            int sum=v1+v2+carry;
+            carry=sum/10;
+            sum%=10;
+            ptr.val=sum;
+            ptr=ptr.next;
+            x=null;
+        }
+        if(carry!=0) prev.next=new ListNode(carry);
+        return rev(rev,null);
+        
+    }
+    public ListNode rev(ListNode head,ListNode prev){
+        if(head==null) return prev;
+        ListNode n=head.next;
+        head.next=prev;
+        return rev(n,head);
+    }
 }
