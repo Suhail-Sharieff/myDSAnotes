@@ -3,7 +3,8 @@ package _9_Linked_List;
 public class _01_reverse_LL {
     public static void main(String[] args) {
         ListNode root=ListNode.get_LL(new int[]{1,2,3,4,5});
-        rev(root);
+        // rev(root);
+        ListNode.print_LL(root=dfs(root,null));
     }
     static ListNode rev(ListNode head){
         ListNode curr=head;
@@ -16,6 +17,15 @@ public class _01_reverse_LL {
         }
         ListNode.print_LL(prev);
         return prev;
+    }
+
+
+    //----------------------recursive
+    static ListNode dfs(ListNode root,ListNode prev){
+        if(root==null) return prev;
+        ListNode next_node=root.next;
+        root.next=prev;
+        return dfs(next_node, root);
     }
 
 
