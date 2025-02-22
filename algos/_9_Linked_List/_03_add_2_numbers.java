@@ -118,7 +118,7 @@ Constraints:
 1 <= len(list) <= 105
 0 <= list[i] <= 9
      */
-    public ListNode addOne(ListNode head) {
+    public ListNode addOne(ListNode head) {//O(N)---O(1)
         //solution: reverse the LL, add 1 as same as the way u did above, return reverse
         if(head.next==null) return new ListNode(head.val+1);
         // code here.
