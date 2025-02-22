@@ -91,15 +91,63 @@ Follow up: Can you solve it using O(1) (i.e. constant) memory?
             if (slow == fast) break;
         }
 
-        if (fast == null || fast.next == null) return null;
+        if (fast == null || fast.next == null) return null;//what if single node is ther
 
-        fast = head;
+        fast = head;//reset to find where the cycle starts
         while (fast != slow) {
             fast = fast.next;
             slow = slow.next;
         }
 
         return slow;        
+    }
+
+
+    //------------------------follow up: find length of loop
+    /*
+    Given the head of a linked list, determine whether the list contains a loop. If a loop is present, return the number of nodes in the loop, otherwise return 0.
+
+
+
+Note: 'c' is the position of the node which is the next pointer of the last node of the linkedlist. If c is 0, then there is no loop.
+
+Examples:
+
+Input: LinkedList: 25->14->19->33->10->21->39->90->58->45, c = 4
+Output: 7
+Explanation: The loop is from 33 to 45. So length of loop is 33->10->21->39-> 90->58->45 = 7. 
+The number 33 is connected to the last node of the linkedlist to form the loop because according to the input the 4th node from the beginning(1 based indexing) 
+will be connected to the last node for the loop.
+ 
+Input: LinkedList: 5->4, c = 0
+Output: 0
+Explanation: There is no loop.
+
+Expected Time Complexity: O(n)
+Expected Auxiliary Space: O(1)
+
+Constraints:
+1 <= no. of nodes <= 106
+0 <= node.data <=106
+0 <= c<= n-1
+     */
+    public int length_of_cycle(ListNode head){
+        ListNode slow = head, fast = head;
+
+        while(fast!=null && fast.next!=null){
+            fast=fast.next.next;
+            slow=slow.next;
+            if(slow==fast){
+                if(fast==null || fast.next==null) return 0;
+                int len=1;
+                while(fast.next!=slow){
+                    len++;
+                    fast=fast.next;
+                }
+                return len;
+            }
+        }
+        return 0;
     }
 
 }
