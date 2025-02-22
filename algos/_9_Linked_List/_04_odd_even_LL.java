@@ -30,6 +30,9 @@ The number of nodes in the linked list is in the range [0, 104].
 public class _04_odd_even_LL {
 
 
+    //OTHER WAY OF ASKING SAME QUESTION: given a LL of alternate 0 and 1s(0 is present at head), sort it
+
+
     ///-------------------brute force O(N)---O(N)
     public ListNode brute_force(ListNode head) {
         if(head==null) return null;//no nodes
@@ -73,11 +76,16 @@ public class _04_odd_even_LL {
         while(odd_tail.next!=null && even_tail.next!=null){
             odd_tail.next=even_tail.next;
             even_tail.next=odd_tail.next.next;
+            
             odd_tail=odd_tail.next;
             even_tail=even_tail.next;
         }
         odd_tail.next=even_head;
         return odd_head;
 
+
+
     }
+
+
 }
