@@ -30,7 +30,7 @@ public class _09_detect_cycle {
     }
 
 
-    //----------------------follow up:
+    //----------------------follow up: Find loop ending/starting point
     /*
 Given the head of a linked list, return the node where the cycle begins. If there is no cycle, return null.
 
