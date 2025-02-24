@@ -37,7 +37,7 @@ public class _14_merge_LL {
         return h.next;
     }
 
-    //-------optimal: O(N)--O(1)
+    //-------optimal: O(N)--O(1)---VVIMP:teaches how u can save mememoru using ptrs
     public ListNode optimal(ListNode l1,ListNode l2){
         ListNode ans=new ListNode(-1);
         ListNode ptr=ans;
