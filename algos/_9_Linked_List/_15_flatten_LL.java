@@ -321,36 +321,41 @@ Merging the serialization of each level and removing trailing nulls we obtain:
         print(root);
         return root;
     }
-    static Node rec(Node root){
-        if(root.next==null && root.child==null){
+    static  Node rec(Node root) {
+        if (root.next == null && root.child == null) {
             // print("---------------------------------------");
             // print("i reached "+root.val+" and my next is null");
             // print("---------------------------------------");
             return root;
-        }else if(root.next==null && root.child!=null){
-            root.next=root.child;
-            root.next.prev=root;
-            root.child=null;
-            return rec(root.next);
         }
-        if(root.child!=null && root.next!=null){
-            // print("---------------------------------------");
-            // print("root: "+root.next.val+" child: "+root.child.val);
-            Node next_node=root.next;
-            Node end=rec(root.child);
-            // print(root.val+" has both left and right so trying to connect "+end.val+" with "+next_node.val);
-            root.next=root.child;
-            root.child=null;
-            root.next.prev=root;
-            next_node.prev=null;
-            end.next=next_node;
-            next_node.prev=end;
-            // print("so now "+end.val+" has next as "+end.next.val);
-            // print("---------------------------------------");
-            return rec(end.next);
+        if (root.child != null) {
+            if (root.next == null) {//has only child and no next,EDGE case, so move to child rather than next
+                root.next = root.child;
+                root.next.prev = root;
+                root.child = null;
+                return rec(root.next);
+            } else {
+                // print("---------------------------------------");
+                // print("root: "+root.next.val+" child: "+root.child.val);
+                Node next_node = root.next;
+                Node end = rec(root.child);
+                // print(root.val+" has both left and right so trying to connect "+end.val+"
+                // with "+next_node.val);
+                root.next = root.child;
+                root.child = null;
+                root.next.prev = root;
+                next_node.prev = null;
+                end.next = next_node;
+                next_node.prev = end;
+                // print("so now "+end.val+" has next as "+end.next.val);
+                // print("---------------------------------------");
+                return rec(end.next);
+            }
         }
+
         return rec(root.next);
     }
+
     public void print(String s){
         System.out.println(s);
     }
