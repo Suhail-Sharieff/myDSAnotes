@@ -60,6 +60,10 @@ public class _15_flatten_LL {
         Node next;
         Node bottom;
 
+        //only for follow up:
+        Node child;
+        Node prev;
+
         public Node(int v) {
             this.val = v;
         }
@@ -67,11 +71,17 @@ public class _15_flatten_LL {
 
     public static void main(String[] args) {
 
-        Node example_node=get_exaple_LL();
+        // Node example_node=get_exaple_LL();
         // Node flattened_ans=flatten_iterative(example_node);
-        Node flattened_ans=flatten_recursive(example_node);
-        print(flattened_ans);
+        // Node flattened_ans=flatten_recursive(example_node);
+        // print(flattened_ans);
+
+
+        //--------------------follow up
+        //run in leetocde to get to know 
+
     }
+    
 
 
     //SOLUTION: gien that the each bottom part of each node is sorted, so if u merge 2 verical LLinked lists, job's done. Just make sure u move downwards in merge function rather than next
@@ -187,4 +197,169 @@ public class _15_flatten_LL {
         return ans.bottom;
     }
 
+
+    //_-----------------------------FOLLOW UP(HARD):flatten a multilevel doubly LL
+    /*
+You are given a doubly linked list, which contains nodes that have a next pointer, a previous pointer, and an additional child pointer. This child pointer may or may not point to a separate doubly linked list, also containing these special nodes. These child lists may have one or more children of their own, and so on, to produce a multilevel data structure as shown in the example below.
+
+Given the head of the first level of the list, flatten the list so that all the nodes appear in a single-level, doubly linked list. Let curr be a node with a child list. The nodes in the child list should appear after curr and before curr.next in the flattened list.
+
+Return the head of the flattened list. The nodes in the list must have all of their child pointers set to null.
+
+ 
+
+Example 1:
+
+
+Input: head = [1,2,3,4,5,6,null,null,null,7,8,9,10,null,null,11,12]
+Output: [1,2,3,7,8,11,12,9,10,4,5,6]
+Explanation: The multilevel linked list in the input is shown.
+After flattening the multilevel linked list it becomes:
+
+Example 2:
+
+
+Input: head = [1,2,null,3]
+Output: [1,3,2]
+Explanation: The multilevel linked list in the input is shown.
+After flattening the multilevel linked list it becomes:
+
+Example 3:
+
+Input: head = []
+Output: []
+Explanation: There could be empty list in the input.
+ 
+
+Constraints:
+
+The number of Nodes will not exceed 1000.
+1 <= Node.val <= 105
+ 
+
+How the multilevel linked list is represented in test cases:
+
+We use the multilevel linked list from Example 1 above:
+
+ 1---2---3---4---5---6--NULL
+         |
+         7---8---9---10--NULL
+             |
+             11--12--NULL
+The serialization of each level is as follows:
+
+[1,2,3,4,5,6,null]
+[7,8,9,10,null]
+[11,12,null]
+To serialize all levels together, we will add nulls in each level to signify no node connects to the upper node of the previous level. The serialization becomes:
+
+[1,    2,    3, 4, 5, 6, null]
+             |
+[null, null, 7,    8, 9, 10, null]
+                   |
+[            null, 11, 12, null]
+Merging the serialization of each level and removing trailing nulls we obtain:
+
+[1,2,3,4,5,6,null,null,null,7,8,9,10,null,null,11,12]
+     */
+
+
+     //Intutuion: how we used to build right-threaded Binary tree, but there we dint make anything null, we just connected node if possible to its preorder successor, i got intutuion from that only. i treated the given DLL like a tree, starting from the first node as root, treat 'child' as left child and 'next' as rightchild of tree,  since we need to flatten this DLL, the idea is to some how flatten the tree into a single LL, the idea is as same as right-treaded-bt formation. Idea is to just trverse like how u did in a binary tree, whenver u find a node having both child and a next node ie a node(in tree) with 2 children. When we encounter such node, make a depth first search to last right end of that node, connect its next to right of node frommwhere u did dfs(ie haing 2 children), MAKE SURE U PROPERLY HANDLE TO MAKE CHILD,PREV,NEXT as null or whatsoever wherever possible, EDGE CASE: suppose nodes r nested children, ie node has no next or prev but instaed nly nested children, hadle such case properly, thats all
+     
+
+     /*
+      For ex, the multilayered DLL is given as:
+      1---2---3---4---5---6--NULL
+         |
+         7---8---9---10--NULL
+             |
+             11--12--NULL
+
+
+             Imagine as trree to get: Traeting next as rightChild and child as left child
+
+                       1
+                        \
+                         2
+                        /  \
+                       7    3
+                        \    \
+                         8    4
+                        /  \   \
+                       11   9   5
+                        \    \   \
+                         12   10  6
+
+            Dry run of my  algo: 
+
+            A normal dfs to just print nodes in wanted order as per question is
+            dfs(root){
+                if(root==null) return;
+                print(root.val);
+                dfs(root.child)
+                dfs(root.next) 
+            }
+
+            Now just try to get desired LL by playing with this dfs call
+            (try running the main method to get how its working)
+
+            supoose u reach 8(has 2 children)
+            say next_node=9
+            so  a dfs from 8 to reach 12, break connection betwenn 8 and 9, make 9 as next of 12
+
+            similarly, u can break connection between 2 and 3, connect 3 to next of 10, make connections accordingly, the tree has been convertedd to a single doubly LL
+
+
+
+
+      */
+
+      static Node flatten_DLL(Node root) {
+        if(root==null) return root;
+        Node ptr=root;
+        rec(ptr);
+        print(root);
+        return root;
+    }
+    static Node rec(Node root){
+        if(root.next==null && root.child==null){
+            // print("---------------------------------------");
+            // print("i reached "+root.val+" and my next is null");
+            // print("---------------------------------------");
+            return root;
+        }else if(root.next==null && root.child!=null){
+            root.next=root.child;
+            root.next.prev=root;
+            root.child=null;
+            return rec(root.next);
+        }
+        if(root.child!=null && root.next!=null){
+            // print("---------------------------------------");
+            // print("root: "+root.next.val+" child: "+root.child.val);
+            Node next_node=root.next;
+            Node end=rec(root.child);
+            // print(root.val+" has both left and right so trying to connect "+end.val+" with "+next_node.val);
+            root.next=root.child;
+            root.child=null;
+            root.next.prev=root;
+            next_node.prev=null;
+            end.next=next_node;
+            next_node.prev=end;
+            // print("so now "+end.val+" has next as "+end.next.val);
+            // print("---------------------------------------");
+            return rec(end.next);
+        }
+        return rec(root.next);
+    }
+    public void print(String s){
+        System.out.println(s);
+    }
+    public void printNext(Node head){//i used tthis function while debugging to make sure a node has only prev and next and no child after flattening
+        Node ptr1=head;
+        while(ptr1!=null){
+            print(ptr1.val+" has child "+ptr1.child);
+            ptr1=ptr1.next;
+        }
+        
+    }
 }
