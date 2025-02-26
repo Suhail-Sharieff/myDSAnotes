@@ -103,7 +103,7 @@ public class _06_evaluate_boolean_evaluation_to_TRUE {
             long right_false = rec(exp, k + 1, j, false);
 
             switch (exp.charAt(k)) {
-                case '&' -> {
+                case '&' -> {//if usnig ":" in plac of '->', add "break" after each case as well, i have used enchnced switch here
                     if (looking_for == true) {
                         nWays = (nWays + (left_true * right_true) % MOD) % MOD;
                     } else {
@@ -121,9 +121,9 @@ public class _06_evaluate_boolean_evaluation_to_TRUE {
                 }
                 case '^' -> {
                     if (looking_for == true) {
-                        nWays = (nWays + (left_true * right_false) % MOD + (left_false * right_true) % MOD);
+                        nWays = (nWays + (left_true * right_false) % MOD + (left_false * right_true) % MOD) % MOD;
                     } else {
-                        nWays = (nWays + (left_true * right_true) % MOD + (left_false * right_false) % MOD);
+                        nWays = (nWays + (left_true * right_true) % MOD + (left_false * right_false) % MOD) % MOD;
                     }
                 }
 
@@ -176,10 +176,10 @@ public class _06_evaluate_boolean_evaluation_to_TRUE {
                             case '^' -> {
                                 if (looking_for == 1) {
                                     nWays =  (nWays + (left_true * right_false) % MOD
-                                            + (left_false * right_true) % MOD);
+                                            + (left_false * right_true) % MOD) % MOD;
                                 } else {
                                     nWays = (nWays + (left_true * right_true) % MOD
-                                            + (left_false * right_false) % MOD);
+                                            + (left_false * right_false) % MOD) % MOD;
                                 }
                             }
 
