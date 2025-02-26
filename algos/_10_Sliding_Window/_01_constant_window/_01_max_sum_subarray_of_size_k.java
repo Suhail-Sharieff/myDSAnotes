@@ -1,4 +1,5 @@
 package _10_Sliding_Window._01_constant_window;
+
 /*
 Given an array of integers arr[]  and a number k. Return the maximum sum of a subarray of size k.
 
@@ -21,24 +22,35 @@ Constraints:
 1 <= k<= arr.size()
  */
 public class _01_max_sum_subarray_of_size_k {
-    public int maximumSumSubarray(int[] nums, int k) {//O(N)------------sliding window approach
-        // Code here
-        if(nums.length<k) return 0;
-        int sum=0;
-        for(int z=0;z<k;z++){
-            sum+=nums[z];
+    public int maximumSumSubarray(int[] nums, int k) {// O(N)------------sliding window approach
+        //https://www.youtube.com/watch?v=pBWCOCS636U&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz&index=274&ab_channel=takeUforward
+        // Logic:
+        /*
+         * Possibilities r:
+         * ->sum(0..k)+0
+         * ->sum(0...k-1)+sum(n..k)
+         * ->sum(0....k+1)+sum(n...k-1)
+         * ...like that suppose k=3, we can choose [3left+0right] or [2left+1right] or
+         * [1left+2right] or [0left+3right] ans is max of all these
+         */
+        int left_sum = 0;
+        for (int i = 0; i < k; i++) {
+            left_sum += nums[i];
         }
-        int max=sum;
-        int i=0,j=k-1;
-        while(j<nums.length){
-            // System.out.println("From "+i+" to "+j+" sum:"+sum+" max:"+max);
-            sum=sum-nums[i];
-            i++;j++;
-            if(j==nums.length) break;
-            sum+=nums[j];
-            max=Math.max(max,sum);
+        int right_sum=0;
+
+        int ans=left_sum;
+
+        int right_ptr=nums.length-1;
+        int left_ptr=k-1;
+
+        while (left_ptr!=-1) {
+            left_sum-=nums[left_ptr--];
+            right_sum+=nums[right_ptr--];
+            ans=Math.max(ans, left_sum+right_sum);
         }
 
-        return max;
+        return ans;
+        
     }
 }
