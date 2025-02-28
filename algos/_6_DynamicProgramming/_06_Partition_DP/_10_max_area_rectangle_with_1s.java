@@ -1,8 +1,6 @@
 package _6_DynamicProgramming._06_Partition_DP;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Stack;
 
 /*
@@ -33,7 +31,6 @@ public class _10_max_area_rectangle_with_1s {
     //https://leetcode.com/problems/max-area-of-island/description/ was about find largest island, no matter it is of whechever shape, but here specifically gievn that it should be rectangle, hence not a graph problem
     public static void main(String[] args) {
         int heights[]={1,3,4,2,4,5,1,4,3,6,7};
-        int len=heights.length;
         get_prev_smallest_of_each(heights);
         get_next_largest_of_each(heights);
 

@@ -132,4 +132,54 @@ public class _03_largest_area_of_rect_in_histogram {
         }
         return ans;
     }
+
+
+    //-----------APLLICATION OF THIS/FOLLOW UP:
+    /*
+Given a rows x cols binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
+
+ 
+
+Example 1:
+
+
+Input: matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]
+Output: 6
+Explanation: The maximal rectangle is shown in the above picture.
+Example 2:
+
+Input: matrix = [["0"]]
+Output: 0
+Example 3:
+
+Input: matrix = [["1"]]
+Output: 1
+ 
+
+Constraints:
+
+rows == matrix.length
+cols == matrix[i].length
+1 <= row, cols <= 200
+matrix[i][j] is '0' or '1'.
+     */
+
+
+
+     //SOLUTION: consider row 1 ony, form a heights array, ie heights of columns of '1' in each column till that row, for ex Example1, row1[]={1,0,1,0,0},row2[]={2,0,2,1,1},.....like that row[4]={4,0,0,3,0}, u will get max ans in row3
+    public int maximalRectangle(char[][] mat) {
+        int nRows=mat.length,nCols=mat[0].length;
+        int dp[][]=new int[nRows][nCols];//dp[i][j] will store height of jth column of 1s till row i
+        for(int i=0;i<nRows;i++){
+            for(int j=0;j<nCols;j++){
+                if(mat[i][j]=='1'){
+                    dp[i][j]=(i-1>=0)?1+dp[i-1][j]:1;
+                }
+            }
+        }
+        int ans=0;
+        for(int arr[]:dp) ans=Math.max(ans,optimal(arr));
+        return ans;
+    }
+    
 }
