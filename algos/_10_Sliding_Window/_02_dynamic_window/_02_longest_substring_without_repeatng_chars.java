@@ -34,6 +34,7 @@ public class _02_longest_substring_without_repeatng_chars {
     public static void main(String[] args) {
         String s="dvdf";
         System.out.println(brute_force(s));
+        System.out.println(optimal(s));
     }
 
     //-------------------O(N^2)---O(N)
@@ -63,22 +64,19 @@ public class _02_longest_substring_without_repeatng_chars {
     }
 
     //---------optimal:
-    public void optimal(String s){
-        HashMap<Character,Integer>hs=new HashMap<>();
-        int i=0,j=1;
-        int len=s.length(),ans=0;
-        while (j!=len) {
-            char c1=s.charAt(i),c2=s.charAt(j);
-            hs.put(c1, hs.getOrDefault(c1, 0)+1);
-            hs.put(c2, hs.getOrDefault(c2, 0)+1);
-            if (c1!=c2) {
-                j++;
-                ans=Math.max(ans, j-i);
-            }else{
-                while (c1!=c2) {
-                    i++;
-                }
-            }
+    static int optimal(String s){
+        HashMap<Character,Integer>hs=new HashMap<>();//hs will store [char,its_prev_seen_idx]
+        int left_ptr=0,right_ptr=0,ans=0;
+        int len=s.length();
+        while (right_ptr<len) {
+           if(hs.containsKey(s.charAt(right_ptr))){
+                left_ptr=Math.max(left_ptr, hs.get(s.charAt(right_ptr))+1);//// Ensure left_ptr moves forward but never backward, so we take max, analyze using "abba"
+           }
+           hs.put(s.charAt(right_ptr), right_ptr);
+           ans = Math.max(ans, right_ptr - left_ptr + 1);
+            right_ptr++;
+
         }
+        return ans;
     }
 }
