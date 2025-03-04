@@ -94,11 +94,11 @@ public class _04_fruits_into_basket {
 
 
 
-    //------------------optimal
+    //------------------optimal 
     public int optimal(int fruits[]){
         int ans=0;
         int i=0,j=0;
-        HashMap<Integer,Integer>hs=new LinkedHashMap<>();
+        HashMap<Integer,Integer>hs=new LinkedHashMap<>();//why used hashmap and not set, coz when u say set.remove(fruits[i]), it removes all occursnces of that instead of just one
         while (j<fruits.length) {
             hs.put(fruits[j],hs.getOrDefault(fruits[j],0)+1);//MISTAKE: added this under if(hs.size()<2) which is wrong, coz the elemnts may repeat despite of having hashmap size more than 2 which is allowed in question, so first put and then check
             if(hs.size()>2){
