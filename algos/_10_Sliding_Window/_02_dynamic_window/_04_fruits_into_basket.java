@@ -100,7 +100,7 @@ public class _04_fruits_into_basket {
         int i=0,j=0;
         HashMap<Integer,Integer>hs=new LinkedHashMap<>();
         while (j<fruits.length) {
-            hs.put(fruits[j],hs.getOrDefault(fruits[j],0)+1);
+            hs.put(fruits[j],hs.getOrDefault(fruits[j],0)+1);//MISTAKE: added this under if(hs.size()<2) which is wrong, coz the elemnts may repeat despite of having hashmap size more than 2 which is allowed in question, so first put and then check
             if(hs.size()>2){
                 while (hs.size()>2) {
                     hs.put(fruits[i],hs.getOrDefault(fruits[i],0)-1);
