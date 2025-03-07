@@ -204,4 +204,67 @@ nums[i] is either 0 or 1.
         int nums[] = { 1, 0, 1, 1, 0 };
         System.out.println(level2_optimal(nums));
     }
+
+
+    //----------------FOLOOW UP---IMP
+    /*
+424. Longest Repeating Character Replacement
+Solved
+Medium
+Topics
+Companies
+You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times.
+
+Return the length of the longest substring containing the same letter you can get after performing the above operations.
+
+ 
+
+Example 1:
+
+Input: s = "ABAB", k = 2
+Output: 4
+Explanation: Replace the two 'A's with two 'B's or vice versa.
+Example 2:
+
+Input: s = "AABABBA", k = 1
+Output: 4
+Explanation: Replace the one 'A' in the middle with 'B' and form "AABBBBA".
+The substring "BBBB" has the longest repeating letters, which is 4.
+There may exists other ways to achieve this answer too.
+ 
+
+Constraints:
+
+1 <= s.length <= 105
+s consists of only uppercase English letters.
+0 <= k <= s.length
+     */
+
+
+     //in terms of the MaxConsecutive Ones question, this question can be decoded as "Given a string 'S' and an integer k, return the maximum number of consecutive same chars in the string if you can flip at most k chars."
+     public int optimal(String s, int k) {
+        char arr[]=s.toCharArray();
+        int ans=1;
+        for(char ch='A';ch<='Z';ch++){
+            ans=Math.max(ans,func(arr,k,ch));
+        }
+        return ans;
+    }
+
+    public int func(char arr[],int k,char toflip){
+        int nDisimilar=0;
+        int left_ptr=0,right_ptr=0,max=1;
+        while(right_ptr<arr.length){
+            if(arr[right_ptr]!=toflip){
+                nDisimilar++;
+            }
+            while(nDisimilar>k){
+                if(arr[left_ptr]!=toflip) nDisimilar--;
+                left_ptr++;
+            }
+            max=Math.max(max,right_ptr-left_ptr+1);
+            right_ptr++;
+        }
+        return max;
+    }
 }
