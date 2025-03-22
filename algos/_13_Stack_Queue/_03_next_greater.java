@@ -1,4 +1,3 @@
-package _13_Stack_Queue;
 
 import java.util.Arrays;
 import java.util.HashMap;
