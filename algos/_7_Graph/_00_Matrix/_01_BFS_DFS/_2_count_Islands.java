@@ -153,7 +153,7 @@ class Cordinate{
 
 
 
-    //----------------------------FOLLOW UP:
+    //----------------------------FOLLOW UP:Count the Number of Complete Components
     /*
 You are given an integer n. There is an undirected graph with n vertices, numbered from 0 to n - 1. You are given a 2D integer array edges where edges[i] = [ai, bi] denotes that there exists an undirected edge connecting vertices ai and bi.
 
