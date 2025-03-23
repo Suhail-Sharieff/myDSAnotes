@@ -31,7 +31,6 @@ Constraints:
 -1000 <= asteroids[i] <= 1000
 asteroids[i] != 0
  */
-import java.util.stream.Collectors;
 
 public class _08_asteroid_collision {
     public int[] asteroidCollision(int[] asteroids) {
