@@ -122,6 +122,26 @@ public class _5_triangleProb {
         return ans;
     }
 
+    //other way:
+    public int minimumTotal(List<List<Integer>> triangle) {//ulta routing of rec
+        int n = triangle.size();
+        int[] dp = new int[n]; // Use a 1D DP array instead of 2D
+       
+        // Initialize dp with the last row of the triangle
+        for (int j = 0; j < n; j++) {
+            dp[j] = triangle.get(n - 1).get(j);
+        }
+
+        // Bottom-up DP
+        for (int i = n - 2; i >= 0; i--) { // Start from the second-last row
+            for (int j = 0; j <= i; j++) { // Traverse each element
+                dp[j] = triangle.get(i).get(j) + Math.min(dp[j], dp[j + 1]);
+            }
+        }
+        
+        return dp[0]; // The minimum path sum from top to bottom
+    }
+
     // ------------space optimized
     public int spaceOptimized(List<List<Integer>> triangle) {
         int len = triangle.size();

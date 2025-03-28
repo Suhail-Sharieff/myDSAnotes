@@ -1,5 +1,7 @@
 package _6_DynamicProgramming._01_1D;
 
+import java.util.ArrayList;
+
 /*
 Problem statement
 You are given an array/list of ‘N’ integers. You are supposed to return the maximum sum of the subsequence with the constraint that no two elements are adjacent in the given array/list.
@@ -86,5 +88,20 @@ public class _05_maxSumOfNonAdj {
             dp[idx]=Math.max(ifPickedCurr, ifNotPickedCurr);
         }
         return dp[arr.length-1];
+    }
+    public static int space(ArrayList<Integer> nums) {
+        int len = nums.size();
+        if (len == 1) return nums.get(0); // Single element case
+        if (len == 2) return Math.max(nums.get(0), nums.get(1)); // Two-element case
+
+        int x = nums.get(0); // Previous to previous element (i-2)
+        int y = Math.max(nums.get(0), nums.get(1)); // Previous element (i-1)
+
+        for (int i = 2; i < len; i++) {
+			int max=Math.max(nums.get(i)+x,y);
+			x=y;
+			y=max;
+        }
+        return y; // Maximum sum without adjacent elements
     }
 }

@@ -241,5 +241,31 @@ public class _2_ninjaTraining {
     }
 
 
+
+    //-------other way tab:
+    public int maximumPoints(int arr[][]) {
+        // code here
+        int dp[][]=new int[arr.length][4];
+        int max=0;
+        
+        for(int i=0;i<3;i++) dp[0][i]=arr[0][i];
+        
+        for(int i=1;i<arr.length;i++){
+            for(int j=0;j<3;j++){
+                dp[i][j] = arr[i][j] + Math.max(
+                    dp[i - 1][(j + 1) % 3], // Choose previous day's different activity
+                    dp[i - 1][(j + 2) % 3]
+                );
+            }
+        }
+        
+        max=0;
+        for(int e:dp[arr.length-1]) max=Math.max(max,e);
+        return max;
+        
+    }
+    
+
+
    
 }

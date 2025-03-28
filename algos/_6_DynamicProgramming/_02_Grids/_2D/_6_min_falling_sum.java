@@ -108,6 +108,30 @@ public class _6_min_falling_sum {
     }
 
 
+    //other way:
+    public int minFallingPathSum(int[][] mat) {
+        int dp[][] = new int[mat.length][mat.length];
+        for (int i = 0; i < mat.length; i++)
+            dp[mat.length - 1][i] = mat[mat.length - 1][i];
+        int dirs[][]={{1,-1},{1,0},{1,1}};
+        for (int i = mat.length - 2; i >= 0; i--) {
+            for (int j = 0; j < mat.length; j++) {
+                int min=Integer.MAX_VALUE;
+                for(int dir[]:dirs){
+                    int x=i+dir[0];
+                    int y=j+dir[1];
+                    if(x>=0&&y>=0&&x<mat.length&&y<mat[0].length) min=Math.min(min,dp[x][y]);
+                }
+                dp[i][j]=mat[i][j]+min;
+            }
+        }
+        int ans=Integer.MAX_VALUE;
+        for(int e: dp[0]) ans=Math.min(ans,e);
+        return ans;
+    }
+
+
+
     //-------------------space optimization:
     public static int spaceOptimized(int mat[][]){
         int nRows = mat.length, nCols = mat[0].length;

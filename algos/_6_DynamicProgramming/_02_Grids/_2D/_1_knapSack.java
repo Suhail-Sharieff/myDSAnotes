@@ -103,4 +103,20 @@ public class _1_knapSack {
         } 
         return dp[weights.length-1][maxCapacity];
     }
+
+    //other way:
+    static int knapsack(int W, int val[], int wt[]) {
+        // code here
+        int dp[][]=new int[wt.length][W+1];
+        for(int max=0;max<=W;max++) if(max>=wt[0]) dp[0][max]=val[0]; 
+        for(int i=1;i<wt.length;i++){
+            for(int max=0;max<=W;max++){
+                dp[i][max]=Math.max(
+                    (max>=wt[i])?val[i]+dp[i-1][max-wt[i]]:Integer.MIN_VALUE,    
+                    dp[i-1][max]
+                );
+            }
+        }
+        return dp[wt.length-1][W];
+    }
 }

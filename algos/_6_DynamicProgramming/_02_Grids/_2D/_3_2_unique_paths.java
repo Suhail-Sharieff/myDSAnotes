@@ -114,4 +114,123 @@ public class _3_2_unique_paths {
         return dp[nRows-1][nCols-1];
     }
     
+
+
+    //----------------------FOLLOW UP:
+    /*
+980. Unique Paths III
+Solved
+Hard
+Topics
+Companies
+You are given an m x n integer array grid where grid[i][j] could be:
+
+1 representing the starting square. There is exactly one starting square.
+2 representing the ending square. There is exactly one ending square.
+0 representing empty squares we can walk over.
+-1 representing obstacles that we cannot walk over.
+Return the number of 4-directional walks from the starting square to the ending square, that walk over every non-obstacle square exactly once.
+
+ 
+
+Example 1:
+
+
+Input: grid = [[1,0,0,0],[0,0,0,0],[0,0,2,-1]]
+Output: 2
+Explanation: We have the following two paths: 
+1. (0,0),(0,1),(0,2),(0,3),(1,3),(1,2),(1,1),(1,0),(2,0),(2,1),(2,2)
+2. (0,0),(1,0),(2,0),(2,1),(1,1),(0,1),(0,2),(0,3),(1,3),(1,2),(2,2)
+Example 2:
+
+
+Input: grid = [[1,0,0,0],[0,0,0,0],[0,0,0,2]]
+Output: 4
+Explanation: We have the following four paths: 
+1. (0,0),(0,1),(0,2),(0,3),(1,3),(1,2),(1,1),(1,0),(2,0),(2,1),(2,2),(2,3)
+2. (0,0),(0,1),(1,1),(1,0),(2,0),(2,1),(2,2),(1,2),(0,2),(0,3),(1,3),(2,3)
+3. (0,0),(1,0),(2,0),(2,1),(2,2),(1,2),(1,1),(0,1),(0,2),(0,3),(1,3),(2,3)
+4. (0,0),(1,0),(2,0),(2,1),(1,1),(0,1),(0,2),(0,3),(1,3),(1,2),(2,2),(2,3)
+Example 3:
+
+
+Input: grid = [[0,1],[2,0]]
+Output: 0
+Explanation: There is no path that walks over every empty square exactly once.
+Note that the starting and ending square can be anywhere in the grid.
+ 
+
+Constraints:
+
+m == grid.length
+n == grid[i].length
+1 <= m, n <= 20
+1 <= m * n <= 20
+-1 <= grid[i][j] <= 2
+There is exactly one starting cell and one ending cell.
+Seen this question in a real interview before?
+1/5
+Yes
+No
+Accepted
+224.7K
+Submissions
+273.2K
+
+
+
+MAin thing is to understand q, challenge is to visit all walkables nodes to reach dest---------IMP
+     */
+    static class Solution {
+        public int uniquePathsIII(int[][] grid) {
+            int get[]=get(grid);
+            int i=get[0],j=get[1];
+            // System.out.println(i+","+j+"  "+dx+","+dy);
+            nNonObs(grid);//to instantiate nOfWalkables coz we need to touch all walkables
+            return rec(i,j,new boolean[grid.length][grid[0].length],grid,0);
+        }
+    
+        private int dirs[][]={{-1,0},{1,0},{0,-1},{0,1}};
+        private int nNonObstacles;
+    
+    
+        public void nNonObs(int grid[][]){
+            nNonObstacles=1;//----not 0, coz we need to include starting point as well
+            for(int r[]:grid) for(int e:r) if(e==0) nNonObstacles++;
+        }
+    
+        public int rec(int i,int j,boolean isVis[][],int grid[][],int cnt){
+            if(grid[i][j]==2 && cnt==nNonObstacles) return 1;
+            int ans=0;
+            isVis[i][j]=true;
+            for(int dir[]:dirs){
+                int x=dir[0]+i;
+                int y=dir[1]+j;
+                if(x>=0 && y>=0 && x<grid.length && y<grid[0].length){
+                    if((grid[x][y]==0 || grid[x][y]==2) && !isVis[x][y]){// we have empty cell or dest cell
+                        ans+=rec(x,y,isVis,grid,cnt+1);
+                    }
+                }
+            }
+            isVis[i][j]=false;
+            return ans;
+        }
+    
+        public int[] get(int grid[][]){
+            int ans[]=new int[]{-1,-1,-1,-1};
+            for(int i=0;i<grid.length;i++){
+                for(int j=0;j<grid[0].length;j++){
+                    if(grid[i][j]==1){
+                         ans[0]=i;
+                         ans[1]=j;
+                    }
+                    if(grid[i][j]==2){
+                         ans[2]=i;
+                         ans[3]=j;
+                    }
+                }
+            }
+            return ans;
+        }
+    }
 }

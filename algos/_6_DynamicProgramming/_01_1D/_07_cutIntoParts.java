@@ -97,6 +97,31 @@ public class _07_cutIntoParts {//this problem is similar to that of coins proble
         return (dp[target]==-1)?0:dp[target];
     }
 
+    /*
+Other way:
+public int maximizeCuts(int n, int x, int y, int z) {
+       int dp[]=new int[n+1];
+       for(int i=1;i<=n;i++){
+           int kx=(i-x>=0)?dp[i-x]:Integer.MIN_VALUE;
+           int ky=(i-y>=0)?dp[i-y]:Integer.MIN_VALUE;
+           int kz=(i-z>=0)?dp[i-z]:Integer.MIN_VALUE;
+           dp[i]=Math.max(Math.max(kx,ky),kz)+1;
+       }
+       return Math.max(dp[n],0);
+    }
+    
+    public int dp(int n,int x,int y,int z,int dp[]){
+         // Your code here
+        if(n==0) return dp[n]=0;
+        if(n<0) return Integer.MIN_VALUE;
+        if(dp[n]!=-1) return dp[n];
+        int kx=dp(n-x,x,y,z,dp);
+        int ky=dp(n-y,x,y,z,dp);
+        int kz=dp(n-z,x,y,z,dp);
+        return dp[n]=Math.max(Math.max(kx,ky),kz)+1;
+    }
+     */
+
 
 
 //----------------------------------------------------FOLlow up:
