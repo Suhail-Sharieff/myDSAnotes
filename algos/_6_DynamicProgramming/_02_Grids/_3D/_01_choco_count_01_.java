@@ -63,17 +63,17 @@ public class _01_choco_count_01_ {
     //----------------recursion: 9*(3^nRows)---uses BFS
     public static int recursion(int mat[][],int i,int j1,int j2){
         
-        if(!isValid(i,j1,mat)||!isValid(i,j2,mat)) return 0;
+        if(!isValid(i,j1,mat,mat[0].length)||!isValid(i,j2,mat,mat[0].length)) return 0;
 
         if(i==mat.length-1) return (j1==j2)?(mat[i][j1]):(mat[i][j1]+mat[i][j2]);
         int ans=0;
         for(int x=-1;x<=1;x++)
             for(int y=-1;y<=1;y++)
-                ans=Math.max(ans,rec(mat,i+1,j1+x,j2+y));
+                ans=Math.max(ans,recursion(mat,i+1,j1+x,j2+y));
         ans+=(j1==j2)?(mat[i][j1]):(mat[i][j1]+mat[i][j2]);//after robots r moved, check
         return ans;
     }
-    static boolean isValid(int i,int j,int mat[][]){
+    static boolean isValid(int i,int j,int mat[][],int nCols){
         return (j>=0&&j<nCols);
     }
 

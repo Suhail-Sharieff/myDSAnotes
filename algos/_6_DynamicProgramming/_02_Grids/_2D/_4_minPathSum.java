@@ -1,6 +1,6 @@
 package _6_DynamicProgramming._02_Grids._2D;
 
-
+import _4_Trees.TreeNode;
 
 /*
 Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right, which minimizes the sum of all numbers along its path.
@@ -134,20 +134,20 @@ Constraints:
     static class Solution {
         // Function to return maximum path sum from any node in a tree.
         private int ans;
-        int findMaxSum(Node node) {
+        int findMaxSum(TreeNode node) {
             ans=Integer.MIN_VALUE;
             func(node);
             return ans;
         }
         
-        int func(Node root){
+        int func(TreeNode root){
             // your code goes here
             if(root==null) return 0;
             int left=Math.max(0,func(root.left));
             int right=Math.max(0,func(root.right));
-            int curr_max=root.data+left+right;//imp
+            int curr_max=root.val+left+right;//imp
             ans=Math.max(ans,curr_max);
-            return root.data+Math.max(left,right);
+            return root.val+Math.max(left,right);
         }
     }
 }
