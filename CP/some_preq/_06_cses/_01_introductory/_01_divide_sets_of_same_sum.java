@@ -1,4 +1,4 @@
-package some_preq._06_cses;
+package some_preq._06_cses._01_introductory;
 /*
 Time limit: 1.00 s
 Memory limit: 512 MB
