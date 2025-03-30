@@ -74,6 +74,24 @@ Constraints:
 Time limit: 1 sec
  */
 public class _03_count_subset {
+
+//----------------------VERY IMPORTANT PART OF PROBLEM:
+//why the below code fails::
+/*
+public int rec(int nums[],int target,int i){
+        if(target==0) return 1;
+        if(i<0||target<0) return 0;
+        return rec(nums,target-nums[i],i-1)+rec(nums,target,i-1);
+    }
+
+    REASON IS that observe that arr[i] CAN BE 0, meaning, if we have k is the number of subsets with sum k and ALL Numbers>0, then if we add 0 to each of them, still the sum remains thhe smae, so we can include that also, so u can use same but while returning in main , add number of zeroes ka factorial also, but simply why complicated, so use below way only
+     public int rec(int nums[],int target,int i){
+        if(i<0) return (target==0)?1:0;
+        return rec(nums,target-nums[i],i-1)+rec(nums,target,i-1);
+    }
+ */
+
+
     //-------------------memoize
     public static int memoize(int nums[],int target,int idx,int dp[][]){
         int mod=1_000_000_007;

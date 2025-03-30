@@ -31,7 +31,7 @@ public class _01_subset_sum {
     // ------recursion:
 
     public static boolean recursion(int arr[], int target, int idx) {
-        if (target == 0)
+        if (target == 0)//DONT WRITE THE BELOW IF BEFOR THIS______________________IMP
             return true;
         if (idx == arr.length - 1) {
             // we have reached last while seaching for target, return true if this last
