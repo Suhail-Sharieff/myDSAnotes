@@ -132,6 +132,32 @@ public class _01_longest_common_subseq {
         return dp[s1.length()][s2.length()];
     }
 
+    /*
+    bottom top tab:
+    static int lcs(String s1, String s2) {
+        // code here
+        int len1=s1.length(),len2=s2.length();
+        // return lcs(s1,s2,len1,len2);
+        
+        
+        int dp[][]=new int[len1+1][len2+1];
+        
+        for(int i=len1-1;i>=0;i--){
+            for(int j=len2-1;j>=0;j--){
+                if(s1.charAt(i)==s2.charAt(j)){
+                    dp[i][j]=1+dp[i+1][j+1];
+                }else{
+                    dp[i][j]=Math.max(dp[i][j+1],dp[i+1][j]);
+                }
+            }
+        }
+        return dp[0][0];
+        
+        
+    }
+    
+     */
+
 
     //suppose u want ot print ONLY ! SUCH SUBSTRING:https://www.youtube.com/watch?v=-zI4mrF2Pb4&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY&index=27&ab_channel=takeUforward
     //idea : fill dp table. Start from, the last cell of dp table, if ith and jth char r equal append to sb, move to upper left ie i-1,j-1 and repea same procedure for all same chars, if same chars r not found at i,j, move to the point having max vale ie [i-1,j] or [i,j-1] and same procdure, u will get ans in reverse order, so return it after reversing

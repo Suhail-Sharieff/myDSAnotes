@@ -1,6 +1,9 @@
 package _6_DynamicProgramming._04_Strings._01_comparision.Subsequence;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /*
 
@@ -81,4 +84,32 @@ public class _06_longest_string_chain {
 
 
     //for printitng use same logic as that of prev file
+
+
+    //----------------another mthod:
+     public int faster(String[] words) {
+        int ans=0;
+
+
+        Set<String>set=new HashSet<>();
+        for(String word:words) set.add(word);
+
+        HashMap<String,Integer>dp=new HashMap<>();
+
+        Arrays.sort(words,(x,y)->x.length()-y.length());
+        
+        for(String e:words){
+            int curr_max=1;
+            for(int i=0;i<e.length();i++){
+                //if i remove ith char,
+                String sub=e.substring(0,i)+e.substring(i+1);
+                if(set.contains(sub)){
+                    curr_max=Math.max(curr_max,dp.getOrDefault(sub,0)+1);
+                }
+            }
+            dp.put(e,curr_max);
+            ans=Math.max(ans,curr_max);
+        }
+        return ans;
+    }
 }

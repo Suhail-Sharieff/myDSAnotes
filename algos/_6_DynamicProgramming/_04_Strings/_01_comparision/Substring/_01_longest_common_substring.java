@@ -23,6 +23,14 @@ public class _01_longest_common_substring {
         return max;
     }
 
+    public int rec(String x,String y,int i,int j,int c){
+        if(i<0||j<0) return 0;
+        if(x.charAt(i)==y.charAt(j)){
+            return  rec(x,y,i-1,j-1,c+1);
+        }
+        return Math.max(c,Math.max(rec(x,y,i-1,j,0),rec(x,y,i,j-1,0)));
+    }
+
     //dp[i][j] indicates number of characters common in strings x and y from x[0..i] abd y[0..j]. The idea is we do assame tabulation as that of subsequence, but with some modification: whenver a same char is found, then  at that pos we store 1+nOfConsequtiveCharsCommoninx[0,,i-1]andy[0..j-1], else it had broke consecutive property, so make it 0, take max value in grid
     public static int lcs(String str1, String str2){
         // Write your code here.

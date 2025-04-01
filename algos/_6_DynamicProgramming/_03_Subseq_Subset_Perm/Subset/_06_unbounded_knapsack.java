@@ -88,6 +88,22 @@ public class _06_unbounded_knapsack {
     }
 
     // ---------------------recursive
+
+/*
+other way:
+static int rec(int val[], int wt[], int capacity, int i) {
+//_____________VVVVIMP MISTAke i wrote base case as:
+/ if(capacity==0) return 0 with if(i<0||capacity <0) return Int.min---------------which is wrong, coz if we r done with all checking(i<0) we need to return no more profit possible so returning 0 is valid and not int.min------------IMP
+
+
+      if(capacity==0) return 0;
+      if(capacity<0) return Integer.MIN_VALUE;
+      if(i<0) return 0;
+      return Math.max(val[i]+rec(val,wt,capacity-wt[i],i),rec(val,wt,capacity,i-1));
+    }
+ */
+
+
     public static int recursion(int n, int w[], int v[], int max, int idx) {
 
         if (idx == 0)
