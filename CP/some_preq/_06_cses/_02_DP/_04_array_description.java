@@ -48,7 +48,9 @@ public class _04_array_description {
     }
 
     //analyze with test case: [0,0,0] expected ans:26
-    
+
+    //intuition: keep track of previously visited elemnts for each zero , build combinations, sum and return
+
     //call like: rec(nums,nums.length-1,-1,m)
     static int rec(int nums[], int i, int prev, int m) {
         // Base case: if i < 0, we've successfully assigned all elements.
