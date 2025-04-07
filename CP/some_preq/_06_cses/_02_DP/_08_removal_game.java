@@ -69,7 +69,8 @@ public class _08_removal_game {
        //i moved from 0 till n, j from n to i
        long dp[][]=new long[nums.length][nums.length];
        for(int i=nums.length-1;i>=0;i--){
-            for(int j=i;j<nums.length;j++){//j<i makes sures i<j always
+            for(int j=i;j<nums.length;j++){
+                //the shit like ()?_:_ i did to make sure it satisies i<=j,  coz the recurisive code returns zero upon i>j, ie we need i<=j for all cases
                 long a_chooses_first=nums[i]+Math.min(
                     (i+1<=j-1)?dp[i+1][j-1]:0,//further B will choose last element
                     (i+2<=j)?dp[i+2][j]:0//further B will also choose first elemnt
