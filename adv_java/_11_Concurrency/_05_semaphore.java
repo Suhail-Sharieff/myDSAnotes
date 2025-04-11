@@ -31,9 +31,9 @@ public class _05_semaphore {
         ReentrantLock rl=new ReentrantLock();
 
         System.out.println(rl.getHoldCount());
-        rl.lock();rl.lock();rl.lock();
+        rl.lock();rl.lock();rl.lock();//lock 3 times
         System.out.println(rl.getHoldCount());
-        rl.unlock();rl.unlock();
+        rl.unlock();rl.unlock();//but unlock 2 times
         System.out.println(rl.getHoldCount());
 
     }
