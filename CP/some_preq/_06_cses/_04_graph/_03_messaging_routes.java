@@ -1,90 +1,88 @@
-package some_preq._06_cses._02_DP;
+package some_preq._06_cses._04_graph;
+
 
 /*
-Time limit: 1.00 s
-Memory limit: 512 MB
-
-
-
-There is a list of n numbers and two players who move alternately. On each move, a player removes either the first or last number from the list, and their score increases by that number. Both players try to maximize their scores.
-What is the maximum possible score for the first player when both players play optimally?
+Syrjälä's network has n computers and m connections. Your task is to find out if Uolevi can send a message to Maija, and if it is possible, what is the minimum number of computers on such a route.
 Input
-The first input line contains an integer n: the size of the list.
-The next line has n integers x_1,x_2,\ldots,x_n: the contents of the list.
+The first input line has two integers n and m: the number of computers and connections. The computers are numbered 1,2,\dots,n. Uolevi's computer is 1 and Maija's computer is n.
+Then, there are m lines describing the connections. Each line has two integers a and b: there is a connection between those computers.
+Every connection is between two different computers, and there is at most one connection between any two computers.
 Output
-Print the maximum possible score for the first player.
+If it is possible to send a message, first print k: the minimum number of computers on a valid route. After this, print an example of such a route. You can print any valid solution.
+If there are no routes, print "IMPOSSIBLE".
 Constraints
 
-1 \le n \le 5000
--10^9 \le x_i \le 10^9
+2 \le n \le 10^5
+1 \le m \le 2 \cdot 10^5
+1 \le a,b \le n
 
 Example
 Input:
-4
-4 5 1 3
+5 5
+1 2
+1 3
+1 4
+2 3
+5 4
 
 Output:
-8
+3
+1 4 5
  */
+
 /*******BISMILLAHIRRAHMAANIRRAHEEM*******/
 import java.io.*;
 import java.util.*;
 
 
-//--------------------teaches how u take mins and maxs  both in dp
 
-public class _08_removal_game {
+
+
+public class _03_messaging_routes {
     public static void main(String[] args) throws IOException {
         // int t = scanInt();
         // while (t-- > 0) {
-        solve();
+            solve();
         // }
     }
 
-    public static void solve() throws IOException {
-        int len = scanInt();
-        int arr[] = scanIntArray(len);
-        // int ans = rec(arr, 0, arr.length - 1);
-        long ans=tab(arr);
-        print(ans);
-    }
-
-
-    //idea is we will try to choose all possible scores for A and min score for B, so that A's score is maximized, A has 2 possiblities ie choose first and choose last, for each we will try to assign B a minimal score, return max score of A
-    static int rec(int nums[], int i, int j) {// we will favour game for A , coz the question is asking max score for A
-        if(i>j){//no more elements left
-            return 0;
-        }
-        int a_chooses_first=nums[i]+Math.min(
-            rec(nums, i+1, j-1),//further B will choose last element
-            rec(nums,i+2,j)//further B will also choose first elemnt
-        );
-        int a_chooses_last=nums[j]+Math.min(
-            rec(nums, i+1, j-1),//further B will choose first elemnt
-            rec(nums, i, j-2)//further B will also choose last element
-        );
-        return Math.max(a_chooses_first, a_chooses_last);
-    }
-
-
-    static long tab(int nums[]){
-       //i moved from 0 till n, j from n to i
-       long dp[][]=new long[nums.length][nums.length];
-       for(int i=nums.length-1;i>=0;i--){
-            for(int j=i;j<nums.length;j++){
-                //the shit like ()?_:_ i did to make sure it satisies i<=j,  coz the recurisive code returns zero upon i>j, ie we need i<=j for all cases
-                long a_chooses_first=nums[i]+Math.min(
-                    (i+1<=j-1)?dp[i+1][j-1]:0,//further B will choose last element
-                    (i+2<=j)?dp[i+2][j]:0//further B will also choose first elemnt
-                );
-                long a_chooses_last=nums[j]+Math.min(
-                    (i+1<=j-1)?dp[i+1][j-1]:0,//further B will choose first elemnt
-                    (i<=j-2)?dp[i][j-2]:0//further B will also choose last element
-                );
-                dp[i][j]=Math.max(a_chooses_first, a_chooses_last);
+    public static void solve() throws IOException {//same idea as that of _02_building_roads
+        int nComputers=scanInt(),nConn=scanInt();
+        int graph[][]=new int[nConn][2];
+        for(int i=0;i<nConn;i++)graph[i]=scanIntArray(2);
+        List<List<Integer>>adj=get_adj(graph,nComputers);
+        Queue<Integer>q=new LinkedList<>();
+        boolean isVis[]=new boolean[nComputers+1];
+        int par[]=new int[nComputers+1];
+        Arrays.fill(par, -1);
+        q.offer(1);
+        isVis[1]=true;
+        par[1]=-1;
+        while (!q.isEmpty()) {
+            int top=q.poll();
+            if(top==nComputers) break;
+            for(int neigh:adj.get(top)){
+                if (!isVis[neigh]) {
+                    isVis[neigh]=true;
+                    q.offer(neigh);
+                    par[neigh]=top;
+                }
             }
-       }
-       return dp[0][nums.length-1];
+        }
+        if (par[nComputers]==-1) {
+            print("IMPOSSIBLE");
+        }else{
+            Stack<Integer>st=new Stack<>();
+            st.push(nComputers);
+            int cnt=1;
+            while (par[nComputers]!=-1) {
+                st.push(par[nComputers]);
+                nComputers=par[nComputers];
+                cnt++;
+            }
+            print(cnt);
+            while(!st.isEmpty()) System.out.print(st.pop()+" ");
+        }
     }
 
     static int MOD = 1_000_000_007;
@@ -213,19 +211,19 @@ public class _08_removal_game {
         return isNegativeExponent ? (1l / ans) : ans;
     }
 
-    static void compute_fact() {
-        fact = new long[100001];
-        fact[0] = fact[1] = 1;
-        for (int i = 2; i <= 100000; i++) {
-            fact[i] = (i * 1l * fact[i - 1]) % MOD;
+    static void compute_fact(){
+        fact=new long[100001];
+        fact[0]=fact[1]=1;
+        for(int i=2;i<=100000;i++){
+            fact[i]=(i*1l*fact[i-1])%MOD;
         }
     }
 
-    static long nCr(int n, int r) {
-        long nr = fact[n];
-        long dr = (fact[n - r] * 1l * fact[r]) % MOD;
-        long inv = pow(dr, MOD - 2);// using fermat little theorm, inverse(x)=pow(x,m-2) given m is prime
-        long ans = (nr * 1l * inv) % MOD;
+    static long nCr(int n,int r){
+        long nr=fact[n];
+        long dr=(fact[n-r]*1l*fact[r])%MOD;
+        long inv=pow(dr,MOD-2);//using fermat little theorm, inverse(x)=pow(x,m-2) given m is prime
+        long ans=(nr*1l*inv)%MOD;
         return ans;
     }
 
@@ -233,6 +231,16 @@ public class _08_removal_game {
         bw.write(o.toString());
         bw.newLine();
         bw.flush();
+    }
+
+    static List<List<Integer>>get_adj(int graph[][],int nNodes){
+        List<List<Integer>>adj=new ArrayList<>();
+        for(int i=0;i<=nNodes;i++) adj.add(new ArrayList<>());
+        for(int con[]:graph){
+            adj.get(con[0]).add(con[1]);
+            adj.get(con[1]).add(con[0]);
+        }
+        return adj;
     }
 
 }

@@ -1,3 +1,5 @@
+package some_preq._06_cses._02_DP;
+
 
 /*
 Your task is to build a tower whose width is 2 and height is n. You have an unlimited supply of blocks whose width and height are integers.

@@ -1,3 +1,5 @@
+package some_preq._06_cses._02_DP;
+
 /*
 Time limit: 1.00 s
 Memory limit: 512 MB
