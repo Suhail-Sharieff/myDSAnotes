@@ -50,7 +50,7 @@ Start with a variable ans = 1. This represents the smallest sum that we currentl
 
 Sort the coins in ascending order.
 
-The intuition is that if you can form every sum from 1 up to ans - 1 and you have a coin with a value at most ans, then you can extend the range of sums you can form. */
+The intuition is that if you can form every sum from 1 up to ans - 1 and you have a coin with a value at most ans, then you can extend the range of sums you can form.` */
      public static void solve() throws IOException {
          int ans=0;
          int len=scanInt();

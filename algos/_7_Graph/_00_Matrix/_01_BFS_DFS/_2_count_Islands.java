@@ -1,4 +1,5 @@
 package _7_Graph._00_Matrix._01_BFS_DFS;
+import java.io.IOException;
 import java.util.ArrayList;
 //shows how we can spread from (i,j) in a matrix to its neighbours
 import java.util.LinkedList;
@@ -138,6 +139,55 @@ public class _2_count_Islands {
         performDFS(grid, new Cordinate(x, y+1));//move up
         performDFS(grid, new Cordinate(x, y-1));//move down
     }
+
+
+
+    //----------------------still more efficent:
+    /*
+     * Will there be any issue in the above iterative(BFS) algorithm? Yes, this is not the optimized version of BFS for this problem. Why? Because some of the dots will be inserted into the queue more than 1 time and the size of the queue will become very large(Try a small case when all cells contain dots).
+
+So to avoid that we will mark the cells visited immediately after inserting them into the queue. So that they can’t be added by any other neighbor cell again.
+
+Optimised BFS(i, j):
+
+Initialize an empty queue.
+Insert current cell to queue. Mark visited.
+While queue is not empty:
+- Poll cell from the queue
+- For all adjacent cells(r, c) connected directly by an edge to this cell:
+— Insert it into the queue. Mark, it visited.
+     */
+     public static void solve(int nRows,int nCols) throws IOException {
+        char mat[][]=new char[nRows][nCols];
+        for(int i=0;i<nRows;i++) mat[i]=scanString().toCharArray();
+        boolean isVis[][]=new boolean[nRows][nCols];
+        int ans=0;
+        for(int i=0;i<nRows;i++){
+            for(int j=0;j<nCols;j++){
+                if(mat[i][j]=='.' && !isVis[i][j]){
+                    Queue<int[]>q=new LinkedList<>();
+                    q.offer(new int[]{i,j});
+                    isVis[i][j]=true;
+                    ans++;
+                    while(!q.isEmpty()){
+                        for(int d[]:dirs){
+                            int x=q.peek()[0]+d[0];
+                            int y=q.peek()[1]+d[1];
+                            if(x>=0 && y>=0 && x<mat.length && y<mat[0].length && !isVis[x][y] && mat[x][y]=='.'){
+                                q.offer(new int[]{x,y});
+                                isVis[x][y]=true;//while pushing only markas vis, so that others dont push it again-------------OPTIMIZATION
+                            }
+                        }
+                        q.poll();
+                    }
+                }
+            }
+        }
+       System.out.println(ans);
+    }
+    static int dirs[][]={{1,0},{-1,0},{0,1},{0,-1}};
+
+
 }
 
 
