@@ -1,8 +1,53 @@
 package some_preq._06_cses._04_graph;
 //-----------------VERY IMP AND INTERESTING QUESTION
 
+/*
+ You and some monsters are in a labyrinth. When taking a step to some direction in the labyrinth, each monster may simultaneously take one as well. Your goal is to reach one of the boundary squares without ever sharing a square with a monster.
+Your task is to find out if your goal is possible, and if it is, print a path that you can follow. Your plan has to work in any situation; even if the monsters know your path beforehand.
+Input
+The first input line has two integers n and m: the height and width of the map.
+After this there are n lines of m characters describing the map. Each character is . (floor), # (wall), A (start), or M (monster). There is exactly one A in the input.
+Output
+First print "YES" if your goal is possible, and "NO" otherwise.
+If your goal is possible, also print an example of a valid path (the length of the path and its description using characters D, U, L, and R). You can print any path, as long as its length is at most n \cdot m steps.
+Constraints
 
+1 \le n,m \le 1000
+
+Example 1
+Input:
+5 8
+########
+#M..A..#
+#.#.M#.#
+#M#..#..
+#.######
+
+Output:
+YES
+5
+RRDDR
+
+
+Example 2
+Input:
+8 8
+###MMMMM
+#.AMMMMM
+#.#MMMMM
+#.MMMMMM
+...
+
+Output:
+NO, coz observe that before A reaches last second row, the monster in last second row can come left and not allow human to move
+ */
 /*******BISMILLAHIRRAHMAANIRRAHEEM*******/
+
+
+
+//this could have been a straight forward question if monsters were not allowed to kve, but here all monsters can move and bloc human bfr he reaches any border, so the main idea is to predict for each cell the min time(using plain BFS) for any moster to reach any cell, we basically predict for each cell the min possible time by any monster to reach that cell, so that when we move human we can avoid that cell if human takes more time to reach it than monster-----thts all
+
+
 import java.io.*;
 import java.util.*;
 
@@ -74,15 +119,14 @@ public class _05_Monsters {
 
        //do BFS for human, we can use same Q since its empty now
        boolean  isVis_by_human[][]=new boolean[mat.length][mat[0].length];
-       int parentDir[][][]=new int[mat.length][mat[0].length][3];
+       int parentDir[][][]=new int[mat.length][mat[0].length][3];//{x,y,dir} like {i,j,L}
        q.offer(new int[]{human_location_x,human_location_y,0});
        while (!q.isEmpty()) {
             int top[]=q.poll();
              //at any point of time human reaches border, its YES
              if(top[0]==0 || top[0]==mat.length-1 || top[1]==0 || top[1]==mat[0].length-1){//reached grid border
                 print("YES");
-                print(top[2]);
-
+                print(top[2]);//print direction
 
                 StringBuilder ans=new StringBuilder();
                 int curr[]=top;
