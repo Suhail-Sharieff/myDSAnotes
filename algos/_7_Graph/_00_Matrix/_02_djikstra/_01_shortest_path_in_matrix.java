@@ -52,6 +52,31 @@ public class _01_shortest_path_in_matrix {
         func(mat,src,dest);
     }
 
+
+    //-----------brute
+    static int dirs[][] = { { -1, 0 }, { 1, 0 }, { 0, 1 }, { 0, -1 }, { -1, -1 }, { -1, 1 }, { 1, -1 }, { 1, 1 } };
+
+    int rec(int mat[][], int i, int j, boolean isVis[][], int X, int Y) {
+        if (i == X && j == Y)
+            return 0;
+        isVis[i][j] = true;
+        int min = Integer.MAX_VALUE;
+        for (int dir[] : dirs) {
+            int x = i + dir[0];
+            int y = j + dir[1];
+            if (x >= 0 && y >= 0 && x < mat.length && y < mat[0].length) {
+                if (mat[x][y] == 0 && !isVis[x][y]) {
+                    int d = rec(mat, x, y, isVis, X, Y);
+                    if (d != Integer.MAX_VALUE)
+                        min = Math.min(min, 1 + d);
+                }
+            }
+        }
+        isVis[i][j] = false;
+        return min;
+    }
+
+
     public static int func(int grid[][],Point src,Point dest) {
 
 
@@ -75,7 +100,6 @@ public class _01_shortest_path_in_matrix {
         isVis[src.x][src.y] = true;
 
         // we need all 8 dirs as given
-        int dirs[][] = { { -1, -1 }, { -1, 0 }, { -1, 1 }, { 0, -1 }, { 0, 1 }, { 1, -1 }, { 1, 0 }, { 1, 1 } };
 
         while (!q.isEmpty()) {
             int[] top = q.poll();
@@ -97,5 +121,45 @@ public class _01_shortest_path_in_matrix {
         for (int r[] : dis)
             System.out.println(Arrays.toString(r));
         return (dis[dest.x][dest.y] != Integer.MAX_VALUE) ? dis[dest.x][dest.y] : -1;
+    }
+
+
+    //-----------still better, but use above soln if u r solving for queries, ir for each query min distance to rech x,y, but here since its single dest,
+    public int shortestPathBinaryMatrix(int[][] mat) {
+        int nRows=mat.length,nCols=mat[0].length;
+
+        int destx=nRows-1,desty=nCols-1;
+
+        if(mat[0][0]==1 || mat[destx][desty]==1) return -1;
+
+        int d[][]=new int[nRows][nCols];
+        for(int r[]:d) Arrays.fill(r,Integer.MAX_VALUE);
+
+
+        boolean isVis[][]=new boolean[nRows][nCols];
+
+        Queue<int[]>q=new LinkedList<>();
+        
+        q.offer(new int[]{0,0,1});
+        isVis[0][0]=true;
+
+        while(!q.isEmpty()){
+            int top[]=q.poll();
+            if(top[0]==destx && top[1]==desty) return top[2];
+            for(int dir[]:dirs){
+                int x=top[0]+dir[0];
+                int y=top[1]+dir[1];
+                if(x>=0 && y>=0 && x<mat.length && y<mat[0].length){
+                    if(mat[x][y]==0 && !isVis[x][y]){
+                        isVis[x][y]=true;
+                        q.offer(new int[]{x,y,top[2]+1});
+                    }
+                }
+            }
+        }
+        
+        return -1;
+
+
     }
 }

@@ -75,7 +75,21 @@ public class _03_cheapest_flights_with_k_stops {
 
     public static int using_djkistra(int n,int flights[][],int src,int dst,int k){//O(v+Eloge)
          int cost[] = new int[n];
-        Queue<int[]> pq = new LinkedList<>();//DONT USE PQ, it may not pass all TCs, if u use PQ, compare using k and not w, Queue works better coz we r moving by dist 1 for neighbour and we dont have any varying lenghts
+        Queue<int[]> pq = new LinkedList<>();//DONT USE PQ, it may not pass all TCs, if u use PQ, compare using k and not w, Queue works better coz we r moving by dist 1 for neighbour and we dont have any varying lenghts,--------------heart of problem, analize using TC:
+        /*
+         
+             Let src=0, dest=2, k=2
+                                
+            (2)        (3)
+            ↑ ↑      2 /   ↑
+       1  /    \      /    \
+         /      \ 5  /      \ 2
+        /        \  ↓        \
+      (4) <----- (1) <---------(0) 
+             1           5
+        Using PQ rather than a Q, my code would follow path (0)->(3)->(1)->(2) coz it first would give prioruty to (0)->(3) bfr (0)->(1)(this would further be optimal)  ie cost = 9, but optimal would be (0)->(1)->(4)->(2) cost =7, using priority Q would smash this path checking, so use Q and treat everyone equally------VVIMP
+
+         */
         List<List<int[]>> adj = get_adj(flights, n);
         // for(List<int[]>p:adj){
         //     for(int []x:p) System.out.print(Arrays.toString(x)+" ");

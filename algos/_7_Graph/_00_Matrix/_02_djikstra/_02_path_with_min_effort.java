@@ -52,6 +52,31 @@ public class _02_path_with_min_effort {
         System.out.println(djikstra(heights));
 
     }
+
+
+    public int rec(int mat[][],int i,int j,boolean isVis[][],int currMax){//using recursion
+        if(i==mat.length-1 && j==mat[0].length-1) return currMax;
+        isVis[i][j]=true;
+        int min=Integer.MAX_VALUE;
+        for(int dir[]:dirs){
+            int x=i+dir[0];
+            int y=j+dir[1];
+            if(x>=0 && y>=0 && x<mat.length && y<mat[0].length){
+                if(!isVis[x][y]){
+                    int diff=Math.abs(mat[i][j]-mat[x][y]);
+                    int res=rec(mat,x,y,isVis,Math.max(currMax,diff));
+                    min=Math.min(min,res);
+                }
+            }
+        }
+        isVis[i][j]=false;
+        return  min;
+    }
+
+
+    //why dp wont work: becoz we have backtracking here.
+    // why not just bfs via Q with isVis?: coz here we dont need shortest path, instead we need min of all max diffs, so use PQ and we may get WA if we also maintain isVis array, coz wt if we encounter a neighbour that was visted, but we visit again with still less cost, so use PQ instead
+
     public static int djikstra(int heights[][]){
         int nRows = heights.length, nCols = heights[0].length;
         PriorityQueue<int[]> pq = new PriorityQueue<>((x,y)->x[0]-y[0]);

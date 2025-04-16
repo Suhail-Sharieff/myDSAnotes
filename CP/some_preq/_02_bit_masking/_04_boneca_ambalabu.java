@@ -277,15 +277,15 @@ public class _04_boneca_ambalabu {
         int arr[]=scanIntArray(len);
 
 
-        int total_number_of_ones_at_pos_of_all_numbers[]=new int[31];
-        int total_number_of_zeroes_at_pos_of_all_numbers[]=new int[31];
+        int total_number_of_numbers_with_ith_bit_as_one[]=new int[31];
+        int total_number_of_numbers_with_ith_bit_as_zero[]=new int[31];
 
 
         for(int e:arr){
             for(int i=0;i<=30;i++){
                 boolean ith_bit_of_curr_is_set=((e&(1<<i))!=0);
-                if(ith_bit_of_curr_is_set) total_number_of_ones_at_pos_of_all_numbers[i]++;
-                else total_number_of_zeroes_at_pos_of_all_numbers[i]++;
+                if(ith_bit_of_curr_is_set) total_number_of_numbers_with_ith_bit_as_one[i]++;
+                else total_number_of_numbers_with_ith_bit_as_zero[i]++;
             }
         }
 
@@ -297,9 +297,9 @@ public class _04_boneca_ambalabu {
                 boolean ith_bit_of_curr_is_set=((e&(1<<i))!=0);
                 if (ith_bit_of_curr_is_set) {
                     //then other numbers with ith bit 0 will xor with 1 to produce some good value
-                    sum+=total_number_of_zeroes_at_pos_of_all_numbers[i]*1l*(1<<i);
+                    sum+=total_number_of_numbers_with_ith_bit_as_zero[i]*1l*(1<<i);
                 }else{
-                    sum+=total_number_of_ones_at_pos_of_all_numbers[i]*1l*(1<<i);
+                    sum+=total_number_of_numbers_with_ith_bit_as_one[i]*1l*(1<<i);
                 }
             }
             ans=Math.max(ans, sum);
