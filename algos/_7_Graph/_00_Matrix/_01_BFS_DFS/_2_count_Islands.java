@@ -159,7 +159,7 @@ While queue is not empty:
      */
      public static void solve(int nRows,int nCols) throws IOException {
         char mat[][]=new char[nRows][nCols];
-        for(int i=0;i<nRows;i++) mat[i]=scanString().toCharArray();
+        // for(int i=0;i<nRows;i++) mat[i]=scanString().toCharArray();
         boolean isVis[][]=new boolean[nRows][nCols];
         int ans=0;
         for(int i=0;i<nRows;i++){

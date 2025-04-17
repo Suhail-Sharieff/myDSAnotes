@@ -53,7 +53,7 @@ public class _02_path_with_min_effort {
 
     }
 
-
+    static int dirs[][]={{-1,0},{1,0},{0,-1},{0,1}};
     public int rec(int mat[][],int i,int j,boolean isVis[][],int currMax){//using recursion
         if(i==mat.length-1 && j==mat[0].length-1) return currMax;
         isVis[i][j]=true;
