@@ -26,7 +26,7 @@ public class _13_multiply_2_large_integers_using_karatsuba {
         long bd = mul(b, d);
         long ad_plus_bc = (a + b) * (c + d) - ac - bd;
 
-        long ans = ac * pow * pow + ad_plus_bc * pow + bd;
+        long ans = ac * pow * pow + ad_plus_bc * pow + bd;//instead of ac*(pow(10,n)), i have written pow*pow since pow(10,n/2) * pow(10,n/2) = pow(10,n)
 
         return ans;
 
