@@ -84,49 +84,91 @@ countWordsEqualTo “samsung”: There are two instances of “sumsung” is pre
 countWordsStartingWith “vi”: There is not a single word in the “TRIE” that starts from the prefix “vi”.
  */
 
-class TrieNode{
-    char val;
-    TrieNode ptrs[];
-    boolean isEndOfWord;
-    int prefixCount;//-------extra, coz previously if we insert same word twice or thrice, doesnt matter coz the count of it was not asked in Q, but here if we insert same word twice, we need to return 2, like tht
-    public TrieNode(char val){
-        this.val=val;
-        this.ptrs=new TrieNode[26];
-        isEndOfWord=false;
-        prefixCount=1;
-    }
-}
-class Trie{
-    TrieNode root;
-    public Trie(){
-        this.root=new  TrieNode('#');
-    }
 
-
-    public void insert(String s){
-        int i=0;
-        TrieNode curr=root;
-        while (i<s.length() && curr!=null) {
-            TrieNode itsPtrs[]=curr.ptrs;
-            int idx=s.charAt(i)-'a';
-            if (itsPtrs[idx]==null) {
-                itsPtrs[idx]=new TrieNode(s.charAt(i));
-            }else{//----------extra
-                itsPtrs[idx].prefixCount++;
-            }
-            curr=itsPtrs[idx];
-            i++;
-        }
-        curr.isEndOfWord=true;
-    }
-
-
-    // public int countWordsEqualTo(String word){
-
-    // } 
-
-
-}
+ class TrieNode {
+     // 26 lowercase English letters
+     TrieNode[] children = new TrieNode[26];
+ 
+     // How many words pass through this node
+     int prefixCount = 0;
+ 
+     // How many times this exact node is the end of a word
+     int wordCount = 0;
+ }
+ 
+ class Trie {
+     private final TrieNode root;
+ 
+     public Trie() {
+         root = new TrieNode();
+     }
+ 
+     // Insert word into the trie
+     public void insert(String word) {
+         TrieNode curr = root;
+         for (char c : word.toCharArray()) {
+             int idx = c - 'a';
+             if (curr.children[idx] == null) {
+                 curr.children[idx] = new TrieNode();
+             }
+             curr = curr.children[idx];
+             curr.prefixCount++;      // one more word passes through here
+         }
+         curr.wordCount++;            // word terminates here
+     }
+ 
+     // Count exact matches of word
+     public int countWordsEqualTo(String word) {
+         TrieNode curr = root;
+         for (char c : word.toCharArray()) {
+             int idx = c - 'a';
+             if (curr.children[idx] == null) {
+                 return 0;
+             }
+             curr = curr.children[idx];
+         }
+         return curr.wordCount;
+     }
+ 
+     // Count words that start with the given prefix
+     public int countWordsStartingWith(String prefix) {
+         TrieNode curr = root;
+         for (char c : prefix.toCharArray()) {
+             int idx = c - 'a';
+             if (curr.children[idx] == null) {
+                 return 0;
+             }
+             curr = curr.children[idx];
+         }
+         return curr.prefixCount;
+     }
+ 
+     // Erase one occurrence of word (guaranteed to exist)
+     public void erase(String word) {
+         if (countWordsEqualTo(word) == 0) {
+             // Or throw IllegalArgumentException if you prefer
+             return;
+         }
+ 
+         TrieNode curr = root;
+         for (char c : word.toCharArray()) {
+             int idx = c - 'a';
+             TrieNode next = curr.children[idx];
+             next.prefixCount--;       // one fewer word uses this prefix
+ 
+             // Optional node pruning:
+             if (next.prefixCount == 0) {
+                 // No words pass through next anymore?unlink it and stop
+                 curr.children[idx] = null;
+                 return;
+             }
+             curr = next;
+         }
+         curr.wordCount--;             // one fewer exact match
+         // Optionally: if (curr.wordCount == 0) { /* clear a marker, if you had one */ }
+     }
+ }
+ 
 public class _impl_02 {
     
 }
