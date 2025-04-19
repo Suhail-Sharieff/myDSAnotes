@@ -3,13 +3,13 @@ import java.util.Scanner;
 
 public class implementation {
 
-    static class Array {
+    static class MyArray {
 
         private int arr[];
         private int noOfElements;
         private int maxSize;
     
-        public Array(int maxSize) {
+        public MyArray(int maxSize) {
             arr = new int[maxSize];
             noOfElements = 0;
             this.maxSize=maxSize;
@@ -23,8 +23,8 @@ public class implementation {
             arr[noOfElements++] = toInsert;
         }
     
-        public void displayArray() {
-            System.out.println("Array Elements:");
+        public void displayMyArray() {
+            System.out.println("MyArray Elements:");
             for (int i = 0; i < noOfElements; i++) {
                 System.out.print(arr[i] + " ");
             }
@@ -45,8 +45,8 @@ public class implementation {
                     arr[k] = arr[k + 1];
                 }
                 noOfElements--;
-                System.out.println("Elemnt deleted successfully. Modified Array is:");
-                displayArray();
+                System.out.println("Elemnt deleted successfully. Modified MyArray is:");
+                displayMyArray();
             }
         }
     
@@ -54,9 +54,9 @@ public class implementation {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter max size of Array your computer can hold: ");
+        System.out.println("Enter max size of MyArray your computer can hold: ");
         int maxSize = sc.nextInt();
-        Array suhail = new Array(maxSize);
+        MyArray suhail = new MyArray(maxSize);
         System.out.println("Enter no of elemnts u wish to insert:");
         int size=sc.nextInt();
         if (size>maxSize) {
@@ -67,7 +67,7 @@ public class implementation {
             int scan=sc.nextInt();
             suhail.insert(scan);
         }
-        suhail.displayArray();
+        suhail.displayMyArray();
         
         System.out.println("Enter element to delete: ");
         int e = sc.nextInt();

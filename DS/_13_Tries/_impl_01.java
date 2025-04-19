@@ -38,93 +38,92 @@ public class _impl_01 {
     }
 
 
-
-}
-
-class TrieNode{
-    char value;
-    boolean isEndOfWord;
-    TrieNode ptrs[];
-    public TrieNode(char value){
-        this.value=value;
-        ptrs=new TrieNode[26];
-        this.isEndOfWord=false;
-    }
-}
-
-class Trie{
-    TrieNode root;
-    public Trie(){
-        this.root=new TrieNode('#');
+    static class TrieNode{
+        char value;
+        boolean isEndOfWord;
+        TrieNode ptrs[];
+        public TrieNode(char value){
+            this.value=value;
+            ptrs=new TrieNode[26];
+            this.isEndOfWord=false;
+        }
     }
     
-    public void insert(String s) {
-        int i=0;
-        TrieNode curr=root;
-        while (curr!=null && i<s.length()) {
-            TrieNode itsPtrs[]=curr.ptrs;
-            int idx=s.charAt(i)-'a';
-            if(itsPtrs[idx]!=null){
-                curr=itsPtrs[idx];
-            }else{
-                TrieNode newNode=new TrieNode(s.charAt(i));
-                itsPtrs[idx]=newNode;
-                curr=itsPtrs[idx];
-            }
-            i++;
+    static class Trie{
+        TrieNode root;
+        public Trie(){
+            this.root=new TrieNode('#');
         }
-        curr.isEndOfWord=true;//curr would obviously be pointing to last word
         
-    }
-    
-    public boolean contains_word(String word) {
-        int i=0;
-        TrieNode curr=root;
-        while (i<word.length() && curr!=null) {
-            TrieNode itsPtrs[]=curr.ptrs;
-            int idx=word.charAt(i)-'a';
-            if (itsPtrs[idx]!=null) {
-                curr=itsPtrs[idx];
+        public void insert(String s) {
+            int i=0;
+            TrieNode curr=root;
+            while (curr!=null && i<s.length()) {
+                TrieNode itsPtrs[]=curr.ptrs;
+                int idx=s.charAt(i)-'a';
+                if(itsPtrs[idx]!=null){
+                    curr=itsPtrs[idx];
+                }else{
+                    TrieNode newNode=new TrieNode(s.charAt(i));
+                    itsPtrs[idx]=newNode;
+                    curr=itsPtrs[idx];
+                }
                 i++;
-                continue;
-            }else{
-                return false;
             }
+            curr.isEndOfWord=true;//curr would obviously be pointing to last word
+            
         }
-        return  curr.isEndOfWord;
-    }
+        
+        public boolean contains_word(String word) {
+            int i=0;
+            TrieNode curr=root;
+            while (i<word.length() && curr!=null) {
+                TrieNode itsPtrs[]=curr.ptrs;
+                int idx=word.charAt(i)-'a';
+                if (itsPtrs[idx]!=null) {
+                    curr=itsPtrs[idx];
+                    i++;
+                    continue;
+                }else{
+                    return false;
+                }
+            }
+            return  curr.isEndOfWord;
+        }
+        
+        public boolean contains_prefix(String pref) {
+            int i=0;
+            TrieNode curr=root;
+            while (i<pref.length() && curr!=null) {
+                TrieNode itsPtrs[]=curr.ptrs;
+                int idx=pref.charAt(i)-'a';
+                if (itsPtrs[idx]!=null) {
+                   curr=itsPtrs[idx];
+                   i++;
+                   continue;
+                }else{
+                    return false;
+                }
+            }
+            return true;
+        }
+        public void print_dfs(){
+            HashMap<TrieNode,Boolean >isVis=new HashMap<>();
+            dfs(root, isVis);
+            System.out.println();
+        }
     
-    public boolean contains_prefix(String pref) {
-        int i=0;
-        TrieNode curr=root;
-        while (i<pref.length() && curr!=null) {
-            TrieNode itsPtrs[]=curr.ptrs;
-            int idx=pref.charAt(i)-'a';
-            if (itsPtrs[idx]!=null) {
-               curr=itsPtrs[idx];
-               i++;
-               continue;
-            }else{
-                return false;
+        public void dfs(TrieNode root,HashMap<TrieNode,Boolean>isVis){
+            isVis.put(root, true);
+            System.out.print(root.value+" ");
+            for(int i=0;i<root.ptrs.length;i++){
+                if(root.ptrs[i]!=null){
+                    if(isVis.get(root.ptrs[i])==null) dfs(root.ptrs[i], isVis);
+                }
             }
         }
-        return true;
+    
+    
     }
-    public void print_dfs(){
-        HashMap<TrieNode,Boolean >isVis=new HashMap<>();
-        dfs(root, isVis);
-        System.out.println();
-    }
-
-    public void dfs(TrieNode root,HashMap<TrieNode,Boolean>isVis){
-        isVis.put(root, true);
-        System.out.print(root.value+" ");
-        for(int i=0;i<root.ptrs.length;i++){
-            if(root.ptrs[i]!=null){
-                if(isVis.get(root.ptrs[i])==null) dfs(root.ptrs[i], isVis);
-            }
-        }
-    }
-
 
 }
