@@ -71,6 +71,41 @@ public class _05_word_ladder {
 
     }
 
+    //-------------------recursion
+    public int rec(String src, String dest, List<String> words, HashSet<String> hs) {
+        if (src.equals(dest))
+            return 0;
+        if (!hs.contains(dest))
+            return Integer.MAX_VALUE;
+        int min = Integer.MAX_VALUE;
+        for (int j = 0; j < src.length(); j++) {
+            List<String> possibles = getWord(src, j, hs);
+            for (String poss : possibles) {
+                hs.remove(poss);
+                int x = rec(poss, dest, words, hs);
+                if (x != Integer.MAX_VALUE)
+                    min = Math.min(min, 1 + x);
+                hs.add(poss);
+            }
+        }
+        return min;
+    }
+    public List<String> getWord(String curr, int i, HashSet<String> hs) {
+        char arr[] = curr.toCharArray();
+        List<String> ans = new ArrayList<>();
+        char orig = arr[i];
+        for (char ch = 'a'; ch <= 'z'; ch++) {
+            arr[i] = ch;
+            String temp = new String(arr);
+            if (hs.contains(temp))
+                ans.add(temp);
+            arr[i] = orig;
+        }
+        return ans;
+    }
+
+
+    //------------better
     public static int bruteForce(String beginWord, String endWord, List<String> wordList) {// TC:
                                                                                            // sizeOfWordList*(beginWordLength*26)-----O(wordListLength)
         int ans = 0;
@@ -97,7 +132,7 @@ public class _05_word_ladder {
         return ans;
     }
 
-    // --------------------know one such shortest sequence:
+    // --------------------optimal and also know one such shortest sequence:(uses BFS's beauty of reaching dest within shortest time)
     public static List<String> know_one_such_short_sequence(String beginWord, String endWord, List<String> wordList) {
         Set<String> set = new HashSet<>(wordList);
         set.remove(beginWord);

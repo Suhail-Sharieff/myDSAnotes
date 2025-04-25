@@ -1,6 +1,7 @@
 package _7_Graph._02_Dir_Unweigh;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -125,6 +126,7 @@ public class _04_alien_dictionary {
     //----------------------clean soln:
     static class Solution {
         public String findOrder(String[] words) {
+            if(words.length==0) return "";
             // code here
             List<Pair>li=new ArrayList<>();
             for(int k=0;k<words.length-1;k++){
