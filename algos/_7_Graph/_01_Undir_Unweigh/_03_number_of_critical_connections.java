@@ -160,11 +160,12 @@ public class _03_number_of_critical_connections {
                         nearest_ancestor[currNodeNumber],
                         nearest_ancestor[nbr]);
                 // after updating
-                if (nearest_ancestor[currNodeNumber] != nearest_ancestor[nbr]) {
-                    if (nearest_ancestor[nbr] > traversal_order[currNodeNumber]) {// currNodeNumber was trvaersed bfr its neighbour
-                        ans.add(Arrays.asList(currNodeNumber, nbr));
-                    }
+
+                if (nearest_ancestor[nbr] > traversal_order[currNodeNumber]) {// currNodeNumber was trvaersed bfr its
+                                                                              // neighbour
+                    ans.add(Arrays.asList(currNodeNumber, nbr));
                 }
+
             } else {
                 nearest_ancestor[currNodeNumber] = Math.min(
                         nearest_ancestor[currNodeNumber],
@@ -182,5 +183,54 @@ public class _03_number_of_critical_connections {
             adj.get(e.get(1)).add(e.get(0));
         }
         return adj;
+    }
+
+
+
+    //-=--------------memory efficient solutiuon:
+    static class Solution {
+
+        List<List<Integer>>adj;
+        List<List<Integer>>ans;
+        boolean isVis[];
+        int oldestNeigh[];
+        int order=1;
+    
+        public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
+            adj=getAdj(connections,n);
+            ans=new ArrayList<>();
+            isVis=new boolean[n];
+            oldestNeigh=new int[n];
+            dfs(0,-1);
+            return ans;
+        }
+        public int dfs(int curr,int par){//;returns for each node oldest neighbour that was visited earlier than it was
+            isVis[curr]=true;
+            oldestNeigh[curr]=order++;
+            int oldestNeighbour=Integer.MAX_VALUE;
+            for(int neigh:adj.get(curr)){
+                if(neigh!=par){
+                    if(!isVis[neigh]){
+                        oldestNeigh[neigh]=dfs(neigh,curr);
+                        if(oldestNeigh[neigh]>oldestNeigh[curr]){
+                            ans.add(Arrays.asList(curr,neigh));
+                        }
+                    }
+                    oldestNeighbour=Math.min(oldestNeighbour,oldestNeigh[neigh]);
+                }
+            }
+            return oldestNeighbour;
+        }
+        public  List<List<Integer>>getAdj(List<List<Integer>>g,int n){
+            List<List<Integer>>adj=new ArrayList<>();
+            for(int i=0;i<n;i++) adj.add(new ArrayList<>());
+            for(var e:g){
+                adj.get(e.get(0)).add(e.get(1));
+                adj.get(e.get(1)).add(e.get(0));
+            }
+            return adj;
+        }
+    
+        
     }
 }

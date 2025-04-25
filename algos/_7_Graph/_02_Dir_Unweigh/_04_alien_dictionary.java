@@ -120,5 +120,73 @@ public class _04_alien_dictionary {
         }
         return adj;
     }
+
+
+    //----------------------clean soln:
+    static class Solution {
+        public String findOrder(String[] words) {
+            // code here
+            List<Pair>li=new ArrayList<>();
+            for(int k=0;k<words.length-1;k++){
+                int i=0,j=0;
+                while(i<words[k].length() && j<words[k+1].length()){
+                    if(words[k].charAt(i)!=words[k+1].charAt(j)){
+                        li.add(new Pair(words[k].charAt(i),words[k+1].charAt(j)));
+                        break;
+                    }
+                    i++;
+                    j++;
+                }
+            }
+            Queue<Character>q=new LinkedList<>();
+            HashSet<Character>hs=new HashSet<>();
+            int indeg[]=new int[128];
+            for(Pair e:li){
+                indeg[e.t]++;
+                hs.add(e.f);
+                hs.add(e.t);
+            }
+            int nq=hs.size();
+            // System.out.println(hs);
+            for(char c:hs){
+                if(indeg[c]==0) q.offer(c);
+            }
+            
+            // System.out.println(li);
+            StringBuilder sb=new StringBuilder();
+            int cnt=0;
+            while(!q.isEmpty()){
+                char top=q.poll();
+                cnt++;
+                sb.append(top);
+                // List<Character>n=new ArrayList<>();
+                for(Pair p:li){
+                    if(p.f==top){
+                        // n.add(p.t);
+                        indeg[p.t]--;
+                        if(indeg[p.t]==0) q.offer(p.t);
+                    }
+                }
+                // System.out.println("neigh of "+top+" are "+n);
+            }
+            // System.out.println(sb);
+            String ans=sb.toString();
+            // System.out.println(cnt+" "+ans+" "+nq);
+            if(cnt==nq) return ans;
+            return "";
+            // return "";
+        }
+    }
     
-}
+    static class Pair{
+        char f,t;
+        public Pair(char f,char t){
+            this.f=f;
+            this.t=t;
+        }
+        @Override
+        public String toString(){
+            return "["+f+","+t+"]";
+        }
+    }
+}    

@@ -1,8 +1,9 @@
 package _7_Graph._02_Dir_Unweigh;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-
+import java.util.Queue;
 
 //prereq: detect cycle in an undirected graph
 
@@ -43,45 +44,115 @@ The number of edges in the graph will be in the range [1, 4 * 104].
  */
 public class _01_find_eventual_safe_states {
 
-    //solution: just add all nodes that doesnt have cycles, eventually remining always will lead to terminal
+    // solution: just add all nodes that doesnt have cycles, eventually remining
+    // always will lead to terminal
     public static void main(String[] args) {
-        int graph[][]={
-            {1,2},
-            {2,3},
-            {5},
-            {0},
-            {5},
-            {},
-            {},
+        int graph[][] = {
+                { 1, 2 },
+                { 2, 3 },
+                { 5 },
+                { 0 },
+                { 5 },
+                {},
+                {},
         };
-        int nNodes=graph.length;
-        boolean hasCycle[]=new boolean[nNodes];
-        boolean isVis[]=new boolean [nNodes];
-        boolean dfs_done[]=new boolean [nNodes];
+        int nNodes = graph.length;
+        boolean hasCycle[] = new boolean[nNodes];
+        boolean isVis[] = new boolean[nNodes];
+        boolean dfs_done[] = new boolean[nNodes];
 
-        List<Integer>ans=new ArrayList<>();
+        List<Integer> ans = new ArrayList<>();
 
-        for(int nodeNumber=0;nodeNumber<nNodes;nodeNumber++){
-                boolean currHasCycle=hasCycle(graph,isVis,dfs_done,nodeNumber);
-                hasCycle[nodeNumber]=currHasCycle;
-                if(!currHasCycle) ans.add(nodeNumber);
+        for (int nodeNumber = 0; nodeNumber < nNodes; nodeNumber++) {
+            boolean currHasCycle = hasCycle(graph, isVis, dfs_done, nodeNumber);
+            hasCycle[nodeNumber] = currHasCycle;
+            if (!currHasCycle)
+                ans.add(nodeNumber);
         }
-       System.out.println(ans);
-       
+        System.out.println(ans);
+
+    }
+
+    static boolean hasCycle(int graph[][], boolean isVis[], boolean dfs_done[], int nodeNumber) {
+        isVis[nodeNumber] = true;
+        dfs_done[nodeNumber] = true;
+        for (int e : graph[nodeNumber]) {
+            if (!isVis[e]) {
+                if (hasCycle(graph, isVis, dfs_done, e))
+                    return true;
+            } else {
+                if (dfs_done[e])
+                    return true;
+            }
+        }
+        dfs_done[nodeNumber] = false;
+        return false;
+    }
+
+    // -------------------------way2:
+    class Solution {
+        public List<Integer> eventualSafeNodes(int[][] graph) {
+            int n = graph.length;
+            int[] state = new int[n]; // 0: unvisited, 1: visiting, 2: safe
+            List<Integer> result = new ArrayList<>();
+
+            for (int i = 0; i < n; i++) {
+                if (dfs(i, graph, state)) {
+                    result.add(i);
+                }
+            }
+
+            return result;
+        }
+
+        private boolean dfs(int node, int[][] graph, int[] state) {
+            if (state[node] != 0) {
+                return state[node] == 2;
+            }
+
+            state[node] = 1; // mark as visiting
+
+            for (int neighbor : graph[node]) {
+                if (!dfs(neighbor, graph, state)) {
+                    return false; // cycle detected
+                }
+            }
+
+            state[node] = 2; // mark as safe
+            return true;
+        }
     }
 
 
-    static boolean hasCycle(int graph[][],boolean isVis[],boolean dfs_done[],int nodeNumber){
-        isVis[nodeNumber]=true;
-        dfs_done[nodeNumber]=true;
-        for(int e:graph[nodeNumber]){
-            if(!isVis[e]){
-                if(hasCycle(graph,isVis,dfs_done,e)) return true;
-            }else{
-                if(dfs_done[e]) return true;
+    //-=---------------==========way3: reverseEdgesOrGraqph(then all terminals will have indegree=0)+then Do KahnAlgo
+
+    public List<Integer>usingKahn(int g[][]){
+        g=revreseEdges(g);
+        Queue<Integer>q=new LinkedList<>();
+        int indeg[]=new int[g.length];
+        for(int i=0;i<g.length;i++){
+           for(int n:g[i]) indeg[n]++;
+        }
+        for(int i=0;i<g.length;i++) if(indeg[i]==0) q.offer(i);
+        List<Integer>ans=new ArrayList<>();
+        while(!q.isEmpty()){
+            int top=q.poll();
+            ans.add(top);
+            for(int neigh:g[top]){
+                indeg[neigh]--;
+                if(indeg[neigh]==0) q.offer(neigh);
             }
         }
-        dfs_done[nodeNumber]=false;
-        return false;
+        return ans;
+    }
+    public int[][] revreseEdges(int g[][]){
+        List<List<Integer>>rev=new ArrayList<>();
+        for(int i=0;i<g.length;i++) rev.add(new ArrayList<>());
+        for(int i=0;i<g.length;i++){
+            for(int neigh:g[i]) rev.get(neigh).add(i);
+        }
+        return rev.stream()
+              .map(list -> list.stream().mapToInt(Integer::intValue).toArray())
+              .toArray(int[][]::new);
     }
 }

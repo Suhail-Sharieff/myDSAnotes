@@ -1,5 +1,9 @@
 package _6_DynamicProgramming._02_Grids._2D;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 /*
 You are given the weights and values of items, and you need to put these items in a knapsack of capacity capacity to achieve the maximum total value in the knapsack. Each item is available in only one quantity.
@@ -117,6 +121,51 @@ public class _1_knapSack {
                 );
             }
         }
+        return dp[wt.length-1][W];
+    }
+     static int print_picked_weighs(int W, int val[], int wt[]) {
+        // code here
+        
+        int dp[][]=new int[wt.length][W+1];
+        
+        
+        for(int w=0;w<=W;w++){
+           if(wt[0]<=w) {
+             dp[0][w]=val[0];
+           }
+        }
+        
+        for(int i=1;i<wt.length;i++){
+            for(int w=1;w<=W;w++){
+                int pick=(w>=wt[i])?val[i]+dp[i-1][w-wt[i]]:0;
+                int dontPick=dp[i-1][w];
+                dp[i][w]=Math.max(pick,dontPick);
+            }
+        }
+        // Backtrack to find picked items
+        List<Integer> pickedIndices = new ArrayList<>();
+        int n=wt.length-1;
+        int i = n - 1, j = W;
+        while (i > 0 && j > 0) {
+            if (dp[i][j] != dp[i - 1][j]) {//coz dont pick condition is dp[i-1][w]
+                // Item i was picked
+                pickedIndices.add(i);
+                j -= wt[i];
+                i--;
+            } else {
+                // Item i was not picked
+                i--;
+            }
+        }
+
+        // Check for the first item
+        if (i == 0 && j >= wt[0] && dp[0][j] != 0) {
+            pickedIndices.add(0);
+        }
+
+        // Print the picked indices in reverse (or sort if needed)
+        Collections.reverse(pickedIndices);
+        System.out.println("Picked indices: " + pickedIndices);
         return dp[wt.length-1][W];
     }
 }
