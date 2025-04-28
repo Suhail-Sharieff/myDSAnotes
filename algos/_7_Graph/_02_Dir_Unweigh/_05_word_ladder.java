@@ -214,52 +214,91 @@ public class _05_word_ladder {
 
     // watch
     // logic:https://www.youtube.com/watch?v=DREutrv2XD0&list=PLgUwDviBIf0oE3gA41TKO2H5bHpPd7fzn&index=30&ab_channel=takeUforward
-
-    public static List<List<String>> follow_up_brute(String beginWord, String endWord, List<String> wordList) {
-
-        HashSet<String> set = new HashSet<>(wordList);
-        if (!set.contains(endWord)) {
-            return new ArrayList<>();
+    static class Brute {
+        public List<List<String>> findLadders(String src, String dest, List<String> words) {
+             HashSet<String> hs = new HashSet<>(words);
+            ans = new ArrayList<>();
+            List<String>temp=new ArrayList<>();
+            temp.add(src);
+            rec(src, dest, temp, hs);
+    
+            return(ans);
+    
+        }
+    
+        static List<List<String>> ans;
+    
+        static void rec(String src, String dest, List<String> li, HashSet<String> hs) {
+            if (src.equals(dest)) {
+                if (ans.isEmpty() || li.size() == ans.get(ans.size()-1).size()) {
+                    ans.add(new ArrayList<>(li));
+                } else if (li.size() < ans.get(ans.size()-1).size()) {
+                    ans.clear();
+                    ans.add(new ArrayList<>(li));
+                }
+                return;
+            }
+            for (int j = 0; j < src.length(); j++) {
+                List<String> poss = getPossiblitites(src, j, hs);
+                for (var p : poss) {
+                    li.add(p);
+                    hs.remove(p);
+                    rec(p, dest, li, hs);
+                    hs.add(p);
+                    li.remove(li.size() - 1);
+                }
+            }
+        }
+    
+        static List<String> getPossiblitites(String curr, int idx, HashSet<String> hs) {
+            List<String> poss = new ArrayList<>();
+            char arr[] = curr.toCharArray();
+            char orig = arr[idx];
+            for (char ch = 'a'; ch <= 'z'; ch++) {
+                arr[idx] = ch;
+                String k = new String(arr);
+                if (hs.contains(k))
+                    poss.add(k);
+                arr[idx] = orig;
+            }
+            return poss;
         }
 
-        List<List<String>> ans = new ArrayList<>();
-        Queue<List<String>> q = new LinkedList<>();
-        q.offer(new ArrayList<>(List.of(beginWord)));
 
-        boolean foundShortest = false; // Flag to track if shortest paths are found
-
-        while (!q.isEmpty() && !foundShortest) {
-
-            int size = q.size();
-            HashSet<String> visited = new HashSet<>();
-
-            for (int i = 0; i < size; i++) {// just like level order traversal of tree
-
-                List<String> front = q.poll();
-                String last_word = front.get(front.size() - 1);
-
-                List<String> possible_transformations = getTransformationsOf(last_word, set);
-
-                for (String transform : possible_transformations) {
-
-                    List<String> copy = new ArrayList<>(front);
-                    copy.add(transform);
-
-                    if (transform.equals(endWord)) {
-                        ans.add(copy);
-                        foundShortest = true; // Stop processing further levels----iMP
-                    } else {
-                        visited.add(transform);
-                        q.offer(copy);
+        //-------------iterative version of brute:
+        public List<List<String>> iterative(String src, String dest, List<String> words) {
+            ans = new ArrayList<>();
+            List<String>temp=new ArrayList<>();
+    
+    
+            Queue<Pair>q=new LinkedList<>();
+    
+            q.offer(new Pair(temp, src,new HashSet<>(words)));
+    
+            while (!q.isEmpty()) {
+                Pair top=q.poll();
+                if (top.curr.equals(dest)) {
+                    top.li.add(dest);
+                    if (ans.isEmpty() || top.li.size() == ans.get(ans.size()-1).size()) {
+                        ans.add(new ArrayList<>(top.li));
+                    } else if (top.li.size() < ans.get(ans.size()-1).size()) {
+                        ans.clear();
+                        ans.add(new ArrayList<>(top.li));
+                    }
+                    continue;
+                }
+                for(int j=0;j<top.curr.length();j++){
+                    List<String>poss=getPossiblitites(top.curr, j, top.hs);
+                    for(var p:poss){
+                        List<String>newList=new ArrayList<>(top.li); newList.add(top.curr);
+                        HashSet<String>newHashSet=new HashSet<>(top.hs); newHashSet.remove(p);
+                        q.offer(new Pair(newList, p,newHashSet));
                     }
                 }
             }
-
-            // Remove visited words after processing the level
-            set.removeAll(visited);
+    
+            return(ans);
         }
-        System.out.println(ans);
-        return (ans);
     }
 
 

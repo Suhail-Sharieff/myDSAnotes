@@ -1,6 +1,10 @@
 package _7_Graph._03_Undir_weigh;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 //prereq: floyd warshall as described in _04_Dir_weigh/_04_floyd----application of floyd waeshall
 /*
 There are n cities numbered from 0 to n-1. Given the array edges where edges[i] = [fromi, toi, weighti] represents a bidirectional and weighted edge between cities fromi and toi, and given the integer distanceThreshold.
@@ -51,7 +55,65 @@ All pairs (fromi, toi) are distinct.
  */
 public class _03_city_with_smallest_number_of_neigh {
 
-    //this can also be solved using djikstra, where for every nodeNumber from 0..n, get distance array for each nodeNumber as src, then for each of that distance array check how many citites r <=threshhol and return ans, here i will be using floyd_warshall
+    static class Brute {//for each pair i,j we keep i as src and j as dest, find how many cities r reachable from i to j under threshHold, cnt and return min of such
+    public int findTheCity(int n, int[][] g, int limit) {
+        List<List<int[]>>adj=getAdj(n,g);
+
+        int ans=-1;
+        int minCnt=Integer.MAX_VALUE;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(j!=i){
+                    int cnt=f(i,j,adj,limit,n);
+                    if(cnt<=minCnt){
+                        minCnt=cnt;
+                        ans=Math.max(ans,i);
+                    }
+                }
+            }
+        }
+        return ans;
+
+    }
+
+
+    public int f(int src,int dest,List<List<int[]>>adj,int limit,int n){
+        int dis[]=new int[n];
+        Arrays.fill(dis,Integer.MAX_VALUE);
+        dis[src]=0;
+        Queue<Integer>q=new LinkedList<>();
+        q.offer(src);
+        while(!q.isEmpty()){
+            int top=q.poll();
+            for(int pair[]:adj.get(top)){
+                int to=pair[0],w=pair[1];
+                if(w+dis[top]<dis[to]){
+                    dis[to]=w+dis[top];
+                    q.offer(to);
+                }
+            }
+        }
+        int cnt=0;
+        for(int e:dis) if(e<=limit) cnt++;
+        return cnt;
+    }
+
+
+    public List<List<int[]>> getAdj(int n,int g[][]){
+        List<List<int[]>>adj=new ArrayList<>();
+        while(n--!=0) adj.add(new ArrayList<>());
+        for(int e[]:g){
+            adj.get(e[0]).add(new int[]{e[1],e[2]});
+            adj.get(e[1]).add(new int[]{e[0],e[2]});
+        }
+        return adj;
+    }
+}
+
+    //the idea of fl;oyd warshall comes from the bvrute force, observbe in brute force that we repeatedly calcuate cnt(i,j) , instaed of this if we precomute how much is mion cost to movce from i to j in one go, then same mat we can use again for all n cities, hence floyd warshall since it has power to form a mat that could give us minWeight to mvbe gtrom i to j after one pass
+
+    //this can also be solved using djikstra, where for every nodeNumber from 0..n, get distance array for each nodeNumber as src, then for each of that distance array check how many citites r <=threshhol and return ans, here i will be using floyd_warshall---N^2 * (N+M)---TLE
+
 
     //since WKT floyd warshall fives us the matrix having mat[i][j] as min cost to reach from i to j, we can make use of it to return answer
     public int floyd_warshall(int n, int[][] edges, int distanceThreshold) {

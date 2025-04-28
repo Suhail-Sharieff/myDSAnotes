@@ -123,6 +123,9 @@ public class _06_strongly_connected_componenets {
     }
 
 
+    //mistake i did initially, after seeing some initila testcases i felt like just revrese the edges and just finf number of islands, but it wont work, for ex consider case like: nNodes=6, adj=[0:[1],1:[],2:[],3:[1],4:[],5:[]], expected:6, received:5---do dry run to understand why just by revreseing and finding number od sialnds wont work
+
+
     private static void  printSCC(int nNodes,int adj[][]){
 
         List<List<Integer>>ans=new ArrayList<>();
