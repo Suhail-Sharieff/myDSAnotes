@@ -266,6 +266,20 @@ public class _05_word_ladder {
 
 
         //-------------iterative version of brute:
+        static class Pair{
+            List<String>li;
+            String curr;
+            HashSet<String>hs;
+            public Pair(List<String>li,String curr,HashSet<String>hs){
+                this.li=li;
+                this.curr=curr;
+                this.hs=hs;
+            }
+            @Override
+            public String toString() {
+                return "["+li+","+curr+","+hs+"]";
+            }
+        }
         public List<List<String>> iterative(String src, String dest, List<String> words) {
             ans = new ArrayList<>();
             List<String>temp=new ArrayList<>();

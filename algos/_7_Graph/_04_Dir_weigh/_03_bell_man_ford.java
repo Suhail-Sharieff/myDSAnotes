@@ -26,8 +26,8 @@ import java.util.Arrays;
 https://www.youtube.com/watch?v=0vVofAhAYjc&list=PLgUwDviBIf0oE3gA41TKO2H5bHpPd7fzn&index=43&ab_channel=takeUforward
 
 Bell man ford is almost similar to djikstra, but it can even hanle the cases where the edge weight may be negative.
-- do n-1 iterations and update dis for each in edges
-- to check if cycle exists, do one more iteration, if any value changes in dis array, there's a cycle, else no
+- do n-1 iterations and update dis for each in edges. (n-1) coz we realax or build shortest distance to 1 node at a time
+- to check if cycle exists, do one more iteration ie nth iteration, if any value changes(prolly decrease) in dis array compared to previous version, there's a cycle, else no
  */
 
 public class _03_bell_man_ford {
