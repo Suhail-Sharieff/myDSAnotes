@@ -39,11 +39,13 @@ public class _07_Flight_Discount{
         // }
     }
 
+    //brute force is to apparently make each edgeWt reduced to half, apply diskjsta each time , taking min of all, exeedds time limit
+
     //https://www.youtube.com/watch?v=GZtZXhir7Wg
 
     //idea is to paralleley handle with_using and without_using coupon and pushing both in PQ simmultaneously(if coupon not used else just with coupon) adn then choosing best
     public static void solve() throws IOException {
-        int nCities=scanInt();
+        int nCities=scanInt();//TC: O(V+E)logV
         int nConnections=scanInt();
 
         int graph[][]=scan_graph(nConnections, true);
@@ -56,8 +58,8 @@ public class _07_Flight_Discount{
         int src=0;
         int dest=nCities-1;
 
-        long cost_with_coupon[]=new long[nCities];Arrays.fill(cost_with_coupon, INF);
-        long cost_without_coupon[]=new long[nCities];Arrays.fill(cost_without_coupon, INF);
+        long cost_with_coupon[]=new long[nCities];Arrays.fill(cost_with_coupon, INF);//will store minCost to reach from src to i  applying copuon to all
+        long cost_without_coupon[]=new long[nCities];Arrays.fill(cost_without_coupon, INF);//will store minCost to reach from src to i without applying copuon to any
 
         cost_with_coupon[src]=0;
         cost_without_coupon[src]=0;
@@ -121,6 +123,131 @@ public class _07_Flight_Discount{
             this.coupon_used=coupon_used;
         }
     }
+
+
+    //---------------for printing path and also where coupon is applied:
+    static public class Main {
+        static class Edge {
+            int to, cost;
+            Edge(int to, int cost) {
+                this.to = to;
+                this.cost = cost;
+            }
+        }
+    
+        static List<Edge>[] adj;
+        static int[] dist;
+        static int[] parent;
+        static int[] couponAppliedAt;
+    
+        public static void solve(int nCities, int nFlights, int[][] flights) {
+            // Initialize graph
+            @SuppressWarnings("unchecked")
+            List<Edge>[] tempAdj = (ArrayList<Edge>[]) new ArrayList[nCities];
+            adj = tempAdj;
+    
+            for (int i = 0; i < nCities; i++) {
+                adj[i] = new ArrayList<>();
+            }
+    
+            for (int[] flight : flights) {
+                int u = flight[0] - 1;
+                int v = flight[1] - 1;
+                int cost = flight[2];
+                adj[u].add(new Edge(v, cost));
+            }
+    
+            dist = new int[nCities];
+            parent = new int[nCities];
+            couponAppliedAt = new int[nCities];
+    
+            Arrays.fill(dist, Integer.MAX_VALUE);
+            Arrays.fill(parent, -1);
+            Arrays.fill(couponAppliedAt, -1);
+    
+            PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
+            pq.add(new int[]{0, 0, 0}); // cost, node, couponUsed (0=no, 1=yes)
+            dist[0] = 0;
+    
+            while (!pq.isEmpty()) {
+                int[] curr = pq.poll();
+                int d = curr[0];
+                int u = curr[1];
+                int couponUsed = curr[2];
+    
+                if (d > dist[u]) continue;
+    
+                for (Edge edge : adj[u]) {
+                    int v = edge.to;
+                    int cost = edge.cost;
+                    int discount=cost/2;
+    
+                    // Normal path without coupon
+                    if (d + cost < dist[v]) {
+                        dist[v] = d + cost;
+                        parent[v] = u;
+                        couponAppliedAt[v] = couponUsed;
+                        pq.add(new int[]{dist[v], v, couponUsed});
+                    }
+    
+                    // Apply coupon if not already used
+                    if (couponUsed == 0 && d + (cost - discount) < dist[v]) {
+                        dist[v] = d + (cost - discount);
+                        parent[v] = u;
+                        couponAppliedAt[v] = 1; // mark that we applied coupon here
+                        pq.add(new int[]{dist[v], v, 1});
+                    }
+                }
+            }
+    
+            // Reconstruct path
+            List<Integer> path = new ArrayList<>();
+            int end = nCities - 1;
+            Set<Integer> visited = new HashSet<>();
+    
+            while (end != -1) {
+                if (visited.contains(end)) {
+                    System.out.println("Cycle detected in path reconstruction.");
+                    return;
+                }
+                visited.add(end);
+                path.add(end + 1); // 1-based
+                end = parent[end];
+            }
+    
+            Collections.reverse(path);
+            System.out.println("Minimum cost: " + dist[nCities - 1]);
+            System.out.println("Path: " + path);
+    
+            // Find where coupon was applied
+            for (int i = 1; i < path.size(); i++) {
+                int cityIndex = path.get(i) - 1;
+                if (couponAppliedAt[cityIndex] == 1) {
+                    System.out.println("Coupon applied at edge: " + path.get(i - 1) + " -> " + path.get(i));
+                    return;
+                }
+            }
+    
+            System.out.println("No coupon applied");
+        }
+    
+        public static void main(String[] args) {
+            Scanner sc = new Scanner(System.in);
+            int nCities = sc.nextInt();
+            int nFlights = sc.nextInt();
+    
+            int[][] flights = new int[nFlights][3];
+            for (int i = 0; i < nFlights; i++) {
+                flights[i][0] = sc.nextInt(); // u
+                flights[i][1] = sc.nextInt(); // v
+                flights[i][2] = sc.nextInt(); // cost
+            }
+    
+            solve(nCities, nFlights, flights);
+            sc.close();
+        }
+    }
+    
 
     static int MOD = 1_000_000_007;
     static long INF = Long.MAX_VALUE;
