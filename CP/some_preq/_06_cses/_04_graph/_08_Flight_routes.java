@@ -30,7 +30,13 @@ Output:
 
 Explanation: The cheapest routes are 1 \rightarrow 3 \rightarrow 4 (price 4), 1 \rightarrow 2 \rightarrow 3 \rightarrow 4 (price 4) and 1 \rightarrow 2 \rightarrow 4 (price 7). */
 
-//
+//Explaination:https://www.youtube.com/watch?v=009PBKHXtyA
+
+//Normal Djikstra: Single source shortest 1 path(obtained usng dis[dest]), but here we just have to print dis[dest] but not just 1 elemnt but k elemnts, ie k shortest paths
+
+//so earlier we used to have an 1d array dis, which we used to initialize to INF, but here since we need k shortest paths, we will declare an 2d array of size nXk where dis[u][i] represents ith shortest path to reach node u---IMP
+
+//so the idea is to initialize all elements in dis to INF, let dis[src][0] be 0(obviously). Then we will just use PQ, ie just varied form of djikstra to arrive at dis[dest]. We will comparing the worst possible path (say kth) for each node for comparision. We will update kth and then sort dis[u], so that again at kth pos we will get worst possible path, in this way we can fianllay arrive in situtaion where we have k shortest paths from src to each node u, hence it can also be used for query problems where we r asked to print k shortest paths from src to u
 
 /*******BISMILLAHIRRAHMAANIRRAHEEM*******/
 import java.io.*;
@@ -44,7 +50,7 @@ public class _08_Flight_routes {
         // }
     }
 
-    public static void solve() throws IOException {
+    public static void for_explaination() throws IOException {
         int nNodes = scanInt();
         int nConns = scanInt();
         int k = scanInt();
@@ -62,7 +68,7 @@ public class _08_Flight_routes {
 
         int src = 0, dest = nNodes - 1;
         pq.offer(new long[] { src, 0 });
-        dis[src].set(0, 0L);
+        dis[src].set(0, 0L);//mistake: filled dis[src] full row with 0
 
         while (!pq.isEmpty()) {
 
@@ -77,7 +83,7 @@ public class _08_Flight_routes {
                 int v = edge[0];
                 int w = edge[1];
                 long newDis = d + w;
-                if (dis[v].get(k - 1) > newDis) {
+                if (dis[v].get(k - 1) > newDis) { //mistake: instead of d+w, i wrote dis[u].get(k-1)+w, which is wrong, coz we r not comparing with kth value, just updating it and sorting
                     dis[v].set(k - 1, newDis);
                     pq.offer(new long[] { v, newDis });
                     Collections.sort(dis[v]);
@@ -89,7 +95,7 @@ public class _08_Flight_routes {
         print(sb);
     }
 
-    public static void optimal() throws IOException {
+    public static void optimal() throws IOException {//optimizes that Collections.sort(dis[v]) part which takes nlogn time to just n, by manually leaniner searching for worst part and updating it, at last we sort dis[dest] and print it
         int nNodes = scanInt();
         int nConns = scanInt();
         int k = scanInt();
@@ -144,7 +150,7 @@ public class _08_Flight_routes {
         print(sb);
     }
 
-    public static void more_optimal() throws IOException {
+    public static void more_optimal() throws IOException {//instead of Using List[]dis, we can directly use dis[][], for faster access
         int n = scanInt(), m = scanInt(), k = scanInt();
         List<List<int[]>> adj = get_adj_weighted(scan_graph(m, true), n, true);
     
