@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+
+//suppose u r given an undirected weighted graph such that weights can be negative, then wt to do coz bellman ford works only for DAG and has capacity to detect cycles, the idea is to convert that single edge into two parts, say u have edge from [u,v](undir), in adj list u add both u->v and also v<-u, in this way u can easily apply bellman ford algorithm on an undirected weighted graph as well
+
 /*
 Given a weighted and directed graph of v vertices and edges, Find the shortest distance of all the vertex's from the source vertex, src and return a list of integers where the ith integer denotes the distance of the ith node from the source node. If a vertices can't be reach from the s then mark the distance as 10^8.
 Note: If there exist a path to a negative weighted cycle from the source node then return {-1}.
@@ -102,7 +105,7 @@ Output:
 //https://www.youtube.com/watch?v=2Epc8xZObIc
 
 //since they have askjed max score, we will apply normal bellman but make all edges multiply by -1,it will give most negative vvalue, ans is -1*thatValue, handle edge cases
-//we will use modifies bellman which staes that upon doing 2*(n-1) times relaxation, if cycle exists, all nodes will have value NINF
+//we will use modifies bellman which staes that upon doing 2*(n-1) times relaxation, if cycle exists, all nodes will have value NINF. So basically from this u get to know that whenevr a single src longest path has been asked in place of single src shortest path, we can simply change each wt edge to its -ve and then apply normal bellman ford to easily arrive at the answer.
     static 
 
     class HighScore{
