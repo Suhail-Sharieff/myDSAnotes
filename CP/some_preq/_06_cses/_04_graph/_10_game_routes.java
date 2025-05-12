@@ -1,192 +1,133 @@
 package some_preq._06_cses._04_graph;
-/*Uolevi has won a contest, and the prize is a free flight trip that can consist of one or more flights through cities. Of course, Uolevi wants to choose a trip that has as many cities as possible.
-Uolevi wants to fly from Syrjälä to Lehmälä so that he visits the maximum number of cities. You are given the list of possible flights, and you know that there are no directed cycles in the flight network.
+/*A game has n levels, connected by m teleporters, and your task is to get from level 1 to level n. The game has been designed so that there are no directed cycles in the underlying graph. In how many ways can you complete the game?
 Input
-The first input line has two integers n and m: the number of cities and flights. The cities are numbered 1,2,\dots,n. City 1 is Syrjälä, and city n is Lehmälä.
-After this, there are m lines describing the flights. Each line has two integers a and b: there is a flight from city a to city b. Each flight is a one-way flight.
+The first input line has two integers n and m: the number of levels and teleporters. The levels are numbered 1,2,\dots,n.
+After this, there are m lines describing the teleporters. Each line has two integers a and b: there is a teleporter from level a to level b.
 Output
-First print the maximum number of cities on the route. After this, print the cities in the order they will be visited. You can print any valid solution.
-If there are no solutions, print "IMPOSSIBLE".
+Print one integer: the number of ways you can complete the game. Since the result may be large, print it modulo 10^9+7.
 Constraints
 
-2 \le n \le 10^5
+1 \le n \le 10^5
 1 \le m \le 2 \cdot 10^5
 1 \le a,b \le n
 
 Example
 Input:
-5 5
+4 5
 1 2
-2 5
+2 4
 1 3
 3 4
-4 5
+1 4
 
 Output:
-4
-1 3 4 5 */
+3 */
 /*******BISMILLAHIRRAHMAANIRRAHEEM*******/
 import java.io.*;
 import java.util.*;
 
 
-//teached how we can optimize djikstra using totposeort given that g is DAG
 
-public class _09_Longest_flight_route {
+//this problem teaches how to approach coorectly and find nWays to reach node v from src using toposort
+
+
+
+//the code which i wrote first:
+/*p:ublic class GameRoutes{
+public static void main(String\[] args) throws IOException {
+// int t = scanInt();
+// while (t-- > 0) {
+solve();
+// }
+}
+
+```
+public static void solve() throws IOException {
+    int nCities=scanInt();
+    int nConn=scanInt();
+    int g[][]=scan_graph(nConn, false);
+    List<List<Integer>>adj=get_adj(g, nCities, true);
+
+    Queue<Integer>q=new LinkedList<>();
+    q.offer(0);
+
+    boolean isVis[]=new boolean[nCities];
+    isVis[0]=true;
+    int ways[]=new int[nCities];
+    ways[0]=1;
+
+    while (!q.isEmpty()) {
+        int u=q.poll();
+        for(int v:adj.get(u)){
+            if(!isVis[v]){
+                isVis[v]=true;
+                q.offer(v);
+                ways[v]=ways[u];
+            }else{
+                ways[v]=(ways[u]+ways[v])%MOD;
+            }
+        }
+    }
+
+    print(Arrays.toString(ways));
+    print(ways[nCities-1]%MOD);
+
+} 
+```
+
+which is wrong
+Issues with the Current Approach
+Incorrect Path Counting: In a DAG, to accurately count the number of paths from the starting node to all other nodes, it's crucial to process nodes in topological order. BFS doesn't guarantee this order, leading to incorrect path counts.
+
+Inefficient for Large Inputs: The problem constraints allow up to 10^5 nodes and 2×10^5 edges. BFS can be inefficient for such large graphs, especially when not processing nodes in the correct order.
+
+Recommended Approach: Topological Sort with Dynamic Programming
+To efficiently and accurately count the number of distinct paths from node 1 to node n in a DAG, follow these steps:
+
+Build the Adjacency List: Represent the graph using an adjacency list for efficient traversal.
+
+Compute In-Degrees: For each node, count the number of incoming edges (in-degree).
+
+Topological Sort: Use Kahn's algorithm to perform a topological sort of the nodes. This ensures that each node is processed only after all its predecessors have been processed.
+
+Dynamic Programming: Initialize a ways array where ways[i] represents the number of ways to reach node i. Set ways[0] = 1 (since node 1 is the starting point). Then, for each node u in topological order, update all its neighbors v by adding ways[u] to ways[v].
+ */
+
+public class _10_game_routes{//idea is to sequentially go to v assuming all possible back paths r covered using toposort
     public static void main(String[] args) throws IOException {
         // int t = scanInt();
         // while (t-- > 0) {
-        // solve();
+            solve();
         // }
     }
 
-    public static void brute() throws IOException {// just modify djikstra
-        int nCities = scanInt();
-        int nConnections = scanInt();
-        int graph[][] = scan_graph(nConnections, false);
-        List<List<Integer>> adj = get_adj(graph, nCities, true);
+    public static void solve() throws IOException {
+        int nCities=scanInt();
+        int nConn=scanInt();
+        int g[][]=scan_graph(nConn, false);
+        List<List<Integer>>adj=get_adj(g, nCities, true);
 
-        int parent[] = new int[nCities];
+        int ways[]=new int[nCities];
+        ways[0]=1;
 
-        int dis[] = new int[nCities];
-        Arrays.fill(dis, -INF);
-        PriorityQueue<int[]> pq = new PriorityQueue<>((x, y) -> y[1] - x[1]);
-        parent[0] = -1;
-        pq.offer(new int[] { 0, 0 });// curr,dis,par
-        dis[0] = 0;
+        int indeg[]=new int[nCities];
 
-        while (!pq.isEmpty()) {
-            int top[] = pq.poll();
-            int u = top[0];
-            int cost = top[1];
-            if (dis[u] > cost)
-                continue;
-            for (int v : adj.get(u)) {
-                if (1 + cost > dis[v]) {
-                    dis[v] = 1 + cost;
-                    parent[v] = u;
-                    pq.offer(new int[] { v, dis[v] });
-                }
-            }
-        }
+        for(int con[]:g) indeg[con[1]-1]++;
 
-        // print(Arrays.toString(parent));
-        // print(Arrays.toString(dis));
+        Queue<Integer>q=new LinkedList<>();
 
-        // int farthest_node_dis = -1 * INF, idx_of_farthest_node = -1;
-        // for (int i = 0; i < nCities; i++) {
-        // if (dis[i] >= farthest_node_dis) {
-        // farthest_node_dis = dis[i];
-        // idx_of_farthest_node = i;
-        // }
-        // }
-        if (dis[nCities - 1] == -INF) {
-            print("IMPOSSIBLE");
-            return;
-        }
-        int start = nCities - 1;
-        int k = 1;
-        int end = -1;
-        List<Integer> ans = new ArrayList<>();
-        ans.add(start + 1);
-        while (start != -1) {
-            start = parent[start];
-            if (start == end)
-                break;
-            ans.add(start + 1);
-            k++;
-        }
-        // print(k);
-        // print(ans);
+        for(int i=0;i<nCities;i++){ if(indeg[i]==0) q.offer(i);}
 
-        // if (k == 1) {
-        // print("IMPOSSIBLE");
-        // return;
-        // }
-        print(k);
-        Collections.reverse(ans);
-        StringBuilder sb = new StringBuilder();
-        ans.forEach(e -> sb.append(e).append(" "));
-        print(sb);
-
-    }
-
-    public static void optimal() throws IOException {// since clearly mentioned the graph is DAG, apply kahn+djikstra,
-        /*
-         * ✅ Why this is better:
-         * Topological sort guarantees correct processing order in DAGs.
-         * 
-         * No unnecessary revisits like in Dijkstra with PQ.
-         * 
-         * Simple and readable.
-         * 
-         */
-        int nCities = scanInt();
-        int nConnections = scanInt();
-        int graph[][] = scan_graph(nConnections, false);
-        List<List<Integer>> adj = get_adj(graph, nCities, true);
-
-        int[] indegree = new int[nCities];
-        for (int[] edge : graph) {
-            indegree[edge[1]]++;
-        }
-
-        // Topological sort (Kahn's algorithm)
-        Queue<Integer> q = new LinkedList<>();
-        for (int i = 0; i < nCities; i++) {
-            if (indegree[i] == 0)
-                q.offer(i);
-        }
-
-        List<Integer> topo = new ArrayList<>();
         while (!q.isEmpty()) {
-            int u = q.poll();
-            topo.add(u);
-            for (int v : adj.get(u)) {
-                indegree[v]--;
-                if (indegree[v] == 0)
-                    q.offer(v);
+            int top=q.poll();
+            for(int v:adj.get(top)){
+                indeg[v]--;
+                if(indeg[v]==0) q.offer(v);
             }
+            for(int v:adj.get(top)) ways[v]=(ways[top]+ways[v])%MOD;
         }
 
-        // Initialize distances
-        int[] dist = new int[nCities];
-        Arrays.fill(dist, -INF);
-        int[] parent = new int[nCities];
-        Arrays.fill(parent, -1);
-
-        dist[0] = 0;
-
-        // Relax nodes in topo order
-        for (int u : topo) {
-            if (dist[u] == -INF)
-                continue;
-            for (int v : adj.get(u)) {
-                if (dist[u] + 1 > dist[v]) {
-                    dist[v] = dist[u] + 1;
-                    parent[v] = u;
-                }
-            }
-        }
-
-        // Reconstruct path
-        if (dist[nCities - 1] == -INF) {
-            print("IMPOSSIBLE");
-            return;
-        }
-
-        List<Integer> path = new ArrayList<>();
-        int curr = nCities - 1;
-        while (curr != -1) {
-            path.add(curr + 1); // Convert to 1-based index
-            curr = parent[curr];
-        }
-        Collections.reverse(path);
-        print(path.size());
-        StringBuilder sb = new StringBuilder();
-        for (int x : path)
-            sb.append(x).append(" ");
-        print(sb);
+        print(ways[nCities-1]);
 
     }
 
@@ -363,14 +304,13 @@ public class _09_Longest_flight_route {
         return adj;
     }
 
-    static int[][] scan_graph(int nConnections, boolean isWeighted) throws IOException {
-        int graph[][] = new int[nConnections][isWeighted ? 3 : 2];
-        for (int i = 0; i < nConnections; i++)
-            graph[i] = scanIntArray(isWeighted ? 3 : 2);
+     static int[][] scan_graph(int nConnections,boolean isWeighted) throws IOException{
+        int graph[][]=new int[nConnections][isWeighted?3:2];
+        for(int i=0;i<nConnections;i++) graph[i]=scanIntArray(isWeighted?3:2);
         return graph;
     }
 
-    static int djikstra(int g[][], int nNodes, int src, int dest) {// use when all edges r positive
+    static int djikstra(int g[][], int nNodes, int src, int dest) {//use when all edges r positive
         List<List<int[]>> adj = get_adj_weighted(g, nNodes, true);
         PriorityQueue<int[]> pq = new PriorityQueue<>((x, y) -> x[1] - y[1]);
         int dis[] = new int[nNodes];
@@ -393,39 +333,30 @@ public class _09_Longest_flight_route {
         }
         return dis[dest];
     }
-
-    static int[] bellmanFord(int n, int[][] edges, int src) {// use when edges can be negative
-        int nNodes = n;
-        int dis[] = new int[nNodes];
-        Arrays.fill(dis, Integer.MAX_VALUE);
-        dis[src] = 0;
-        for (int i = 0; i < nNodes - 1; i++) {// we will update n-1 times by relaxing 1 edge at a time
-            for (int each[] : edges)
-                relaxEdges(each[0], each[1], each[2], dis);
+    static int[] bellmanFord(int n, int[][] edges, int src) {//use when edges can be negative
+        int nNodes=n;
+        int dis[]=new int[nNodes];
+        Arrays.fill(dis,Integer.MAX_VALUE);
+        dis[src]=0;
+        for(int i=0;i<nNodes-1;i++){//we will update n-1 times by relaxing 1 edge at a time
+            for(int each[]:edges)
+                relaxEdges(each[0],each[1],each[2],dis);
         }
-        if (hasCycles(edges, dis))
-            return new int[] { -1 };// relaxing edges for one more time ie nth time , if dis array changes compared
-                                    // to previous version, there existsa cycle
+        if(hasCycles(edges,dis)) return new int[]{-1};//relaxing edges for one more time ie nth time , if dis array changes compared to previous version, there existsa  cycle
         return dis;
     }
-
-    static void relaxEdges(int u, int v, int wt, int dis[]) {
-        if (dis[u] != Integer.MAX_VALUE && dis[u] + wt < dis[v])
-            dis[v] = dis[u] + wt;
+    static void relaxEdges(int u,int v,int wt,int dis[]){
+        if(dis[u]!=Integer.MAX_VALUE && dis[u]+wt<dis[v]) dis[v]=dis[u]+wt;
     }
-
-    static boolean hasCycles(int edges[][], int dis[]) {
-        int clone[] = dis.clone();
-        for (int each[] : edges)
-            relaxEdges(each[0], each[1], each[2], clone);
-        for (int i = 0; i < dis.length; i++)
-            if (dis[i] != clone[i])
-                return true;
+    static boolean hasCycles(int edges[][],int dis[]){
+        int clone[]=dis.clone();
+        for(int each[]:edges)
+                relaxEdges(each[0],each[1],each[2],clone);
+        for(int i=0;i<dis.length;i++) if(dis[i]!=clone[i]) return true;
         return false;
     }
 
-    static long[][] floyd_warshall(int nNodes, int g[][], boolean isDirected) {// when i want miDis(u,v) for each query
-                                                                               // in O(1) time
+    static long[][] floyd_warshall(int nNodes,int g[][],boolean isDirected){//when i want miDis(u,v) for each query in O(1) time
         long dis[][] = new long[nNodes][nNodes];
         for (int i = 0; i < nNodes; i++) {
             Arrays.fill(dis[i], INF);
@@ -434,17 +365,17 @@ public class _09_Longest_flight_route {
 
         for (int[] e : g) {
             dis[e[0] - 1][e[1] - 1] = Math.min(dis[e[0] - 1][e[1] - 1], e[2]);
-            if (!isDirected)
-                dis[e[1] - 1][e[0] - 1] = Math.min(dis[e[1] - 1][e[0] - 1], e[2]);
+            if(!isDirected) dis[e[1] - 1][e[0] - 1] = Math.min(dis[e[1] - 1][e[0] - 1], e[2]);
         }
+
 
         for (int k = 0; k < nNodes; k++) {
             long[] disK = dis[k];
             for (int i = 0; i < nNodes; i++) {
                 long dik = dis[i][k];
                 if (dik == INF)
-                    continue;
-                long[] disI = dis[i];
+                    continue; 
+                long[] disI = dis[i]; 
                 for (int j = 0; j < nNodes; j++) {
                     long alt = dik + disK[j];
                     if (alt < disI[j]) {
@@ -456,10 +387,10 @@ public class _09_Longest_flight_route {
         return dis;
     }
 
-    static List<int[]> get_mst_graph(int nNodes, int graph[][], boolean isDirected) {// prims
+    static List<int[]> get_mst_graph(int nNodes, int graph[][],boolean isDirected) {//prims
 
         List<int[]> mst_edges = new ArrayList<>();
-        List<List<int[]>> adj = get_adj_weighted(graph, nNodes, isDirected);
+        List<List<int[]>> adj = get_adj_weighted( graph,nNodes,isDirected);
         boolean isVis[] = new boolean[nNodes];
         int src = 0;
         PriorityQueue<int[]> pq = new PriorityQueue<>((x, y) -> x[2] - y[2]);

@@ -1,192 +1,105 @@
+
+
 package some_preq._06_cses._04_graph;
-/*Uolevi has won a contest, and the prize is a free flight trip that can consist of one or more flights through cities. Of course, Uolevi wants to choose a trip that has as many cities as possible.
-Uolevi wants to fly from Syrjälä to Lehmälä so that he visits the maximum number of cities. You are given the list of possible flights, and you know that there are no directed cycles in the flight network.
-Input
-The first input line has two integers n and m: the number of cities and flights. The cities are numbered 1,2,\dots,n. City 1 is Syrjälä, and city n is Lehmälä.
-After this, there are m lines describing the flights. Each line has two integers a and b: there is a flight from city a to city b. Each flight is a one-way flight.
-Output
-First print the maximum number of cities on the route. After this, print the cities in the order they will be visited. You can print any valid solution.
-If there are no solutions, print "IMPOSSIBLE".
-Constraints
 
-2 \le n \le 10^5
-1 \le m \le 2 \cdot 10^5
-1 \le a,b \le n
-
-Example
-Input:
-5 5
-1 2
-2 5
-1 3
-3 4
-4 5
-
-Output:
-4
-1 3 4 5 */
 /*******BISMILLAHIRRAHMAANIRRAHEEM*******/
 import java.io.*;
 import java.util.*;
 
-
-//teached how we can optimize djikstra using totposeort given that g is DAG
-
-public class _09_Longest_flight_route {
+public class _11_investigation {
     public static void main(String[] args) throws IOException {
         // int t = scanInt();
         // while (t-- > 0) {
-        // solve();
+        solve();
         // }
     }
 
-    public static void brute() throws IOException {// just modify djikstra
+    public static void solve() throws IOException {
         int nCities = scanInt();
         int nConnections = scanInt();
-        int graph[][] = scan_graph(nConnections, false);
-        List<List<Integer>> adj = get_adj(graph, nCities, true);
+        List<List<int[]>> adj = get_adj_weighted(scan_graph(nConnections, true), nCities, true);
 
-        int parent[] = new int[nCities];
+        int src = 0, dest = nCities - 1;
 
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> {
+            // if (a[1] != b[1])
+                return Integer.compare(a[1], b[1]);
+            // return Integer.compare(b[2], a[2]);
+        });
+        pq.offer(new int[] { src, 0, 0 });
+        int ways[] = new int[nCities];
+        ways[src] = 1;
         int dis[] = new int[nCities];
-        Arrays.fill(dis, -INF);
-        PriorityQueue<int[]> pq = new PriorityQueue<>((x, y) -> y[1] - x[1]);
-        parent[0] = -1;
-        pq.offer(new int[] { 0, 0 });// curr,dis,par
-        dis[0] = 0;
+        Arrays.fill(dis, INF);
+        dis[src] = 0;
+
+       
 
         while (!pq.isEmpty()) {
             int top[] = pq.poll();
             int u = top[0];
-            int cost = top[1];
-            if (dis[u] > cost)
+            int d = top[1];
+            if (dis[u] < d)
                 continue;
-            for (int v : adj.get(u)) {
-                if (1 + cost > dis[v]) {
-                    dis[v] = 1 + cost;
-                    parent[v] = u;
-                    pq.offer(new int[] { v, dis[v] });
+            for (int edge[] : adj.get(u)) {
+                int v = edge[0];
+                int w = edge[1];
+                if (dis[u] + w < dis[v]) {
+                    dis[v] = w + dis[u];
+                    ways[v] = ways[u];
+                    pq.offer(new int[] { v, dis[v], top[2] + 1 });
+                } else if (dis[u] + w == dis[v]) {
+                    ways[v] = (ways[v] + ways[u]) % MOD;
                 }
+
             }
         }
 
-        // print(Arrays.toString(parent));
-        // print(Arrays.toString(dis));
 
-        // int farthest_node_dis = -1 * INF, idx_of_farthest_node = -1;
-        // for (int i = 0; i < nCities; i++) {
-        // if (dis[i] >= farthest_node_dis) {
-        // farthest_node_dis = dis[i];
-        // idx_of_farthest_node = i;
-        // }
-        // }
-        if (dis[nCities - 1] == -INF) {
-            print("IMPOSSIBLE");
-            return;
-        }
-        int start = nCities - 1;
-        int k = 1;
-        int end = -1;
-        List<Integer> ans = new ArrayList<>();
-        ans.add(start + 1);
-        while (start != -1) {
-            start = parent[start];
-            if (start == end)
-                break;
-            ans.add(start + 1);
-            k++;
-        }
-        // print(k);
-        // print(ans);
-
-        // if (k == 1) {
-        // print("IMPOSSIBLE");
-        // return;
-        // }
-        print(k);
-        Collections.reverse(ans);
-        StringBuilder sb = new StringBuilder();
-        ans.forEach(e -> sb.append(e).append(" "));
-        print(sb);
-
-    }
-
-    public static void optimal() throws IOException {// since clearly mentioned the graph is DAG, apply kahn+djikstra,
-        /*
-         * ✅ Why this is better:
-         * Topological sort guarantees correct processing order in DAGs.
-         * 
-         * No unnecessary revisits like in Dijkstra with PQ.
-         * 
-         * Simple and readable.
-         * 
-         */
-        int nCities = scanInt();
-        int nConnections = scanInt();
-        int graph[][] = scan_graph(nConnections, false);
-        List<List<Integer>> adj = get_adj(graph, nCities, true);
-
-        int[] indegree = new int[nCities];
-        for (int[] edge : graph) {
-            indegree[edge[1]]++;
-        }
-
-        // Topological sort (Kahn's algorithm)
-        Queue<Integer> q = new LinkedList<>();
+        
+        List<List<Integer>> dag = new ArrayList<>();
         for (int i = 0; i < nCities; i++) {
-            if (indegree[i] == 0)
-                q.offer(i);
+            dag.add(new ArrayList<>());
         }
-
-        List<Integer> topo = new ArrayList<>();
-        while (!q.isEmpty()) {
-            int u = q.poll();
-            topo.add(u);
-            for (int v : adj.get(u)) {
-                indegree[v]--;
-                if (indegree[v] == 0)
-                    q.offer(v);
-            }
-        }
-
-        // Initialize distances
-        int[] dist = new int[nCities];
-        Arrays.fill(dist, -INF);
-        int[] parent = new int[nCities];
-        Arrays.fill(parent, -1);
-
-        dist[0] = 0;
-
-        // Relax nodes in topo order
-        for (int u : topo) {
-            if (dist[u] == -INF)
-                continue;
-            for (int v : adj.get(u)) {
-                if (dist[u] + 1 > dist[v]) {
-                    dist[v] = dist[u] + 1;
-                    parent[v] = u;
+        for (int u = 0; u < nCities; u++) {
+            for (int[] edge : adj.get(u)) {
+                int v = edge[0];
+                int w = edge[1];
+                if (dis[u] != INF && dis[u] + w == dis[v]) {
+                    dag.get(u).add(v);
                 }
             }
         }
 
-        // Reconstruct path
-        if (dist[nCities - 1] == -INF) {
-            print("IMPOSSIBLE");
-            return;
-        }
+        // Sort nodes by distance to ensure topological order
+        Integer[] nodes = new Integer[nCities];
+        for (int i = 0; i < nCities; i++) nodes[i] = i;
+        Arrays.sort(nodes, (a, b) -> Integer.compare(dis[a], dis[b]));
 
-        List<Integer> path = new ArrayList<>();
-        int curr = nCities - 1;
-        while (curr != -1) {
-            path.add(curr + 1); // Convert to 1-based index
-            curr = parent[curr];
+        int[] minEdges = new int[nCities];
+        Arrays.fill(minEdges, INF);
+        minEdges[src] = 0;
+
+        int[] maxEdges = new int[nCities];
+        Arrays.fill(maxEdges, -INF);
+        maxEdges[src] = 0;
+
+        for (int u : nodes) {
+            if (minEdges[u] == INF) continue;
+            for (int v : dag.get(u)) {
+                if (minEdges[v] > minEdges[u] + 1) {
+                    minEdges[v] = minEdges[u] + 1;
+                }
+                if (maxEdges[v] < maxEdges[u] + 1) {
+                    maxEdges[v] = maxEdges[u] + 1;
+                }
+            }
         }
-        Collections.reverse(path);
-        print(path.size());
-        StringBuilder sb = new StringBuilder();
-        for (int x : path)
-            sb.append(x).append(" ");
-        print(sb);
+        StringBuilder ans = new StringBuilder();
+        ans.append(dis[dest]).append(" ").append(ways[dest]).append(" ").append(minEdges[dest]).append(" ")
+                .append(maxEdges[dest]);
+
+        print(ans);
 
     }
 
