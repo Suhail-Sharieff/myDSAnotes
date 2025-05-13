@@ -69,7 +69,7 @@ public class _29_kth_ancestor_in_tree {
     }
     
     public int getKthAncestor(int node, int k) {
-        for(int bit_number=0;bit_number<logn;bit_number++){
+        for(int bit_number=0;bit_number<logn;bit_number++){//just leftmost 1 such that 2^thatPos<maxDepth
             if((k&(1<<bit_number))!=0) {
                 node=_2_power_j_th_Ances[node][bit_number];
                 if(node==-1) return -1;
