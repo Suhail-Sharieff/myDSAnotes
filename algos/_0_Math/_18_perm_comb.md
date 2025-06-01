@@ -122,9 +122,9 @@ Each of the first two cases is multiplied by 3 due to symmetry.
 
 ### ✅ Step 3: Final Formula
 
-\[
+$$
 \text{Valid Ways} = \binom{n + 2}{2} - 3 \cdot \binom{n - x + 2}{2} + 3 \cdot \binom{n - 2x + 2}{2} - \binom{n - 3x + 2}{2}
-\]
+$$
 
 Where `x = limit + 1`.
 
