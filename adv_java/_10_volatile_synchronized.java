@@ -1,6 +1,7 @@
 package adv_java;
 
 import java.time.Duration;
+import java.util.concurrent.Semaphore;
 import java.util.function.IntConsumer;
 
 /*
@@ -184,6 +185,94 @@ class FizzBuzz {
             }
         }
     }
+
+
+    //----------------USING SEEMAPHORES:
+    static class FizzBuzz2 {
+    private int n;
+    private int i;
+    private Semaphore incrementer;
+    private Semaphore fizz;
+    private Semaphore buzz;
+    private Semaphore fizz_buzz;
+
+    public FizzBuzz2(int n) {
+        this.n = n;
+        i = 1;
+        incrementer = new Semaphore(1);
+        fizz = new Semaphore(0);
+        buzz = new Semaphore(0);
+        fizz_buzz = new Semaphore(0);
+    }
+
+    // printFizz.run() outputs "fizz".
+    public void fizz(Runnable printFizz) throws InterruptedException {
+        while (true) {
+            fizz.acquire();
+            if (i > n)
+                break;
+            printFizz.run();
+            release_suitable_lock();
+        }
+    }
+
+    // printBuzz.run() outputs "buzz".
+    public void buzz(Runnable printBuzz) throws InterruptedException {
+        while (true) {
+            buzz.acquire();
+            if (i > n)
+                break;
+            printBuzz.run();
+            release_suitable_lock();
+        }
+    }
+
+    // printFizzBuzz.run() outputs "fizzbuzz".
+    public void fizzbuzz(Runnable printFizzBuzz) throws InterruptedException {
+        while (true) {
+            fizz_buzz.acquire();
+            if (i > n)
+                break;
+            printFizzBuzz.run();
+            release_suitable_lock();
+        }
+    }
+
+    // printNumber.accept(x) outputs "x", where x is an integer.
+    public void number(IntConsumer printNumber) throws InterruptedException {
+        while (true) {
+            incrementer.acquire();
+            if (i > n)
+                break;
+            printNumber.accept(i);
+            release_suitable_lock();
+        }//n operations ho chuke hei
+        fizz.release();
+        buzz.release();
+        fizz_buzz.release();
+        incrementer.release();
+    }
+
+    public void release_suitable_lock() {
+        i++;
+        if (i <= n) {
+            if (i % 3 == 0 && i % 5 == 0)
+                fizz_buzz.release();
+            else if (i % 3 == 0 && i % 5 != 0)
+                fizz.release();
+            else if (i % 5 == 0 && i % 3 != 0)
+                buzz.release();
+            else if (i % 5 != 0 && i % 3 != 0)
+                incrementer.release();
+        } else {
+            //subko allow karo out of critical section
+            fizz.release();
+            buzz.release();
+            fizz_buzz.release();
+            incrementer.release();
+        }
+    }
+}
 }
 
 
