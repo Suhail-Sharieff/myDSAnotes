@@ -3,7 +3,7 @@
 import java.io.*;
 import java.util.*;
 
-public class CP_TEMPLATE{
+public class CP_TEMPLATE {
     public static void main(String[] args) throws IOException {
         int t = scanInt();
         while (t-- > 0) {
@@ -12,7 +12,7 @@ public class CP_TEMPLATE{
     }
 
     public static void solve() throws IOException {
-
+         
     }
 
     static int MOD = 1_000_000_007;
@@ -38,6 +38,14 @@ public class CP_TEMPLATE{
         int[] array = new int[size];
         for (int i = 0; i < size; i++) {
             array[i] = scanInt();
+        }
+        return array;
+    }
+
+    static long[] scanLongArray(int size) throws IOException {
+        long array[] = new long[size];
+        for (int i = 0; i < size; i++) {
+            array[i] = scanLong();
         }
         return array;
     }
@@ -188,13 +196,14 @@ public class CP_TEMPLATE{
         return adj;
     }
 
-     static int[][] scan_graph(int nConnections,boolean isWeighted) throws IOException{
-        int graph[][]=new int[nConnections][isWeighted?3:2];
-        for(int i=0;i<nConnections;i++) graph[i]=scanIntArray(isWeighted?3:2);
+    static int[][] scan_graph(int nConnections, boolean isWeighted) throws IOException {
+        int graph[][] = new int[nConnections][isWeighted ? 3 : 2];
+        for (int i = 0; i < nConnections; i++)
+            graph[i] = scanIntArray(isWeighted ? 3 : 2);
         return graph;
     }
 
-    static int djikstra(int g[][], int nNodes, int src, int dest) {//use when all edges r positive
+    static int djikstra(int g[][], int nNodes, int src, int dest) {// use when all edges r positive
         List<List<int[]>> adj = get_adj_weighted(g, nNodes, true);
         PriorityQueue<int[]> pq = new PriorityQueue<>((x, y) -> x[1] - y[1]);
         int dis[] = new int[nNodes];
@@ -217,30 +226,39 @@ public class CP_TEMPLATE{
         }
         return dis[dest];
     }
-    static int[] bellmanFord(int n, int[][] edges, int src) {//use when edges can be negative
-        int nNodes=n;
-        int dis[]=new int[nNodes];
-        Arrays.fill(dis,Integer.MAX_VALUE);
-        dis[src]=0;
-        for(int i=0;i<nNodes-1;i++){//we will update n-1 times by relaxing 1 edge at a time
-            for(int each[]:edges)
-                relaxEdges(each[0],each[1],each[2],dis);
+
+    static int[] bellmanFord(int n, int[][] edges, int src) {// use when edges can be negative
+        int nNodes = n;
+        int dis[] = new int[nNodes];
+        Arrays.fill(dis, Integer.MAX_VALUE);
+        dis[src] = 0;
+        for (int i = 0; i < nNodes - 1; i++) {// we will update n-1 times by relaxing 1 edge at a time
+            for (int each[] : edges)
+                relaxEdges(each[0], each[1], each[2], dis);
         }
-        if(hasCycles(edges,dis)) return new int[]{-1};//relaxing edges for one more time ie nth time , if dis array changes compared to previous version, there existsa  cycle
+        if (hasCycles(edges, dis))
+            return new int[] { -1 };// relaxing edges for one more time ie nth time , if dis array changes compared
+                                    // to previous version, there existsa cycle
         return dis;
     }
-    static void relaxEdges(int u,int v,int wt,int dis[]){
-        if(dis[u]!=Integer.MAX_VALUE && dis[u]+wt<dis[v]) dis[v]=dis[u]+wt;
+
+    static void relaxEdges(int u, int v, int wt, int dis[]) {
+        if (dis[u] != Integer.MAX_VALUE && dis[u] + wt < dis[v])
+            dis[v] = dis[u] + wt;
     }
-    static boolean hasCycles(int edges[][],int dis[]){
-        int clone[]=dis.clone();
-        for(int each[]:edges)
-                relaxEdges(each[0],each[1],each[2],clone);
-        for(int i=0;i<dis.length;i++) if(dis[i]!=clone[i]) return true;
+
+    static boolean hasCycles(int edges[][], int dis[]) {
+        int clone[] = dis.clone();
+        for (int each[] : edges)
+            relaxEdges(each[0], each[1], each[2], clone);
+        for (int i = 0; i < dis.length; i++)
+            if (dis[i] != clone[i])
+                return true;
         return false;
     }
 
-    static long[][] floyd_warshall(int nNodes,int g[][],boolean isDirected){//when i want miDis(u,v) for each query in O(1) time
+    static long[][] floyd_warshall(int nNodes, int g[][], boolean isDirected) {// when i want miDis(u,v) for each query
+                                                                               // in O(1) time
         long dis[][] = new long[nNodes][nNodes];
         for (int i = 0; i < nNodes; i++) {
             Arrays.fill(dis[i], INF);
@@ -249,17 +267,17 @@ public class CP_TEMPLATE{
 
         for (int[] e : g) {
             dis[e[0] - 1][e[1] - 1] = Math.min(dis[e[0] - 1][e[1] - 1], e[2]);
-            if(!isDirected) dis[e[1] - 1][e[0] - 1] = Math.min(dis[e[1] - 1][e[0] - 1], e[2]);
+            if (!isDirected)
+                dis[e[1] - 1][e[0] - 1] = Math.min(dis[e[1] - 1][e[0] - 1], e[2]);
         }
-
 
         for (int k = 0; k < nNodes; k++) {
             long[] disK = dis[k];
             for (int i = 0; i < nNodes; i++) {
                 long dik = dis[i][k];
                 if (dik == INF)
-                    continue; 
-                long[] disI = dis[i]; 
+                    continue;
+                long[] disI = dis[i];
                 for (int j = 0; j < nNodes; j++) {
                     long alt = dik + disK[j];
                     if (alt < disI[j]) {
@@ -271,10 +289,10 @@ public class CP_TEMPLATE{
         return dis;
     }
 
-    static List<int[]> get_mst_graph(int nNodes, int graph[][],boolean isDirected) {//prims
+    static List<int[]> get_mst_graph(int nNodes, int graph[][], boolean isDirected) {// prims
 
         List<int[]> mst_edges = new ArrayList<>();
-        List<List<int[]>> adj = get_adj_weighted( graph,nNodes,isDirected);
+        List<List<int[]>> adj = get_adj_weighted(graph, nNodes, isDirected);
         boolean isVis[] = new boolean[nNodes];
         int src = 0;
         PriorityQueue<int[]> pq = new PriorityQueue<>((x, y) -> x[2] - y[2]);
@@ -314,38 +332,51 @@ public class CP_TEMPLATE{
         return mst_edges;
     }
 
-     static class ModularFunction{
+    static class ModularFunction {
         long x;
-        public ModularFunction(long x){this.x=x;}
-        //(a*b)%k = ((a%k)*(b*k))%k
-        private  ModularFunction multiply(long b){
-            x=(((b%MOD)*1l*(x%MOD))%MOD);
+
+        public ModularFunction(long x) {
+            this.x = x;
+        }
+
+        // (a*b)%k = ((a%k)*(b*k))%k
+        @SuppressWarnings("unused")
+        private ModularFunction multiply(long b) {
+            x = (((b % MOD) * 1l * (x % MOD)) % MOD);
             return this;
         }
-        //(a/b)%k = ((a%k)*inv(b))%k
-        private  ModularFunction divideBy(long b){
-            x=(((x%MOD)*1l*(pow(b, MOD-2)))%MOD);
+
+        // (a/b)%k = ((a%k)*inv(b))%k
+        @SuppressWarnings("unused")
+        private ModularFunction divideBy(long b) {
+            x = (((x % MOD) * 1l * (pow(b, MOD - 2))) % MOD);
             return this;
         }
-        //(a+b)%k
-        private ModularFunction add(long b){
-            x=(((x%MOD)+(b%MOD))%MOD);
+
+        // (a+b)%k
+        @SuppressWarnings("unused")
+        private ModularFunction add(long b) {
+            x = (((x % MOD) + (b % MOD)) % MOD);
             return this;
         }
-        //(a-b)%k = ((a%k)-(b%k)+k)%k
-        private  ModularFunction  subtract(long b){
-            x=(((x%MOD)-(b%MOD)+MOD)%MOD);
+
+        // (a-b)%k = ((a%k)-(b%k)+k)%k
+        @SuppressWarnings("unused")
+        private ModularFunction subtract(long b) {
+            x = (((x % MOD) - (b % MOD) + MOD) % MOD);
             return this;
         }
-        //(a^b)=((a%k)^b)%k
-        private  ModularFunction power(long b){
-            x=((pow(x%MOD,b))%MOD);
+
+        // (a^b)=((a%k)^b)%k
+        @SuppressWarnings("unused")
+        private ModularFunction power(long b) {
+            x = ((pow(x % MOD, b)) % MOD);
             return this;
         }
+
         @Override
         public String toString() {
             return Long.toString(x);
         }
     }
-
 }

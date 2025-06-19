@@ -18,7 +18,6 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #define ll long long
 #define ld long double
 #define all(a) (a).begin(), (a).end()
-vector<int> scan_vector(int n) {vector<int> v(n);for (int i = 0; i < n; i++)cin >> v[i];return v;}
 
 
 
