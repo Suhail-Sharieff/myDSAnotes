@@ -314,4 +314,38 @@ public class CP_TEMPLATE{
         return mst_edges;
     }
 
+     static class ModularFunction{
+        long x;
+        public ModularFunction(long x){this.x=x;}
+        //(a*b)%k = ((a%k)*(b*k))%k
+        private  ModularFunction multiply(long b){
+            x=(((b%MOD)*1l*(x%MOD))%MOD);
+            return this;
+        }
+        //(a/b)%k = ((a%k)*inv(b))%k
+        private  ModularFunction divideBy(long b){
+            x=(((x%MOD)*1l*(pow(b, MOD-2)))%MOD);
+            return this;
+        }
+        //(a+b)%k
+        private ModularFunction add(long b){
+            x=(((x%MOD)+(b%MOD))%MOD);
+            return this;
+        }
+        //(a-b)%k = ((a%k)-(b%k)+k)%k
+        private  ModularFunction  subtract(long b){
+            x=(((x%MOD)-(b%MOD)+MOD)%MOD);
+            return this;
+        }
+        //(a^b)=((a%k)^b)%k
+        private  ModularFunction power(long b){
+            x=((pow(x%MOD,b))%MOD);
+            return this;
+        }
+        @Override
+        public String toString() {
+            return Long.toString(x);
+        }
+    }
+
 }
