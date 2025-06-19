@@ -54,3 +54,7 @@ Thus, the fraction **"2/6"** simplifies to **"1/3"**.
 ----
 
 
+## Some useful properties of GCD
+- $GCD(a,b) \leq min(a,b)$ 
+
+
