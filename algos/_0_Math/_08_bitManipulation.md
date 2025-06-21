@@ -141,3 +141,14 @@ Note: The above functions only support int numbers, but there are also long long
 - number x is odd if ``x&1`` is 1 else even
 - ``x<<1`` is as same as x**2 and `x>>1` as same as x/2
 - If number `x` is even, the number of `1s` in the binary repr of x is as same as number of 1s in binary repr of `x/2`. And if x is odd its as same as that of `[(x-1)/2]+1`
+
+
+## Indeed one more interesting observation
+- Say u have some number $x=1234$, its obvious that ``x%(10^i)`` we can easily obtain `ith digit`(indexing from R to L). Does it work for binary?
+- Let `x` be my number,  `r` be the binary representation of the remainder obtained by taking `x%(2^i)` say of length `z`, u will find that this `r` is exactly same as `last z` digits in the binary rep of `x`
+- Example 1234 in binary is `10011010010`
+- (1234%2)=>0=>(0) matches last 1 bits of bin of x
+- (1234%4)=>2=>(10) matches last 2
+- (1234%8)=>2=>(010) matches last 3 
+
+- `Example Usage`: [Link](https://codeforces.com/problemset/problem/1909/B): U are given an array, u r basically supposed to find some k such that upon transforming each `ai` in array into `ai%k`, u get exactly 2 distint numbers(idea can be extended to some `m` disctint as well).'The idea is to just check if we r succeding to get 2 unique remainders, checking 1 bit from R to L in bin rep for each ai, assuming k=2^i
