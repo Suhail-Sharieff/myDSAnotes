@@ -23,34 +23,35 @@ int main(){
 	int at[]={0,1,2},bt[]={2,3,4},rt[]={2,3,4};//arrival,burst,remaining
 
 	int nCompleted=0;
-	int toavg_turnaround_timel_time=0;
+	int total_time=0;
 	int avg_turnaround_time=0;
 	int avg_waiting_time=0;
 	while(nCompleted<n){
 		for(int i=0;i<n;i++){
-			if(at[i]<=toavg_turnaround_timel_time){
+			if(at[i]<=total_time){
 				if(rt[i]>0){
 					//its not yet completed
 					if(rt[i]>=qt){
-						toavg_turnaround_timel_time+=qt;
+						total_time+=qt;
 						rt[i]-=qt;
 					}else{
-						toavg_turnaround_timel_time+=rt[i];
+						total_time+=rt[i];
 						rt[i]=0;
 					}
 				}
 				if(rt[i]==0){
 					cout<<"Process "<<i
 					<<" Burst time: "<<bt[i]
-					<<" Turnaround time: "<<(toavg_turnaround_timel_time-at[i])
-					<<" Waiting time: "<<(toavg_turnaround_timel_time-bt[i]-at[i])<<endl;
+					<<" Turnaround time: "<<(total_time-at[i])
+					<<" Waiting time: "<<(total_time-bt[i]-at[i])<<endl;
 					nCompleted++;
-					avg_waiting_time+=(toavg_turnaround_timel_time-at[i]-bt[i]);
-					avg_turnaround_time+=(toavg_turnaround_timel_time-at[i]);
+					avg_waiting_time+=(total_time-at[i]-bt[i]);
+					avg_turnaround_time+=(total_time-at[i]);
 					rt[i]=-1;
 				}
 			}
 		}
+		total_time++;
 	}
 	cout<<"Avg waiting "<<(avg_waiting_time/n)<<endl;
 	cout<<"Avg turnaround "<<(avg_turnaround_time/n)<<endl;
