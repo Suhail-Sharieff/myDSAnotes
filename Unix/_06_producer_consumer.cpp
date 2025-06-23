@@ -1,71 +1,59 @@
+#include<algorithm>
 #include<cstring>
-#include<fcntl.h>
+#include<cstdlib>
 #include<fstream>
+#include<fcntl.h>
 #include<iostream>
-#include<pthread.h>//new
-#include<sys/stat.h>
+#include<pthread.h>
+#include<semaphore.h>//dont forget .h here
 #include<sys/types.h>
 #include<sys/wait.h>
+#include<sys/stat.h>
 #include<sys/ipc.h>
 #include<sys/shm.h>
-#include<semaphore.h>//new
-#include<stdlib.h>
 #include<unistd.h>
-#include<vector>//new
-using namespace std;
-vector<int>buffer;
-#define MAX 10
-#define N 5
-sem_t mutex;
-sem_t empty_cnt;
-sem_t full_cnt;
+#include<vector>
 
-void* producer_function(void* item){
-	int value=*((int*)item);
-	while(true){
+using namespace std;
+
+sem_t mutex;
+sem_t f;//full
+sem_t e;//empty
+vector<int>buffer;
+
+void* producer_function(void* arg){
+	while(1){
 		sleep(1);
-		sem_wait(&empty_cnt);
-	    sem_wait(&mutex);
-	    buffer.push_back(value);
-	    cout<<"PRODUCED "<<value<<endl;
-	    sem_post(&mutex);
-	    sem_post(&full_cnt);
+		sem_wait(&mutex);sem_wait(&e);
+		buffer.push_back(*((int*)arg));
+		cout<<"Produced "<<*((int*)arg)<<endl;
+		sem_post(&mutex);sem_post(&f);
 	}
+	return NULL;
 }
-void* consumer_function(void* item){
-	while(true){
+void* consumer_function(void* arg){
+	while(1){
 		sleep(1);
-		sem_wait(&full_cnt);
-		sem_wait(&mutex);
-		int x=buffer.back();
+		sem_wait(&mutex);sem_wait(&f);
+		cout<<"Consumed "<<buffer.back()<<endl;
 		buffer.pop_back();
-		cout<<"CONSUMED "<<x<<endl;
-		sem_post(&mutex);
-		sem_post(&empty_cnt);
+		sem_post(&mutex);sem_post(&e);
 	}
+	return NULL;
 }
+
 int main(){
 
-	//initialize all mutex
-	//trick middle we have 0, end pattern: "1-MAX-0"
+	int n=10;
+
 	sem_init(&mutex,0,1);
-	sem_init(&empty_cnt,0,MAX);
-	sem_init(&full_cnt,0,0);
+	sem_init(&e,0,n);
+	sem_init(&f,0,0);
 
-	//create producer and consumer threads
-	pthread_t producer_thread[N];
-	pthread_t consumer_thread[N];
-	for(int i=0;i<N;i++){
-		int* item=new int(i);
-		pthread_create(&producer_thread[i],NULL,producer_function,(void*)item);
-		pthread_create(&consumer_thread[i],NULL,consumer_function,NULL);
-	}
+	pthread_t p[n],c[n];
 
-	//join to main trhread
-	for(int i=0;i<N;i++){
-		pthread_join(producer_thread[i],NULL);
-		pthread_join(consumer_thread[i],NULL);
-	}
-
-	return 0;
+	for(int i=0;i<n;i++) pthread_create(&p[i],NULL,producer_function,(void*)new int(i));
+	for(int i=0;i<n;i++) pthread_create(&c[i],NULL,consumer_function,NULL);
+	for(int i=0;i<n;i++) pthread_join(p[i],NULL);
+	for(int i=0;i<n;i++) pthread_join(c[i],NULL);
 }
