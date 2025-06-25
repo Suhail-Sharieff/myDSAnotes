@@ -158,4 +158,30 @@ public class _3_subSeqWithSumK {
 
         
     }
+
+    //using dp
+    static void using_dp(){
+         int arr[] = { 1, 2, 3, 4 };
+        int target = 5;
+        boolean dp[][] = new boolean[arr.length+1][target + 1];
+        for(int i=0;i<=arr.length;i++) dp[i][0]=true;
+        for (int i = 1; i <= arr.length; i++) {
+            for (int tar = 1; tar <= target; tar++) {
+                boolean pick = (tar>=arr[i-1])?dp[i - 1][tar - arr[i-1]]:false;
+                boolean dont = dp[i - 1][tar];
+                dp[i][tar] = pick | dont;
+            }
+        }
+        System.out.println(dp[arr.length][target]);
+        int i=arr.length,j=target;
+        List<Integer>ans=new ArrayList<>();
+        while (i>0 && j>0) {
+            if(!dp[i-1][j]){//means excuding i-1th elemnt we cant reach target, so add it
+                ans.add(arr[i-1]);
+                j-=arr[i-1];
+            }
+            i--;
+        }
+        System.out.println(ans);
+    }
 }
