@@ -39,8 +39,7 @@ public class _01_horspool {
                 break;
             }
             int shift = hs.get(text.charAt(i));
-            if (shift == 0) shift = pattern.length(); // Prevent infinite loop, coz in above ex, i have taken for Y as 0 shifs
-            i += shift;
+            i+=Math.max(1,shift);
         }
 
         if (found_idx==-1) {
