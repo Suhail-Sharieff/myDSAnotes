@@ -7,6 +7,9 @@ package _6_DynamicProgramming._07_Graph;
  * 
  */
 
+
+    //https://www.youtube.com/watch?v=JE0JE8ce1V0&ab_channel=CodingBlocks
+
 public class _01_TSP {
 
     static class Optimal {
@@ -20,24 +23,9 @@ public class _01_TSP {
             System.out.println(optimal(mat));
         }
 
-        // better(0001, 0, mat, nCities);
-        static int better(int currMask, int currCity, int cost[][], int nCities) {
-            if (currMask == (1 << nCities) - 1) {
-                return cost[currCity][0];
-            }
-            int ans = Integer.MAX_VALUE;
-            for (int newCity = 0; newCity < nCities; newCity++) {
-                boolean isNewCityAlreadyVisited = (currMask & (1 << newCity)) != 0;
-                if (!isNewCityAlreadyVisited) {
-                    int newMask = ((1 << newCity) | currMask);
-                    ans = Math.min(ans, cost[currCity][newCity] + better(newMask, newCity, cost, nCities));
-                }
-            }
-            return ans;
-        }
+        
 
-        // calllike: brute(0, mat, nCities, 1, new boolean[nCities], new
-        // StringBuilder(), 0);
+        // call like: brute(0, mat, nCities, 1, new boolean[nCities], new StringBuilder(), 0);
         static int brute(int currCity, int cost[][], int nCities, int nCovered, boolean isVis[], StringBuilder sb,
                 int sum) {
             if (nCovered == nCities) {
@@ -57,6 +45,22 @@ public class _01_TSP {
         }
     }
 
+    // call like: better(0001, 0, mat, nCities);
+        static int better(int currMask, int currCity, int cost[][], int nCities) {
+            if (currMask == (1 << nCities) - 1) {
+                return cost[currCity][0];
+            }
+            int ans = Integer.MAX_VALUE;
+            for (int newCity = 0; newCity < nCities; newCity++) {
+                boolean isNewCityAlreadyVisited = (currMask & (1 << newCity)) != 0;
+                if (!isNewCityAlreadyVisited) {
+                    int newMask = ((1 << newCity) | currMask);
+                    ans = Math.min(ans, cost[currCity][newCity] + better(newMask, newCity, cost, nCities));
+                }
+            }
+            return ans;
+        }
+
     static int optimal(int cost[][]) {
         int nCities = cost.length;
         int dp[][] = new int[(1 << nCities)][nCities];
@@ -75,8 +79,27 @@ public class _01_TSP {
                 dp[currMask][currCity]=ans;
             }
         }
+        // Path reconstruction priting
+        int mask = 1, currCity = 0;
+        System.out.print("Path: 0");
+        while (mask != (1 << nCities) - 1) {
+            int nextCity = -1;
+            for (int city = 0; city < nCities; city++) {
+                if ((mask & (1 << city)) == 0) { // if city not visited
+                    int newMask = mask | (1 << city);
+                    if (dp[mask][currCity] == cost[currCity][city] + dp[newMask][city]) {
+                        nextCity = city;
+                        break;
+                    }
+                }
+            }
+            if (nextCity == -1) break; // safety check
+            System.out.print(" -> " + nextCity);
+            mask |= (1 << nextCity);
+            currCity = nextCity;
+        }
+        System.out.println(" -> 0"); // return to start
         return dp[1][0];
-
     }
 
 }
