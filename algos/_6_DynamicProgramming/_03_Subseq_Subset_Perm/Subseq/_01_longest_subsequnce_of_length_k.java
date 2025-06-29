@@ -69,7 +69,7 @@ public class _01_longest_subsequnce_of_length_k {
     static void rec(String orig, int i, StringBuilder sb, int k) {
         if (i == orig.length()) {
             if (contains_k_such_subsequences(orig, sb.toString(), k)) {
-                if (ans.length() < sb.length() && ans.compareTo(sb.toString()) < 0) {//we need lexicographiccaly largest
+                if (ans.length() <= sb.length() && ans.compareTo(sb.toString()) < 0) {//we need lexicographiccaly largest
                     ans = sb.toString();
                 }
             }
