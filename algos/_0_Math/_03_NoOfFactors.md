@@ -76,3 +76,9 @@ In how many ways can 1000 chocolates be distributed equally?
 
 Ans: (2+1) (2+1) (2+1) ie 27 ways
 
+
+## Note:
+- If ``x%m + y%m == m``, then ``(x+y)%m = 0``, Example 2%4=2 and 6%4=2, also (2+4)%=0
+
+- Some sample problem on prime factorization: [Link](https://codeforces.com/problemset/problem/1881/D). Given an array if integer, in one operation u can select 2 indices i,j, then divide a[i] by some x such that a[i]%x==0 and multiply a[j] by x. Print if its possible to make entire array equal or not. Key ob is that the product of the array would remain constant always coz for one u divide and other gets multiplied. If u visulize each number as its prime factorization, for ex  $50=2^2 *5^2 $ and $10=2*5$, u can equalize this by put one 2 on right and one 5 on right ie ultimately u make them eqaal.
+

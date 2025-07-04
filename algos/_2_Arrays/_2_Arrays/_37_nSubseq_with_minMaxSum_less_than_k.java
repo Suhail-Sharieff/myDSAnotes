@@ -43,6 +43,8 @@ Constraints:
 
 //prereq: the number of subsequneces we get in a sequnce of length n = 2^n-1 (-1 for an empty subseq)
 
+//one more preewq: suppose we have 2 subseq of len x(from idx 0 to x) and y(0 idx  to idx y), suchht some part is overllaping, then nSubseq only from idx x to idx y =(2^x - 2^y) dont worry abt empty subseq, coz since its common in both of them it gets canceeled out
+
 
 //https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition/solutions/6896464/beginner-freindly-java-c-python-js
 
@@ -64,7 +66,7 @@ public class _37_nSubseq_with_minMaxSum_less_than_k {
         int ans = 0;
         while (i <= j) {
             if (nums[i] + nums[j] <= target) {
-                ans = (ans + nSub[j - i]) % mod;
+                ans = (ans + nSub[j - i]) % mod;//MAIN thing, why not (j-i+1), coz we r fixing left elemnt and finding all poss subseq on right o f left(ie min), so (j-i+1)-1 ie j-i
                 i++;
             } else {
                 j--;
