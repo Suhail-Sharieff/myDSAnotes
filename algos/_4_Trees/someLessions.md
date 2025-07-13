@@ -1,1 +1,1 @@
-- Kuch answers hamesha recurive function ia return nahi karasakte, global varbale maintain karna padega ex: [Link](algos\_4_Trees\_6_maxPathSum.java)
+- Kuch answers hamesha recurive function ia return nahi karasakte, global varbale maintain karna padega ex: [Link](_6_maxPathSum.java)
