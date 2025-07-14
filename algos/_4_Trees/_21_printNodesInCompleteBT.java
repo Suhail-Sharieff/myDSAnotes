@@ -60,7 +60,7 @@ public class _21_printNodesInCompleteBT {
         int rightHeight=rightHeight(root);
 
         if (leftHeight==rightHeight) {//is perfect BT from tht node
-            return ((2<<(leftHeight-1))-1);
+            return ((1<<leftHeight)-1);
         }
 
         return (optimal(root.left)+optimal(root.right)+1);

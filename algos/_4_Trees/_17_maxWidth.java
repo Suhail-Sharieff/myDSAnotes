@@ -97,6 +97,23 @@ public class _17_maxWidth {
         return ans;
     }
 
+    //easy soln:
+    /*int getMaxWidth(Node root) {
+        Queue<Node>q=new LinkedList<>();
+        q.offer(root);
+        int ans=0;
+        while(!q.isEmpty()){
+            int len=q.size();
+            ans=Math.max(ans,len);
+            for(int i=0;i<len;i++){
+                Node top=q.poll();
+                if(top.left!=null)q.offer(top.left);
+                if(top.right!=null)q.offer(top.right);
+            }
+        }
+        return ans;
+    } */
+
     
 
     

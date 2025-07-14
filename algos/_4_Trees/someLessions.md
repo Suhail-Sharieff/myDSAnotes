@@ -1,1 +1,0 @@
-- Kuch answers hamesha recurive function ia return nahi karasakte, global varbale maintain karna padega ex: [Link](_6_maxPathSum.java)

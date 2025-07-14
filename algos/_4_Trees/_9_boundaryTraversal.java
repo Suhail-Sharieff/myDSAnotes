@@ -2,6 +2,7 @@ package _4_Trees;
 
 import java.util.ArrayList;
 //MORRIS TRAVERSAL 
+import java.util.Collections;
 
 
 /*
@@ -74,8 +75,13 @@ Constraints:
 
 
 
+Test case for checking:
 
 
+          1
+       2     3      expected: 1,2,5,4,3 main obs: observe the literal moving left and right wount give good ans
+           4
+         5 
 
 
 
@@ -114,57 +120,45 @@ public class _9_boundaryTraversal {
 
         TreeNode root = TreeNode.constructTree(new Integer[] { 20, 8, 22, 4, 12, null, 25, null, null, 10, 14 });
 
-        System.out.println(AnticlockwiseBoundaryTraversal(root));
+        System.out.println(new _9_boundaryTraversal().AnticlockwiseBoundaryTraversal(root));
 
     }
 
-    public static ArrayList<Integer> AnticlockwiseBoundaryTraversal(TreeNode TreeNode) {
-        if (TreeNode == null)
-            return new ArrayList<>();
-        // code here 1 6 4 2 6 5 7 8
-        ArrayList<Integer> ans = new ArrayList<>();
-        ans.add(TreeNode.val);
-        left(TreeNode.left, ans);
-        leaf(TreeNode.left, ans);
-        leaf(TreeNode.right, ans);
-        right(TreeNode.right, ans);
+    ArrayList<Integer> left;
+    ArrayList<Integer> leaf;
+    ArrayList<Integer> right;
+    ArrayList<Integer>ans;
+    ArrayList<Integer> AnticlockwiseBoundaryTraversal(TreeNode root) {
+        left=new ArrayList<>();left_trav(root.left);
+        leaf=new ArrayList<>();leaf_trav(root);
+        right=new ArrayList<>();right_trav(root.right);
+        ans=new ArrayList<>();ans.add(root.val);
+        if(root.left==null && root.right==null) return ans;//what if case is: [2], to avoid it being added into ans as well as the leaf list 
+        ans.addAll(left);
+        ans.addAll(leaf);
+        Collections.reverse(right);
+        ans.addAll(right);
         return ans;
     }
-
-    public static void left(TreeNode TreeNode, ArrayList<Integer> li) {
-        if (TreeNode == null)
-            return;
-        if (TreeNode.left != null) {
-            // add and move left
-            li.add(TreeNode.val);
-            left(TreeNode.left, li);
-        } else if (TreeNode.right != null) {
-            li.add(TreeNode.val);
-            left(TreeNode.right, li);
-        }
-        //IF BOTH LEFT AND RIGHT ARE NULL DONT DO ANYTHING COZ WE HANDLED IT IN LEAF TRAVERSAL
+    
+    void left_trav(TreeNode root){
+        if(root==null) return;
+        if(root.left==null && root.right==null) return;
+        left.add(root.val);
+        if(root.left!=null) left_trav(root.left);
+        else if(root.right!=null) left_trav(root.right);
     }
-
-    public static void right(TreeNode TreeNode, ArrayList<Integer> li) {
-        if (TreeNode == null)
-            return;
-        if (TreeNode.right != null) {
-            // fist move right and then add coz we need reverse
-            right(TreeNode.right, li);
-            li.add(TreeNode.val);
-        } else if (TreeNode.left != null) {
-            right(TreeNode.left, li);
-            li.add(TreeNode.val);
-        }
-        //IF BOTH LEFT AND RIGHT ARE NULL DONT DO ANYTHING COZ WE HANDLED IT IN LEAF TRAVERSAL
+    void leaf_trav(TreeNode root){
+        if(root==null) return;
+        if(root.left==null && root.right==null) leaf.add(root.val);
+        leaf_trav(root.left);
+        leaf_trav(root.right);
     }
-
-    public static void leaf(TreeNode TreeNode, ArrayList<Integer> li) {
-        if (TreeNode == null)
-            return;
-        leaf(TreeNode.left, li);
-        if (TreeNode.left == null && TreeNode.right == null)
-            li.add(TreeNode.val);
-        leaf(TreeNode.right, li);
+    void right_trav(TreeNode root){
+        if(root==null) return;
+        if(root.left==null && root.right==null) return;
+        right.add(root.val);
+        if(root.right!=null) right_trav(root.right);
+        else if(root.left!=null) right_trav(root.left);
     }
 }

@@ -228,47 +228,37 @@ If diff < 0 (node’s data is greater than the node’s children sum) then incre
     */
    //algorithm: 
    //brute: so to satsify the above condition, we can assign max value in the tree to root's value and then do normal can_incr_decr_both algortithm, that time u can see that no such problems will occur (in above example first make root.val ie 50 as 120 ie max value in tree ) and then do normal flow
+   /* static int brute(BinaryTreeNode<Integer> root){
+        if(root==null) return 0;
+        if(root.left==null && root.right==null) return root.data=1000000;(assign max val)
+        int l=brute(root.left);
+        int r=brute(root.right);
+        root.data=l+r;
+        return root.data;
+    }
+ */
    //optimal:see the below algorithm
    public static void can_incr_only(TreeNode root){
-    if (root==null) {
-      return;
-    }
-    int childSum=0;
-    if (root.left!=null) {
-      childSum+=root.left.val;
-    }
-    if (root.right!=null) {
-      childSum+=root.right.val;
-    }
-    
-    if (childSum>=root.val) {//if children r more,  increase parent
-      root.val=childSum;
-    }else{//parent has more value which we cant decrease, so update children
-      if (root.left!=null) {
-        root.left.val=root.val;
-      }else if(root.right!=null){
-        root.right.val=root.val;
-      }
-    }
-
-    //move further after setting parent & children
-    can_incr_only(root.left);
-    can_incr_only(root.right);
-
-    //after moved left and right,again set parent and children
-    int tot=0;
-    if (root.left!=null) {
-      tot+=root.left.val;
-    }
-    if (root.right!=null) {
-      tot+=root.right.val;
-    }
-    if (root.left!=null||root.right!=null) {
-      root.val=tot;
-    }
-
-
-
+    if(root==null) return;
+        int sum=0;
+        if(root.left!=null) sum+=root.left.val;
+        if(root.right!=null) sum+=root.right.val;
+        if(sum>=root.val){
+            root.val=sum;
+        }
+        else{
+            //left right milkar bhi nahi beat karre
+            if(root.left!=null) root.left.val=root.val;//MISTAKE: assigned as sum inplace of root.val
+            if(root.right!=null) root.right.val=root.val;
+        }
+        can_incr_only(root.left);
+        can_incr_only(root.right);
+        //-the below is executed while backtracking
+        sum=0;
+        if(root.left==null && root.right==null) return;
+        if(root.left!=null) sum+=root.left.val;
+        if(root.right!=null) sum+=root.right.val;
+        root.val=sum;
 
    }
 
