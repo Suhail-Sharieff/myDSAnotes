@@ -42,55 +42,45 @@ public class _24_ser_deser_BT {
     }
 
     public static String serialize(TreeNode root){
-        if (root==null) {
-            return new String();
-        }
+        if(root==null) return "";
+        StringBuilder sb=new StringBuilder();
         Queue<TreeNode>q=new LinkedList<>();
         q.offer(root);
-        List<Integer>ans=new ArrayList<>();
-        while (!q.isEmpty()) {
-            int s=q.size();
-            for (int i = 0; i <s; i++) {
-                TreeNode curr=q.poll();
-                if (curr==null) {
-                    ans.add(null);
-                    continue;
-                }
-                ans.add(curr.val);
-                // if (curr.left!=null) {
-                    q.offer(curr.left);
-                // }
-                // if (curr.right!=null) {
-                    q.offer(curr.right);
-                // }
-            }
+        while(!q.isEmpty()){
+            TreeNode top=q.poll();
+            if(top==null){sb.append("null").append(" ");continue;}
+            else sb.append(top.val).append(" ");
+            q.offer(top.left);
+            q.offer(top.right);
         }
-        return(ans.toString().replace(",", "").replace("[", "").replace("]", "").trim());
+        return sb.toString();
     }
 
     public static TreeNode deserialize(String s){
-        if (s.isEmpty()) {
-            return null;
-        }
-        String arr[]=s.split(" ");
-        TreeNode root=new TreeNode(Integer.parseInt(arr[0]));
-
+        if(s.length()==0) return null;
+        String split[]=s.split(" ");
+        List<Integer>arr=new ArrayList<>();
+        for(var e:split) if(e.equals("null")) arr.add(null);else arr.add(Integer.parseInt(e));
+        int i=0;
+        TreeNode root=new TreeNode(arr.get(i));
+        int len=arr.size();
         Queue<TreeNode>q=new LinkedList<>();
         q.offer(root);
-
-        for (int i = 1; i < arr.length; i++) {
-            TreeNode curr=q.poll();
-            if (!arr[i].equals("null")) {
-                curr.left=new TreeNode(Integer.parseInt(arr[i]));
-                q.offer(curr.left);
+        i++;
+        while(!q.isEmpty()){
+            TreeNode top=q.poll();
+            if(top==null) continue;
+            if(i<len){
+                if(arr.get(i)!=null) top.left=new TreeNode(arr.get(i));
             }
             i++;
-            if (!arr[i].equals("null")) {
-                curr.right=new TreeNode(Integer.parseInt(arr[i]));
-                q.offer(curr.right);
+            if(i<len){
+                if(arr.get(i)!=null) top.right=new TreeNode(arr.get(i));
             }
+            i++;
+            q.offer(top.left);
+            q.offer(top.right);
         }
-        // TreeNode.displayLevelByLevel(root);
         return root;
     }
 

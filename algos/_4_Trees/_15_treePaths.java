@@ -43,6 +43,7 @@ public class _15_treePaths {
     public static void main(String[] args) {
         List<String>ans=new ArrayList<>();
         TreeNode root=TreeNode.constructTree(new Integer[]{1,2,3,null,5});
+        TreeNode.prettyPrintTree(root, "", true);
         optimal(root, ans, new StringBuilder());
         System.out.println(ans);
 

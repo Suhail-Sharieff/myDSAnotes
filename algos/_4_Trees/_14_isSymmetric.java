@@ -39,6 +39,7 @@ public class _14_isSymmetric {
 
          */
         TreeNode root = TreeNode.constructTree(new Integer[] { 1, 2, 2, 3, 4, 4, 3 });
+        TreeNode.prettyPrintTree(root, "", true);
         System.out.println(recursive(root,root));
         System.out.println(iterative_stack(root));
         System.out.println(iterative_queue(root));

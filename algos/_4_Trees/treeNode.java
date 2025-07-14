@@ -137,8 +137,27 @@ public class TreeNode {
         }
         System.out.println(ans);
     }
+    public static void prettyPrintTree(TreeNode node, String prefix, boolean isLeft) {
+        if (node == null) {
+            System.out.println("Empty tree");
+            return;
+        }
+
+        if (node.right != null) {
+            prettyPrintTree(node.right, prefix + (isLeft ? "│   " : "    "), false);
+        }
+
+        System.out.println(prefix + (isLeft ? "└── " : "┌── ") + node.val);
+
+        if (node.left != null) {
+            prettyPrintTree(node.left, prefix + (isLeft ? "    " : "│   "), true);
+        }
+    }
 
     public static void main(String[] args) {
         System.out.println("Bismillah");
+        prettyPrintTree(constructTree(new Integer[]{
+            1,2,3,4,5,6,7,8,9,10,11,12,13,14
+        }), "", true);
     }
 }

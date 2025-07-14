@@ -26,7 +26,9 @@ public class _1_oneShotTraversal {//using this method we would traverse throught
         root.right.left = new TreeNode(6);
         root.right.right = new TreeNode(7);
 
+        TreeNode.prettyPrintTree(root, "", false);
         oneShotTrav(root);
+
     }
 
     public static void oneShotTrav(TreeNode root){
