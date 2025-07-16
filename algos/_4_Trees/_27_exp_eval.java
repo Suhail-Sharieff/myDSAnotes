@@ -1,44 +1,123 @@
-
+//https://www.geeksforgeeks.org/problems/fun-with-expresions2523/1
 package _4_Trees;
 
-import java.util.Stack;
+import java.util.*;
+import java.util.function.Function;
 
 public class _27_exp_eval {
 
     public static void main(String[] args) {
-        // evaluates postfix exp
-        String postfix = "12+";
-        eval(postfix);
+        String exp = "1+4+5+2-3+6+8";//works only for nubers WITHOUT PARENTHESIS
+        String postfix[] = getPostFixNotationOf(exp);
+        MyTreeNode expTree=getExpressionTree(postfix);
+        int ans=f(expTree);
+        System.out.println(ans);
     }
 
-    public static void eval(String exp) {
+    public static String[] getPostFixNotationOf(String exp) {
+        Stack<String> st = new Stack<>();
+        int len = exp.length();
+        Function<String, Integer> priority = (String c) -> {
+            if (c.equals("^"))
+                return 4;
+            if (c.equals("*") || c.equals("/"))
+                return 3;
+            if (c.equals("+") || c.equals("-"))
+                return 2;
+            return 1;
+        };
+        List<String> arr = new ArrayList<>();
+        int i = 0;
+        while (i < len) {
+            char curr = exp.charAt(i);
+            if (curr == '(')
+                st.push("(");
+            else {
+                if (Character.isLetterOrDigit(curr)) {
+                    StringBuilder num = new StringBuilder();
+                    while (i < len && Character.isLetterOrDigit(exp.charAt(i))){
+                        num.append(exp.charAt(i++));
+                    }
+                    arr.add(num.toString());
+                    continue;
+                }else if (curr == ')') {
+                    while(!st.isEmpty() && !st.peek().equals("(")){
+                        arr.add(st.pop());
+                    }
+                    st.pop();
+                }else{
+                    //is operand
+                    while(!st.isEmpty() && priority.apply(Character.toString(curr))<=priority.apply(st.peek())){
+                        arr.add(st.pop());
+                    }
+                    st.push(Character.toString(curr));
+                }
+                i++;
+            }
+        }
+        while(!st.isEmpty()) arr.add(st.pop());
+        // System.out.println(arr);
+        return arr.toArray(String[]::new);
+    }
 
+    public static MyTreeNode getExpressionTree(String postfix[]) {
         Stack<MyTreeNode> st = new Stack<>();
-        // st.push(new MyTreeNode('0'));
-        for (char curr : exp.toCharArray()) {
+        for (String curr : postfix) {
             MyTreeNode node = new MyTreeNode(curr);
-            if (Character.isLetterOrDigit(curr)) {
+            if (isNumber(curr)) {
                 st.push(node);
             } else {
                 node.right = st.pop();
                 node.left = st.pop();
                 st.push(node);
             }
-            MyTreeNode.prettyPrintTree(node, exp, node.left!=null);
-
         }
-
-        // System.out.println(st);
-
+        if (st.isEmpty())
+            return new MyTreeNode("0");
+        // MyTreeNode.prettyPrintTree(st.peek(), "", true);
+        return st.peek();
     }
+
+    static int f(MyTreeNode root) {
+        if (root == null)
+            return 0;
+        if (root.left == null && root.right == null) {
+            if(isNumber(root.val.toString())) return Integer.parseInt(root.val.toString());
+            return 0;
+        }
+        int left = f(root.left);
+        int right = f(root.right);
+        if (root.val.equals("*"))
+            return left * right;
+        if (root.val.equals("/"))
+            return left / right;
+        if (root.val.equals("+"))
+            return left + right;
+        if (root.val.equals("-"))
+            return left - right;
+        if (root.val.equals("^"))
+            return left ^ right;
+        if (root.val.equals("&"))
+            return left & right;
+        return 0;
+    }
+
+    static boolean isOperator(String s) {
+        return (s.equals("*") || s.equals("/") || s.equals("+") || s.equals("-") || s.equals("^") || s.equals("&"));
+    }
+
+    static boolean isNumber(String s) {
+        return !isOperator(s);
+    }
+
 }
 
 class MyTreeNode {
-    char val;
+    Object val;
     MyTreeNode left;
     MyTreeNode right;
 
-    public MyTreeNode(char val) {
+    public MyTreeNode(Object val) {
         this.val = val;
     }
 

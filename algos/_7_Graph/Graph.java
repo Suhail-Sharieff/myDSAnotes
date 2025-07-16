@@ -28,4 +28,14 @@ public class Graph {
         }
         return mat;
     }
+
+    //pretty standard dfs wors universally
+    public void dfs(int u,boolean isVis[],ArrayList<ArrayList<Integer>>adj){
+        isVis[u]=true;
+        for(int v:adj.get(u)) if(!isVis[v]) dfs(u, isVis, adj);
+    }
+    //another way:CAUTION use only if no cycles in graph, it avoids isVis array
+    public void dfs(int u,int par,ArrayList<ArrayList<Integer>>adj){
+        for(int v:adj.get(u)) if(v!=par) dfs(v, u, adj);
+    }
 }
