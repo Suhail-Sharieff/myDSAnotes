@@ -10,4 +10,20 @@ public class _7_lca_in_bst {
         if(root.val>p.val && root.val>q.val) return lowestCommonAncestor(root.left,p,q);
         return root;
     }
+
+    //itertive soln:
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        int min=Math.min(p.val,q.val),max=Math.max(p.val,q.val);
+        while(root!=null){
+            if(root.val<min){
+                root=root.right;
+            }else if(root.val>max){
+                root=root.left;
+            }else{
+                return root;
+            }
+        }
+        return null;
+    }
+
 }
