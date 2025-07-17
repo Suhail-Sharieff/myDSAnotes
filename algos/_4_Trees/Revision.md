@@ -1,5 +1,5 @@
 ## Revison Set
-- [Max Path Sum](_6_maxPathSum.java)-some thing cant be merely achived via recusion, teaches effective use of globaal variables
+- [Max Path Sum 1](_6_maxPathSum_1.java)-some thing cant be merely achived via recusion, teaches effective use of globaal variables, also compare it with [Max Path sum 2](_28_maxPathSum_2.java)
 - [Boundary Traversal](_9_boundaryTraversal.java)- sometimes multiple calls may be required to solve a problem
 - [CheckBalanced](_4_checkIfBalanced.java) VS [CheckSymmetric](_14_isSymmetric.java)
 - [LCA](_16_lowestCommonAncestor.java)-imp for CP

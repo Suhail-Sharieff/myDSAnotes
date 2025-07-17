@@ -91,4 +91,41 @@ public class _29_kth_ancestor_in_tree {
  * TreeAncestor obj = new TreeAncestor(n, parent);
  * int param_1 = obj.getKthAncestor(node,k);
  */
+
+
+ //====other way:
+ /*
+  * class TreeAncestor {
+    public int parent[][];
+    public TreeAncestor(int n, int[] par) {
+        parent=new int[31][n];
+        for(int i=0;i<n;i++) parent[0][i]=par[i];
+
+        for(int i=1;i<=30;i++){
+            for(int u=0;u<n;u++){
+                if(parent[i-1][u]!=-1){
+                    parent[i][u]=parent[i-1][ parent[i-1][u] ];
+                }
+                else parent[i][u]=-1;
+            }
+        }
+
+    }
+    
+    public int getKthAncestor(int u, int k) {
+        for(int i=0;i<=30;i++){
+            if((k&(1<<i))!=0){
+                u=parent[i][u];
+                if(u==-1) return u;
+            }
+        }
+        return u;
+    }
+}
+
+/**
+ * Your TreeAncestor object will be instantiated and called as such:
+ * TreeAncestor obj = new TreeAncestor(n, parent);
+ * int param_1 = obj.getKthAncestor(node,k);
+ */
 }

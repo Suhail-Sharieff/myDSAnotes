@@ -27,7 +27,7 @@ Constraints:
 The number of nodes in the tree is in the range [1, 3 * 104].
 -1000 <= Node.val <= 1000
  */
-public class _6_maxPathSum {
+public class _6_maxPathSum_1 {
     public int maxSum1UsingGlobalVar(TreeNode root){//O(n)
         maxGlobal=Integer.MIN_VALUE;
         maxSum1(root);
