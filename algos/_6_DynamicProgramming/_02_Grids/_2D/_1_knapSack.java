@@ -167,4 +167,22 @@ public class _1_knapSack {
         System.out.println("Picked indices: " + pickedIndices);
         return dp[wt.length-1][W];
     }
+
+
+
+    //advantage of 1 based indexing, see how code is shrotened:
+    /*
+    static int knapsack(int[] wt, int[] val, int n, int W) {
+        int dp[][]=new int[n+1][W+1];
+        for(int i=1;i<=n;i++){
+            for(int t=0;t<=W;t++){
+                dp[i][t]=Math.max(
+                    (t>=wt[i-1])?val[i-1]+dp[i-1][t-wt[i-1]]:0,
+                    dp[i-1][t]
+                );
+            }
+        }
+        return dp[n][W];
+    }
+     */
 }

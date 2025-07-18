@@ -47,6 +47,65 @@ cols == grid[i].length
 0 <= grid[i][j] <= 100
  */
 
+
+ //#################### 4 D version, later will optimize to 3D version
+ /*
+class Solution {
+    public int nRows;
+    public int nCols;
+    public int mat[][];
+    public int dirs[][]={{1,-1},{1,0},{1,1}};
+    public int cherryPickup(int[][] grid) {
+        mat=grid;
+        nRows=mat.length;
+        nCols=mat[0].length;
+        // return rec(0,0,0,nCols-1);
+        int dp[][][][]=new int[nRows][nCols][nRows][nCols];
+        for(int i1=nRows-1;i1>=0;i1--){
+            for(int j1=nCols-1;j1>=0;j1--){
+                for(int i2=nRows-1;i2>=0;i2--){
+                    for(int j2=0;j2<nCols;j2++){
+                        if(i1==nRows-1){
+                            if(j1==j2) dp[i1][j1][i2][j2]=mat[i1][j1];
+                            else dp[i1][j1][i2][j2]=mat[i1][j1]+mat[i2][j2];
+                        }else{
+                            int ans=0;
+                            for(int d1[]:dirs){
+                                for(int d2[]:dirs){
+                                    if(!valid(i1+d1[0],j1+d1[1])||!valid(i2+d2[0],j2+d2[1])) continue;
+                                    ans=Math.max(ans,dp[i1+d1[0]][j1+d1[1]][i2+d2[0]][j2+d2[1]]);
+                                }
+                            }
+                            if(i1==i2 && j1==j2) dp[i1][j1][i2][j2]=mat[i1][j1]+ans;
+                            else dp[i1][j1][i2][j2]=ans+mat[i1][j1]+mat[i2][j2];
+                        }
+                    }
+                }
+            }
+        }
+        return dp[0][0][0][nCols-1];
+    }
+    public int rec(int i1,int j1,int i2,int j2){
+        if(!valid(i1,j1)||!valid(i2,j2)) return 0;
+        if(i1==nRows-1){
+            if(j1==j2) return mat[i1][j1];
+            return mat[i1][j1]+mat[i2][j2];
+        }
+        int ans=0;
+        for(int d1[]:dirs){
+            for(int d2[]:dirs){
+                ans=Math.max(ans,rec(i1+d1[0],j1+d1[1],i2+d2[0],j2+d2[1]));
+            }
+        }
+        if(i1==i2 && j1==j2) return mat[i1][j1]+ans;
+        return ans+mat[i1][j1]+mat[i2][j2];
+    }
+    public boolean valid(int i,int j){
+        return (i<nRows&&j<nCols&&i>=0&&j>=0);
+    }
+}
+  */
+
 public class _01_choco_count_01_ {
     public static void main(String[] args) {
         int mat[][]={

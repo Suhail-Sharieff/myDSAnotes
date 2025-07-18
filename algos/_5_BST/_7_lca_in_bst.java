@@ -12,7 +12,7 @@ public class _7_lca_in_bst {
     }
 
     //itertive soln:
-    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    public TreeNode lowestCommonAncestor_iterative(TreeNode root, TreeNode p, TreeNode q) {
         int min=Math.min(p.val,q.val),max=Math.max(p.val,q.val);
         while(root!=null){
             if(root.val<min){

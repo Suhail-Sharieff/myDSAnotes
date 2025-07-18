@@ -66,11 +66,34 @@ public class _8_bst_from_preorder {
     }
 
 
+    //-------------------better-uses same idea that u used to construct a normal tree but her its advantageous that we know that smaller elemts on left and larger on right
+    /**
+
+ */
+class Better {//worst case n^2
+    public TreeNode bstFromPreorder(int[] preorder) {
+       return rec(preorder,0,preorder.length-1);
+    }
+    public TreeNode rec(int pre[],int l,int r){
+        if(l>r) return null;
+        TreeNode root=new TreeNode(pre[l]);
+        int leftEnd=getIdx(pre,l+1,r,pre[l]);
+        root.left=rec(pre,l+1,leftEnd);
+        root.right=rec(pre,leftEnd+1,r);
+        return root;
+    }
+    public int getIdx(int arr[],int l,int r,int key){
+        int idx=l-1;///BIG MISTAKE: took as some other value like r or arr.length
+        for(int i=l;i<=r;i++) if(arr[i]<key) idx=i; else break;
+        return idx;
+    }
+}
 
 
 
 
-    //------------better: u r given preorder of BST, then inorder is sorted format of preorder, now we know both preorder and inorder, we can easilt construct tree by using the algorithm as given in _4_Trees/_22_...file -----O(nlogn+n)---O(n)
+
+
 
 
 

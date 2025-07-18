@@ -1,5 +1,8 @@
 package _6_DynamicProgramming._02_Grids._2D;
 
+import java.util.Arrays;
+import java.util.PriorityQueue;
+
 import _4_Trees.TreeNode;
 
 /*
@@ -27,7 +30,16 @@ m == grid.length
 n == grid[i].length
 1 <= m, n <= 200
 0 <= grid[i][j] <= 200
+
+
+
+
+
+
+IMP NOTE: 2 things may come in mind when this problem comes, one is using djikstra, other one is DP, but here we can apply dp becoz we can move right or down at a time, ie no chace of going back ie backtracking, but suppose given all 4 dirs, u need to use djiktra
  */
+
+ //=============================DP
 public class _4_minPathSum {
    public static void main(String[] args) {
      // return recursion(mat,0,0);
@@ -150,4 +162,90 @@ Constraints:
             return root.val+Math.max(left,right);
         }
     }
+    
+
+
+    //===========================DJIKTRA
+    /*Minimum Cost Path
+Difficulty: HardAccuracy: 26.99%Submissions: 123K+Points: 8
+Given a square grid of size N, each cell of which contains an integer cost that represents a cost to traverse through that cell, we need to find a path from the top left cell to the bottom right cell by which the total cost incurred is minimum.
+From the cell (i,j) we can go (i,j-1), (i, j+1), (i-1, j), (i+1, j).  
+
+Examples :
+
+Input: grid = {{9,4,9,9},{6,7,6,4},{8,3,3,7},{7,4,9,10}}
+Output: 43
+Explanation: The grid is-
+9 4 9 9
+6 7 6 4
+8 3 3 7
+7 4 9 10
+The minimum cost is-
+9 + 4 + 7 + 3 + 3 + 7 + 10 = 43.
+Input: grid = {{4,4},{3,7}}
+Output: 14
+Explanation: The grid is-
+4 4
+3 7
+The minimum cost is- 4 + 3 + 7 = 14.
+Expected Time Complexity: O(n2*log(n))
+Expected Auxiliary Space: O(n2) 
+ Constraints:
+1 ≤ n ≤ 500
+1 ≤ cost of cells ≤ 500 */
+
+
+
+//here cant use DP coz we can move in all dirs, so use djikstra
+    static class Solution_d{
+    // Function to return the minimum cost to react at bottom
+    // right cell from top left cell.
+    public int minimumCostPath(int[][] mat) {
+        int m=mat.length,n=mat[0].length;
+        int dis[][]=new int[m][n];for(int e[]:dis) Arrays.fill(e,inf);
+        PriorityQueue<int[]>pq=new PriorityQueue<>((x,y)->x[2]-y[2]);
+        pq.offer(new int[]{0,0,mat[0][0]});
+        dis[0][0]=mat[0][0];
+        while(!pq.isEmpty()){
+            int top[]=pq.poll();
+            int i=top[0],j=top[1],d=top[1];
+            if(dis[i][j]<d) continue;
+            for(int dir[]:dirs){
+                int x=dir[0]+i;
+                int y=dir[1]+j;
+                if(x>=0 && y>=0 && x<mat.length && y<mat[0].length){
+                    if(dis[x][y]>dis[i][j]+mat[x][y]){
+                        dis[x][y]=dis[i][j]+mat[x][y];
+                        pq.offer(new int[]{x,y,dis[x][y]});
+                    }
+                }
+            }
+        }
+        return dis[m-1][n-1];
+    }
+    
+    public int dirs[][]={{-1,0},{1,0},{0,1},{0,-1}};
+    public int inf=Integer.MAX_VALUE;
+    
+    public int rec(int mat[][],int i,int j,boolean isVis[][]){
+        if(i==1 && j==1){
+            return mat[i-1][j-1];
+        }
+        isVis[i][j]=true;
+        int min=inf;
+        for(int dir[]:dirs){
+            int x=dir[0]+i;
+            int y=dir[1]+j;
+            if(x>=1 && y>=1 && x<=mat.length && y<=mat[0].length){
+                if(!isVis[x][y]){
+                    int v=rec(mat,x,y,isVis);
+                    if(v!=inf) min=Math.min(min,mat[i-1][j-1]+v);
+                }
+            }
+        }
+        isVis[i][j]=false;
+        return min;
+    }
+    
+}
 }

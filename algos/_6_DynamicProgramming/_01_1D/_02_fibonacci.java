@@ -67,4 +67,11 @@ public class _02_fibonacci {
         }
     }
     
+
+    /*
+    Explicit formula for nth fibonacci:(derived using binet's formula)
+
+    f(n)=((pow(1+sqrt(5)),n)/2 + (pow(1-sqrt(5),n))/2)/sqrt(5)
+     * 
+     */
 }
