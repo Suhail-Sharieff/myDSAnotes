@@ -1,4 +1,4 @@
-package some_preq._06_cses._02_DP;
+package some_preq._06_cses._02_DP._01_Arrays;
 
 
 

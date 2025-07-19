@@ -1,7 +1,6 @@
 package _6_DynamicProgramming._02_Grids._3D;
 //https://www.youtube.com/watch?v=QGfn7JeXK54&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY&index=14&ab_channel=takeUforward
 
-import java.util.Arrays;
 
 /*
 You are given a rows x cols matrix grid representing a field of cherries where grid[i][j] represents the number of cherries that you can collect from the (i, j) cell.
@@ -170,40 +169,45 @@ public class _01_choco_count_01_ {
 
     //=------------tabulation
     //https://leetcode.com/problems/cherry-pickup-ii/solutions/4708405/interview-approach-dfs-brute-force-top-down-bottom-up-bottom-up-space-optimisation-dp/
-    public static int tabulate(int grid[][]){
-        int m = grid.length;
-        int n = grid[0].length;
+    public int nRows;
+    public int nCols;
+    public int mat[][];
+    public int dirs[][] = { { 1, -1 }, { 1, 0 }, { 1, 1 } };
 
-        int[][][] dp = new int[m][n][n];
-        int ans = 0;
-
-        for(int i=0;i<m;i++)
-            for(int j=0;j<n;j++)
-                Arrays.fill(dp[i][j], -1);
-
-        dp[0][0][n-1] = grid[0][0] + grid[0][n-1];
-
-        for(int i=1;i<m;i++) {
-            for(int j=0;j<n;j++) { // robotA
-                for(int k=j+1;k<n;k++) { // robotB
-                    int max = -1;
-                    for(int x=-1;x<=1;x++) { // we will have total 9 combinations
-                        for(int y=-1;y<=1;y++) {
-                            if(j+x >= 0 && j+x < n && k+y >= 0 && k+y < n)
-                                max = Math.max(
-                                    max,
-                                    dp[i-1][j+x][k+y]
-                                );
+    public int cherryPickup_tabulation(int[][] grid) {
+        mat = grid;
+        nRows = mat.length;
+        nCols = mat[0].length;
+        int dp[][][] = new int[nRows][nCols][nCols];
+        for (int i1 = nRows - 1; i1 >= 0; i1--) {
+            for (int j1 = nCols - 1; j1 >= 0; j1--) {
+                for (int j2 = 0; j2 < nCols; j2++) {
+                    if (i1 == nRows - 1) {
+                        if (j1 == j2)
+                            dp[i1][j1][j2] = mat[i1][j1];
+                        else
+                            dp[i1][j1][j2] = mat[i1][j1] + mat[i1][j2];
+                    } else {
+                        int ans = 0;
+                        for (int d1[] : dirs) {
+                            for (int d2[] : dirs) {
+                                if (!valid(i1 + d1[0], j1 + d1[1], j2 + d2[1]))
+                                    continue;
+                                ans = Math.max(ans, dp[i1 + d1[0]][j1 + d1[1]][j2 + d2[1]]);
+                            }
                         }
+                        if (j1 == j2)
+                            dp[i1][j1][j2] = mat[i1][j1] + ans;
+                        else
+                            dp[i1][j1][j2] = ans + mat[i1][j1] + mat[i1][j2];
                     }
-                    if(max != -1)
-                        dp[i][j][k] = max + grid[i][j] + grid[i][k];
-                    if(ans < dp[i][j][k]) ans = dp[i][j][k];
                 }
             }
         }
-
-        return ans;
+        return dp[0][0][nCols - 1];
     }
-    
+
+    public boolean valid(int i, int j1, int j2) {
+        return (i < nRows && j1 < nCols && j2 < nCols && i >= 0 && j1 >= 0 && j2 >= 0);
+    }
 }

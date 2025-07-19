@@ -1,90 +1,45 @@
-package some_preq._06_cses._02_DP;
-
-/*
-Time limit: 1.00 s
-Memory limit: 512 MB
+package some_preq._06_cses._02_DP._01_Arrays;
 
 
 
-There is a list of n numbers and two players who move alternately. On each move, a player removes either the first or last number from the list, and their score increases by that number. Both players try to maximize their scores.
-What is the maximum possible score for the first player when both players play optimally?
-Input
-The first input line contains an integer n: the size of the list.
-The next line has n integers x_1,x_2,\ldots,x_n: the contents of the list.
-Output
-Print the maximum possible score for the first player.
-Constraints
 
-1 \le n \le 5000
--10^9 \le x_i \le 10^9
-
-Example
-Input:
-4
-4 5 1 3
-
-Output:
-8
- */
 /*******BISMILLAHIRRAHMAANIRRAHEEM*******/
 import java.io.*;
 import java.util.*;
 
 
-//--------------------teaches how u take mins and maxs  both in dp
 
-public class _08_removal_game {
+
+
+public class _02_Coin_Combinations_I {
     public static void main(String[] args) throws IOException {
         // int t = scanInt();
         // while (t-- > 0) {
-        solve();
+            solve();
         // }
     }
 
     public static void solve() throws IOException {
-        int len = scanInt();
-        int arr[] = scanIntArray(len);
-        // int ans = rec(arr, 0, arr.length - 1);
-        long ans=tab(arr);
-        print(ans);
-    }
-
-
-    //idea is we will try to choose all possible scores for A and min score for B, so that A's score is maximized, A has 2 possiblities ie choose first and choose last, for each we will try to assign B a minimal score, return max score of A
-    static int rec(int nums[], int i, int j) {// we will favour game for A , coz the question is asking max score for A
-        if(i>j){//no more elements left
-            return 0;
+        int len=scanInt();
+        int target=scanInt();
+        int nums[]=scanIntArray(len);
+        // print(rec(nums, target));
+        long[]dp=new long[target+1];
+        dp[0]=1;
+        for(int tar=1;tar<=target;tar++){
+            long cnt=0;
+            for(int e:nums) if(tar>=e) cnt=(cnt+dp[tar-e])%MOD;
+            dp[tar]=cnt;
         }
-        int a_chooses_first=nums[i]+Math.min(
-            rec(nums, i+1, j-1),//further B will choose last element
-            rec(nums,i+2,j)//further B will also choose first elemnt
-        );
-        int a_chooses_last=nums[j]+Math.min(
-            rec(nums, i+1, j-1),//further B will choose first elemnt
-            rec(nums, i, j-2)//further B will also choose last element
-        );
-        return Math.max(a_chooses_first, a_chooses_last);
+        print(dp[target]);
     }
 
-
-    static long tab(int nums[]){
-       //i moved from 0 till n, j from n to i
-       long dp[][]=new long[nums.length][nums.length];
-       for(int i=nums.length-1;i>=0;i--){
-            for(int j=i;j<nums.length;j++){
-                //the shit like ()?_:_ i did to make sure it satisies i<=j,  coz the recurisive code returns zero upon i>j, ie we need i<=j for all cases
-                long a_chooses_first=nums[i]+Math.min(
-                    (i+1<=j-1)?dp[i+1][j-1]:0,//further B will choose last element
-                    (i+2<=j)?dp[i+2][j]:0//further B will also choose first elemnt
-                );
-                long a_chooses_last=nums[j]+Math.min(
-                    (i+1<=j-1)?dp[i+1][j-1]:0,//further B will choose first elemnt
-                    (i<=j-2)?dp[i][j-2]:0//further B will also choose last element
-                );
-                dp[i][j]=Math.max(a_chooses_first, a_chooses_last);
-            }
-       }
-       return dp[0][nums.length-1];
+    public static int rec(int nums[],int target){
+        if(target==0) return 1;
+        if(target<0) return 0;
+        int cnt=0;
+        for(int e:nums) cnt=(cnt+rec(nums, target-e))%MOD;
+        return cnt;
     }
 
     static int MOD = 1_000_000_007;
@@ -213,19 +168,19 @@ public class _08_removal_game {
         return isNegativeExponent ? (1l / ans) : ans;
     }
 
-    static void compute_fact() {
-        fact = new long[100001];
-        fact[0] = fact[1] = 1;
-        for (int i = 2; i <= 100000; i++) {
-            fact[i] = (i * 1l * fact[i - 1]) % MOD;
+    static void compute_fact(){
+        fact=new long[100001];
+        fact[0]=fact[1]=1;
+        for(int i=2;i<=100000;i++){
+            fact[i]=(i*1l*fact[i-1])%MOD;
         }
     }
 
-    static long nCr(int n, int r) {
-        long nr = fact[n];
-        long dr = (fact[n - r] * 1l * fact[r]) % MOD;
-        long inv = pow(dr, MOD - 2);// using fermat little theorm, inverse(x)=pow(x,m-2) given m is prime
-        long ans = (nr * 1l * inv) % MOD;
+    static long nCr(int n,int r){
+        long nr=fact[n];
+        long dr=(fact[n-r]*1l*fact[r])%MOD;
+        long inv=pow(dr,MOD-2);//using fermat little theorm, inverse(x)=pow(x,m-2) given m is prime
+        long ans=(nr*1l*inv)%MOD;
         return ans;
     }
 

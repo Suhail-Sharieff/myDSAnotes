@@ -1,4 +1,4 @@
-package some_preq._06_cses._02_DP;
+package some_preq._06_cses._02_DP._01_Arrays;
 
 /*
 Time limit: 1.00 s
@@ -6,34 +6,34 @@ Memory limit: 512 MB
 
 
 
-You know that an array has n integers between 1 and  m, and the absolute difference between two adjacent values is at most 1.
-Given a description of the array where some values may be unknown, your task is to count the number of arrays that match the description.
+There is a list of n numbers and two players who move alternately. On each move, a player removes either the first or last number from the list, and their score increases by that number. Both players try to maximize their scores.
+What is the maximum possible score for the first player when both players play optimally?
 Input
-The first input line has two integers n and m: the array size and the upper bound for each value.
-The next line has n integers x_1,x_2,\dots,x_n: the contents of the array. Value 0 denotes an unknown value.
+The first input line contains an integer n: the size of the list.
+The next line has n integers x_1,x_2,\ldots,x_n: the contents of the list.
 Output
-Print one integer: the number of arrays modulo 10^9+7.
+Print the maximum possible score for the first player.
 Constraints
 
-1 \le n \le 10^5
-1 \le m \le 100
-0 \le x_i \le m
+1 \le n \le 5000
+-10^9 \le x_i \le 10^9
 
 Example
 Input:
-3 5
-2 0 2
+4
+4 5 1 3
 
 Output:
-3
-
-Explanation: The arrays [2,1,2], [2,2,2] and [2,3,2] match the description.
+8
  */
 /*******BISMILLAHIRRAHMAANIRRAHEEM*******/
 import java.io.*;
 import java.util.*;
 
-public class _04_array_description {
+
+//--------------------teaches how u take mins and maxs  both in dp
+
+public class _08_removal_game {
     public static void main(String[] args) throws IOException {
         // int t = scanInt();
         // while (t-- > 0) {
@@ -43,96 +43,49 @@ public class _04_array_description {
 
     public static void solve() throws IOException {
         int len = scanInt();
-        int m = scanInt();
-        int nums[] = scanIntArray(len);
-        int ans = tab(nums, m);
+        int arr[] = scanIntArray(len);
+        // int ans = rec(arr, 0, arr.length - 1);
+        long ans=tab(arr);
         print(ans);
     }
 
-    //analyze with test case: [0,0,0] expected ans:26
 
-    //intuition: keep track of previously visited elemnts for each zero , build combinations, sum and return
-
-    //call like: rec(nums,nums.length-1,-1,m)
-    static int rec(int nums[], int i, int prev, int m) {
-        // Base case: if i < 0, we've successfully assigned all elements.
-        if (i < 0) return 1;
-        
-        // If the current element is known.
-        if (nums[i] != 0) {
-            // If there's a right neighbor (prev != -1) and the difference is too high, it's invalid.
-            if (prev != -1 && Math.abs(nums[i] - prev) > 1) return 0;// consider case like [2,0,5]
-            return rec(nums, i - 1, nums[i], m);
+    //idea is we will try to choose all possible scores for A and min score for B, so that A's score is maximized, A has 2 possiblities ie choose first and choose last, for each we will try to assign B a minimal score, return max score of A
+    static int rec(int nums[], int i, int j) {// we will favour game for A , coz the question is asking max score for A
+        if(i>j){//no more elements left
+            return 0;
         }
-
-        //_______________________nums[i] is 0_____________________
-        // If the current element is unknown, try every possible value.
-        int ans = 0;
-        // If there is no right neighbor constraint ie initially we r at end of array, try all values from 1 to m.
-        if (prev == -1) {
-            for (int k = 1; k <= m; k++) {
-                ans += rec(nums, i - 1, k, m);
-            }
-        } else {
-            // If there is a right neighbor, choose only values within [prev-1, prev+1] to satisfy absDiff as 1
-            for (int k = prev - 1; k <= prev + 1; k++) {
-                if (k >= 1 && k <= m) {
-                    ans += rec(nums, i - 1, k, m);
-                }
-            }
-        }
-        return ans;
-    }
-    
-    //call like:mem(nums, nums.length , 0, m, dp);
-    static int mem(int nums[], int i, int prev, int m, int dp[][]) {
-        if (i == 0) return 1;
-
-        if(dp[i][prev]!=-1) return dp[i][prev];
-
-        if (nums[i-1] != 0) {
-            if (prev != 0 && Math.abs(nums[i-1] - prev) > 1) return 0;
-            return dp[i][prev]=mem(nums, i - 1, nums[i-1], m,dp);
-        }
-        
-        int ans = 0;
-        if (prev == 0) {
-            for (int k = 1; k <= m; k++) {
-                ans += mem(nums, i - 1, k, m,dp);
-            }
-        } else {
-            for (int k = prev - 1; k <= prev + 1; k++) {
-                if (k >= 1 && k <= m) {
-                    ans += mem(nums, i - 1, k, m,dp);
-                }
-            }
-        }
-        return dp[i][prev]=ans;
-    }
-
-    static int tab(int nums[],int m){
-        int dp[][]=new int[nums.length+1][m+1];
-        Arrays.fill(dp[0], 1);
-        for(int i=1;i<=nums.length;i++){
-            for(int prev=0;prev<=m;prev++){
-                if(nums[i-1]!=0){
-                    if(prev!=0 && Math.abs(nums[i-1]-prev)>1) continue;
-                    dp[i][prev]=dp[i-1][nums[i-1]];
-                    continue;
-                }
-                int ans=0;
-                if(prev==0){
-                    for(int k=1;k<=m;k++) ans=(ans+dp[i-1][k])%MOD;
-                }else{
-                    for(int k=prev-1;k<=prev+1;k++) if(k>=1 && k<=m) ans=(ans+dp[i-1][k])%MOD;
-                }
-                dp[i][prev]=ans;
-            }
-        }
-        return dp[nums.length][0];
+        int a_chooses_first=nums[i]+Math.min(
+            rec(nums, i+1, j-1),//further B will choose last element
+            rec(nums,i+2,j)//further B will also choose first elemnt
+        );
+        int a_chooses_last=nums[j]+Math.min(
+            rec(nums, i+1, j-1),//further B will choose first elemnt
+            rec(nums, i, j-2)//further B will also choose last element
+        );
+        return Math.max(a_chooses_first, a_chooses_last);
     }
 
 
+    static long tab(int nums[]){
+       //i moved from 0 till n, j from n to i
+       long dp[][]=new long[nums.length][nums.length];
+       for(int i=nums.length-1;i>=0;i--){
+            for(int j=i;j<nums.length;j++){
+                //the shit like ()?_:_ i did to make sure it satisies i<=j,  coz the recurisive code returns zero upon i>j, ie we need i<=j for all cases
+                long a_chooses_first=nums[i]+Math.min(
+                    (i+1<=j-1)?dp[i+1][j-1]:0,//further B will choose last element
+                    (i+2<=j)?dp[i+2][j]:0//further B will also choose first elemnt
+                );
+                long a_chooses_last=nums[j]+Math.min(
+                    (i+1<=j-1)?dp[i+1][j-1]:0,//further B will choose first elemnt
+                    (i<=j-2)?dp[i][j-2]:0//further B will also choose last element
+                );
+                dp[i][j]=Math.max(a_chooses_first, a_chooses_last);
+            }
+       }
+       return dp[0][nums.length-1];
+    }
 
     static int MOD = 1_000_000_007;
     static long fact[];

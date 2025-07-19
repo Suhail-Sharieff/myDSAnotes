@@ -1,70 +1,68 @@
-package some_preq._06_cses._02_DP;
+package some_preq._06_cses._02_DP._01_Arrays;
 
 
 /*
-Your task is to build a tower whose width is 2 and height is n. You have an unlimited supply of blocks whose width and height are integers.
-For example, here are some possible solutions for n=6:
+Your task is to count the number of ways to construct sum n by throwing a dice one or more times. Each throw produces an outcome between 1 and  6.
+For example, if n=3, there are 4 ways:
 
-Given n, how many different towers can you build? Mirrored and rotated towers are counted separately if they look different.
+1+1+1
+1+2
+2+1
+3
+
 Input
-The first input line contains an integer t: the number of tests.
-After this, there are t lines, and each line contains an integer n: the height of the tower.
+The only input line has an integer n.
 Output
-For each test, print the number of towers modulo 10^9+7.
+Print the number of ways modulo 10^9+7.
 Constraints
 
-1 \le t \le 100
 1 \le n \le 10^6
 
 Example
 Input:
 3
-2
-6
-1337
 
 Output:
-8
-2864
-640403945
+4
  */
-
-
-
 
 /*******BISMILLAHIRRAHMAANIRRAHEEM*******/
 import java.io.*;
 import java.util.*;
 
 
+//____________________________IMP NOTE________________________________
+//--------------Initilally i coded it as that of same as coin change, but but but observe that they r asking for overall combinations and not unique,  that code treats [1,2] and [2,1] same, but here we need to include that also
 
 
 
-public class _05_counting_towers {
+public class _01_dice_combo {
     public static void main(String[] args) throws IOException {
-        int t = scanInt();
-        compute(1000001);
-        while (t-- > 0) {
-            int n=scanInt();
-            print(ans[n]);
+        // int t = scanInt();
+        // while (t-- > 0) {
+            solve();
+        // }
+    }
 
+    public static void solve() throws IOException {
+        int target=scanInt();
+        long dp[]=new long[target+1];
+        dp[0]=1;
+        for(int tar=1;tar<=target;tar++){
+            long cnt=0;
+            for(int i=1;i<=6;i++) if(tar>=i)cnt=(cnt+dp[tar-i])%MOD;
+            dp[tar]=cnt;
         }
-    }
-    static long dp[][]=new long[1000001][2];
-    static long ans[]=new long[1000001];
-    //https://www.youtube.com/watch?v=ZeRewE1Ks5Q&ab_channel=TLEEliminators-byPriyansh
-    public static void compute(int n) throws IOException {
-        dp[0][0]=1;
-    dp[0][1]=1;
-    for(int i=1;i<n;i++)
-    {
-        dp[i][0]=(2l*dp[i-1][0] + dp[i-1][1])%MOD;
-        dp[i][1]=(4l*dp[i-1][1] + dp[i-1][0])%MOD;
-        ans[i] = (dp[i-1][0]+dp[i-1][1])%MOD;
-    }
+        print(dp[target]);
     }
 
-   
+    static int rec(int target){
+       if(target==0) return 1;
+       if(target<0) return 0;
+       int cnt=0;
+       for(int i=1;i<=6;i++) cnt=(cnt+rec(target-i))%MOD;
+       return cnt;
+    }
 
     static int MOD = 1_000_000_007;
     static long fact[];
@@ -215,4 +213,3 @@ public class _05_counting_towers {
     }
 
 }
-

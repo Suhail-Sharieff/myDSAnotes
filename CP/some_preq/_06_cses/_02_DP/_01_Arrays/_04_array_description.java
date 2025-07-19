@@ -1,31 +1,39 @@
-package some_preq._06_cses._02_DP;
+package some_preq._06_cses._02_DP._01_Arrays;
 
 /*
-You have n coins with certain values. Your task is to find all money sums you can create using these coins.
+Time limit: 1.00 s
+Memory limit: 512 MB
+
+
+
+You know that an array has n integers between 1 and  m, and the absolute difference between two adjacent values is at most 1.
+Given a description of the array where some values may be unknown, your task is to count the number of arrays that match the description.
 Input
-The first input line has an integer n: the number of coins.
-The next line has n integers x_1,x_2,\dots,x_n: the values of the coins.
+The first input line has two integers n and m: the array size and the upper bound for each value.
+The next line has n integers x_1,x_2,\dots,x_n: the contents of the array. Value 0 denotes an unknown value.
 Output
-First print an integer k: the number of distinct money sums. After this, print all possible sums in increasing order.
+Print one integer: the number of arrays modulo 10^9+7.
 Constraints
 
-1 \le n \le 100
-1 \le x_i \le 1000
+1 \le n \le 10^5
+1 \le m \le 100
+0 \le x_i \le m
 
 Example
 Input:
-4
-4 2 5 2
+3 5
+2 0 2
 
 Output:
-9
-2 4 5 6 7 8 9 11 13
+3
+
+Explanation: The arrays [2,1,2], [2,2,2] and [2,3,2] match the description.
  */
 /*******BISMILLAHIRRAHMAANIRRAHEEM*******/
 import java.io.*;
 import java.util.*;
 
-public class _07_Money_Sums {
+public class _04_array_description {
     public static void main(String[] args) throws IOException {
         // int t = scanInt();
         // while (t-- > 0) {
@@ -35,108 +43,96 @@ public class _07_Money_Sums {
 
     public static void solve() throws IOException {
         int len = scanInt();
-        int arr[] = scanIntArray(len);
-        using_observation(arr);
+        int m = scanInt();
+        int nums[] = scanIntArray(len);
+        int ans = tab(nums, m);
+        print(ans);
     }
 
-    // -------------brute:
-    private static Set<Integer> set;
+    //analyze with test case: [0,0,0] expected ans:26
 
-    static Set<Integer> rec(int nums[], int i, int sum) {
-        if (i == nums.length) {
-            if (sum != 0)
-                set.add(sum);
-            return set;
-        }
-        rec(nums, i + 1, sum + nums[i]);
-        rec(nums, i + 1, sum);
-        return set;
-    }
+    //intuition: keep track of previously visited elemnts for each zero , build combinations, sum and return
 
-    static void better(int coins[]) {
-        // Calculate the sum of the all coins
-        int sum = 0;
-        int N = coins.length;
-        for (int coin : coins) {
-            sum += coin;
+    //call like: rec(nums,nums.length-1,-1,m)
+    static int rec(int nums[], int i, int prev, int m) {
+        // Base case: if i < 0, we've successfully assigned all elements.
+        if (i < 0) return 1;
+        
+        // If the current element is known.
+        if (nums[i] != 0) {
+            // If there's a right neighbor (prev != -1) and the difference is too high, it's invalid.
+            if (prev != -1 && Math.abs(nums[i] - prev) > 1) return 0;// consider case like [2,0,5]
+            return rec(nums, i - 1, nums[i], m);
         }
-        boolean[][] dp = new boolean[N + 1][sum + 1];
-        // Base case: When no coins are selected and sum = 0 is possible
-        dp[0][0] = true;
-        for (int i = 1; i <= N; i++) {
-            // Iterate over each sum j from the 0 to sum
-            for (int j = 0; j <= sum; j++) {
-                if (dp[i - 1][j]) {
-                    dp[i][j] = true;
-                } else if (j - coins[i - 1] >= 0 && dp[i - 1][j - coins[i - 1]]) {
-                    dp[i][j] = true;
+
+        //_______________________nums[i] is 0_____________________
+        // If the current element is unknown, try every possible value.
+        int ans = 0;
+        // If there is no right neighbor constraint ie initially we r at end of array, try all values from 1 to m.
+        if (prev == -1) {
+            for (int k = 1; k <= m; k++) {
+                ans += rec(nums, i - 1, k, m);
+            }
+        } else {
+            // If there is a right neighbor, choose only values within [prev-1, prev+1] to satisfy absDiff as 1
+            for (int k = prev - 1; k <= prev + 1; k++) {
+                if (k >= 1 && k <= m) {
+                    ans += rec(nums, i - 1, k, m);
                 }
             }
         }
-        // Initialize a list to store the possible sums
-        List<Integer> possibleSums = new ArrayList<>();
-        for (int j = 1; j <= sum; j++) {
-            if (dp[N][j]) {
-                possibleSums.add(j);
+        return ans;
+    }
+    
+    //call like:mem(nums, nums.length , 0, m, dp);
+    static int mem(int nums[], int i, int prev, int m, int dp[][]) {
+        if (i == 0) return 1;
+
+        if(dp[i][prev]!=-1) return dp[i][prev];
+
+        if (nums[i-1] != 0) {
+            if (prev != 0 && Math.abs(nums[i-1] - prev) > 1) return 0;
+            return dp[i][prev]=mem(nums, i - 1, nums[i-1], m,dp);
+        }
+        
+        int ans = 0;
+        if (prev == 0) {
+            for (int k = 1; k <= m; k++) {
+                ans += mem(nums, i - 1, k, m,dp);
+            }
+        } else {
+            for (int k = prev - 1; k <= prev + 1; k++) {
+                if (k >= 1 && k <= m) {
+                    ans += mem(nums, i - 1, k, m,dp);
+                }
             }
         }
-        // Print the number of the possible sums
-        System.out.println(possibleSums.size());
-        // Print the possible sums separated by the space
-        for (int i = 0; i < possibleSums.size(); i++) {
-            System.out.print(possibleSums.get(i) + " ");
-        }
+        return dp[i][prev]=ans;
     }
 
-    // https://www.youtube.com/watch?v=PXdOyrbNr78&ab_channel=NeatlyStructured
-    static void using_observation(int nums[]) {
-        int maxSum = Arrays.stream(nums).sum();
-        boolean ans[] = new boolean[maxSum + 1];
-        ans[0] = true;
-        for (int e : nums) {
-            for (int i = maxSum; i >= 0; i--) {
-                if (i >= e)
-                    if (ans[i - e])
-                        ans[i] = true;
+    static int tab(int nums[],int m){
+        int dp[][]=new int[nums.length+1][m+1];
+        Arrays.fill(dp[0], 1);
+        for(int i=1;i<=nums.length;i++){
+            for(int prev=0;prev<=m;prev++){
+                if(nums[i-1]!=0){
+                    if(prev!=0 && Math.abs(nums[i-1]-prev)>1) continue;
+                    dp[i][prev]=dp[i-1][nums[i-1]];
+                    continue;
+                }
+                int ans=0;
+                if(prev==0){
+                    for(int k=1;k<=m;k++) ans=(ans+dp[i-1][k])%MOD;
+                }else{
+                    for(int k=prev-1;k<=prev+1;k++) if(k>=1 && k<=m) ans=(ans+dp[i-1][k])%MOD;
+                }
+                dp[i][prev]=ans;
             }
         }
-        StringBuilder sb = new StringBuilder();
-        int cnt = 0;
-        for (int i = 1; i <= maxSum; i++) {
-            if (ans[i]) {
-                sb.append(i + " ");
-                cnt++;
-            }
-        }
-        System.out.println(cnt);
-        System.out.println(sb);
+        return dp[nums.length][0];
     }
 
-    // ----------using bitset:
-    /*
-     * void using_observation(const std::vector<int>& nums) {
-     * int maxSum = std::accumulate(nums.begin(), nums.end(), 0);
-     * std::bitset<MAX_SUM> ans;
-     * ans[0] = 1;
-     * 
-     * for (int e : nums) {
-     * ans |= (ans << e); // shift and OR
-     * }
-     * 
-     * int cnt = 0;
-     * std::string result;
-     * for (int i = 1; i <= maxSum; ++i) {
-     * if (ans[i]) {
-     * ++cnt;
-     * result += std::to_string(i) + " ";
-     * }
-     * }
-     * 
-     * std::cout << cnt << std::endl;
-     * std::cout << result << std::endl;
-     * }
-     * 
-     */
+
 
     static int MOD = 1_000_000_007;
     static long fact[];
