@@ -217,5 +217,32 @@ For detailed explanation on how to solve subset sum problem, you may refer to Pa
                ? dp[nums.length][target + offset] 
                : 0;
     }
+
+    //easy way:
+    /*
+    class Solution {
+    public int tot;
+    public int tar;
+    public int findTargetSumWays(int[] nums, int target) {
+        tot=Arrays.stream(nums).sum();
+        tar=target;
+        // return rec(nums,nums.length,0);
+        int dp[][]=new int[nums.length+1][tot+1];
+        for(int t=0;t<=tot;t++) dp[0][t]=(t<<1)-tot==tar?1:0;
+        for(int i=1;i<=nums.length;i++){
+            for(int t=0;t<=tot;t++){
+                dp[0][t]=(t<<1)-tot==tar?1:0;
+                dp[i][t]=dp[i-1][t]+((t+nums[i-1]<=tot)?dp[i-1][t+nums[i-1]]:0);
+                if(i==nums.length) break;
+            }
+        }
+        return dp[nums.length][0];
+    }
+    int rec(int nums[],int i,int curr){
+        if(i==0) return (curr<<1)-tot==tar?1:0;
+        return rec(nums,i-1,curr+nums[i-1])+rec(nums,i-1,curr);
+    }
+}
+     */
     
 }
