@@ -3,7 +3,7 @@
 import java.io.*;
 import java.util.*;
 
-public class CP_TEMPLATE_FAST {
+public class CP_TEMPLATE_FAST{
     public static void main(String[] args) throws IOException {
         scanner = new FastScanner();
         writer = new PrintWriter(System.out);
@@ -142,6 +142,71 @@ public class CP_TEMPLATE_FAST {
         }
     }
 
+    static class TreeNode{
+        int val;
+        TreeNode left;
+        TreeNode right;
+        public TreeNode(int val){
+            this.val=val;
+        }
+        @Override
+        public String toString() {
+            return Integer.toString(val);
+        }
+    }
+
+
+    static class SegTree{
+        int arr[];
+        int seg[];
+        public SegTree(int arr[]) {
+            int n=arr.length;
+            this.arr=arr;
+            seg=new int[(n<<2)+1];
+            build(0, 0, n-1);
+        }
+        void build(int i,int l,int r){
+            if(l==r) {seg[i]=arr[l];return;}
+            int m=(l+r)>>1;
+            build((i<<1)+1, l, m);
+            build((i<<1)+2, m+1, r);
+            seg[i]=seg[(i<<1)+1]+seg[(i<<1)+2];
+        }
+        void up(int i,int l,int r,int tidx,int tval){
+            if(l==r){seg[i]=arr[tidx]=tval;return;}
+            int m=(l+r)>>1;
+            if(tidx<=m) up((i<<1)+1, l, m, tidx,tval);
+            else up((i<<1)+2, m+1, r, tidx,tval);
+            seg[i]=seg[(i<<1)+1]+seg[(i<<1)+2];
+        }
+        TreeNode getRoot(int i,int l,int r){
+            if(l==r) return new TreeNode(seg[i]);
+            int m=(l+r)>>1;
+            TreeNode root=new TreeNode(seg[i]);
+            root.left=getRoot((i<<1)+1, l, m);
+            root.right=getRoot((i<<1)+2, m+1, r);
+            root.val=root.left.val+root.right.val;
+            return root;
+        }
+
+        int getSum(int i,int l,int r,int tl,int tr){
+            if(tr<l||tl>r) return 0;
+            if(tl<=l&&r<=tr) return seg[i];
+            int m=(l+r)>>1;
+            return getSum((i<<1)+1, l, m, tl, tr)+getSum((i<<1)+2, m+1, r, tl, tr);
+        }
+
+        public void printTree() throws IOException{
+            prettyPrintTree(getRoot(0, 0, arr.length-1), "", true);
+        }
+        protected void prettyPrintTree(TreeNode node, String prefix, boolean isLeft) throws IOException {
+            if (node == null) return;
+            if (node.right != null) prettyPrintTree(node.right, prefix + (isLeft ? "│   " : "    "), false);
+            println(prefix + (isLeft ? "└── " : "┌── ") + node.val);
+            if (node.left != null) prettyPrintTree(node.left, prefix + (isLeft ? "    " : "│   "), true);
+        }
+    }
+
     static int GCD(int a, int b) {
         return (b == 0) ? (a) : GCD(b, a % b);
     }
@@ -250,6 +315,10 @@ public class CP_TEMPLATE_FAST {
     }
 
     static void print(Object o) throws IOException {
+        writer.print(o.toString());
+    }
+
+    static void println(Object o) throws IOException {
         writer.println(o.toString());
     }
 
@@ -421,36 +490,31 @@ public class CP_TEMPLATE_FAST {
         }
 
         // (a*b)%k = ((a%k)*(b*k))%k
-        @SuppressWarnings("unused")
-        private ModularFunction multiply(long b) {
+        public ModularFunction multiply(long b) {
             x = (((b % MOD) * 1l * (x % MOD)) % MOD);
             return this;
         }
 
         // (a/b)%k = ((a%k)*inv(b))%k
-        @SuppressWarnings("unused")
-        private ModularFunction divideBy(long b) {
+        public ModularFunction divideBy(long b) {
             x = (((x % MOD) * 1l * (pow(b, MOD - 2))) % MOD);
             return this;
         }
 
         // (a+b)%k
-        @SuppressWarnings("unused")
-        private ModularFunction add(long b) {
+        public ModularFunction add(long b) {
             x = (((x % MOD) + (b % MOD)) % MOD);
             return this;
         }
 
         // (a-b)%k = ((a%k)-(b%k)+k)%k
-        @SuppressWarnings("unused")
-        private ModularFunction subtract(long b) {
+        public ModularFunction subtract(long b) {
             x = (((x % MOD) - (b % MOD) + MOD) % MOD);
             return this;
         }
 
         // (a^b)=((a%k)^b)%k
-        @SuppressWarnings("unused")
-        private ModularFunction power(long b) {
+        public ModularFunction power(long b) {
             x = ((pow(x % MOD, b)) % MOD);
             return this;
         }

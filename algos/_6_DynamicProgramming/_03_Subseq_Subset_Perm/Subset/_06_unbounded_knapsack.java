@@ -158,4 +158,23 @@ static int rec(int val[], int wt[], int capacity, int i) {
         return dp[n-1][max];
 
     }
+
+
+    ///LESSON:
+    /*Wrong code: static int f(int wt[],int v[],int i,int rem){
+        if(i<0 || rem<=0) return 0 ;
+        return Math.max(v[i]+f(wt,v,i,rem-wt[i]):0,f(wt,v,i-1,rem));
+    }
+
+
+    Correct code:
+    static int f(int wt[],int v[],int i,int rem){
+        if(i<0 || rem<=0) return 0 ;
+        return Math.max((rem>=wt[i])?v[i]+f(wt,v,i,rem-wt[i]):0,f(wt,v,i-1,rem));
+    }
+
+
+    Just see the difference,i n the wrong code if at some call rem becomes 0, i end up also taking v[i] which is wrong, so it will give wrong ans
+     * 
+     */
 }

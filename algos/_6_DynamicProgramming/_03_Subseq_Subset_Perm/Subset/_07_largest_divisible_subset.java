@@ -88,4 +88,6 @@ public class _07_largest_divisible_subset {
         return ans;
     }
 
+    //NOTE: if u want lexicographically largest among all subsets, sort the array in descending order
+
 }
