@@ -68,6 +68,8 @@ public class _8_nDistinct_Islands {
     }
 
 
+    //-----------------------USING BFS(no backtracking)
+
     //solution is to like whenever we find a unvis node, we consider it as base, we will append it say as curr->, then we move iin all dirs, append(xDiff,yDiff) wrt base, observe that it would be same for same shaped islands, so we can use it
 
      static int  optimal(int grid[][]){
@@ -132,5 +134,45 @@ public class _8_nDistinct_Islands {
     //     System.out.print(sb);
     // }
 
+
+    //---------------------SING DFS(involves backtracking)---specially see line 169, coz it should hadle ase like
+    /*
+    1 1  and  0 1
+    1 0       1 1
+     */
+    /*// User function Template for Java
+
+class Solution {
+
+    int countDistinctIslands(int[][] grid) {
+        // Your Code here
+        Set<String>set=new HashSet<>();
+        boolean isVis[][]=new boolean[grid.length][grid[0].length];
+        for(int i=0;i<grid.length;i++){
+            for(int j=0;j<grid[0].length;j++){
+                if(grid[i][j]==1&&!isVis[i][j]){
+                    StringBuilder ans=new StringBuilder();
+                    bfs(i,j,ans,isVis,grid,'@');
+                    set.add(ans.toString());
+                }
+            }
+        }
+        return set.size();
+    }
+    int dirs[][]={{-1,0,'U'},{0,-1,'L'},{1,0,'D'},{0,1,'R'}};
+    void bfs(int i,int j,StringBuilder sb,boolean isVis[][],int mat[][],char dir){
+        isVis[i][j]=true;
+        sb.append(dir);
+        for(int d[]:dirs){
+            int x=i+d[0];
+            int y=j+d[1];
+            if(x>=0&&y>=0&&x<mat.length&&y<mat[0].length&&mat[x][y]==1&&!isVis[x][y]){
+                bfs(x,y,sb,isVis,mat,(char)d[2]);
+            }
+        }
+        sb.append("B");---------------Backtracking append-----heart
+    }
+}
+ */
     
 }

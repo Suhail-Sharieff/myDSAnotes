@@ -4,5 +4,7 @@
 - [Min Path Problem](./_02_Grids/_2D/_4_minPathSum.java), understand when to use DP and when to use Djikstra for min/max path in grid type problems
 - [Min Falling sum](./_02_Grids/_2D/_6_min_falling_sum.java)
 - [Cherry pick Hard version](./_02_Grids/_3D/_01_choco_count_01_.java), 3D and 4D DP + multisource traversal
-- [Largest Divisible subset](./_03_Subseq_Subset_Perm/Subset/_07_largest_divisible_subset.java) vs [LIS](./_04_Strings/_01_comparision/Subsequence/_05_longest_increasing_subseq.java), how to print the optimal solution as well
+- [Largest Divisible subset](./_03_Subseq_Subset_Perm/Subset/_07_largest_divisible_subset.java) vs [LIS](./_04_Strings/_01_comparision/Subsequence/_05_longest_increasing_subseq.java) vs [LCS](./_04_Strings/_01_comparision/Substring/_01_longest_common_substring.java), how to print the optimal solution as well, LIS teaches a lot, how [Longest String chain](./_04_Strings/_01_comparision/Subsequence/_06_longest_string_chain.java) applies idea in LIS
 - [Shortest subsequence](./_04_Strings/_01_comparision/Subsequence/_02_longest_common_palindromic_sub.java), learn how to make use of DP table to do some task
+- [Print edit distance ops](./_04_Strings/_02_replacement/_01_edit_distance.java), line #207 and [Wildcard Matching](./_04_Strings/_02_replacement/_02_wildcard_matching.java) `IMP`
+- [Stocks Problems all variants](./_05_Stocks/), learn effective usage of `in_buying_state`, glance to print as well

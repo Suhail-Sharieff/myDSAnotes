@@ -1,7 +1,7 @@
 package _6_DynamicProgramming._04_Strings._01_comparision.Subsequence;
 
 
-//first we will solve easy version of this question: longest bitonic SUBARRAY(longest mountain array), then we will move to longest bitonic SUBSEQUENCE.
+//first we will solve easy version of this question: longest bitonic SUBARRAY(NOT SUBSSEQ)(longest mountain array), then we will move to longest bitonic SUBSEQUENCE.
 /*
 You may recall that an array arr is a mountain array if and only if:
 
@@ -166,6 +166,28 @@ public class _07_longest_bitonic_subseq {
         return ans;
     }
 
+    /*other way:
+     * int dp[][]=new int[nums.length][nums.length];//dp[i][0] will store lis from L to R(mere right me kitne bade he),dp[i][1] will store lds from R to L(mere right me kitne chote he)
+        int ans=0;
+        for(int i=0;i<nums.length;i++){
+            for(int j=0;j<i;j++){
+                if(nums[j]<nums[i]){
+                    dp[i][0]=Math.max(dp[i][0],1+dp[j][0]);
+                }
+            }
+        }
+        for(int i=nums.length-1;i>=0;i--){
+            for(int j=i+1;j<nums.length;j++){
+                if(nums[i]>nums[j]){
+                    dp[i][1]=Math.max(dp[i][1],1+dp[j][1]);
+                }
+            }
+            if(dp[i][0]!=0 && dp[i][1]!=0){//mere left me kuch chote he and right me kuch bade bhi hei
+                ans=Math.max(ans,dp[i][0]+dp[i][1]+1);//+1(mujhe milakar)
+            }
+        }
+        return ans;
+     */
 
 
     //------------------------------------------follow up:

@@ -75,6 +75,22 @@ I would write it as: "at most two buy and two sell transactions".
         // System.out.print(nChosen+"->");
         return max;
     }
+
+    //more meaning full:imp: 1 transaction=1buy+1sell
+    /*
+    int f(int arr[],int i,boolean in_buying_state,int n_of_buy_sell_pairs){
+        if(i==arr.length||n_of_buy_sell_pairs>=2) return 0;
+        if(in_buying_state){
+            int buy=f(arr,i+1,false,n_of_buy_sell_pairs)-arr[i];//MISTAKE:made nOf_buy_sell_pairs+1, whichs wrong,coz still sell is not made yet
+            int dont_buy=f(arr,i+1,true,n_of_buy_sell_pairs);
+            return Math.max(buy,dont_buy);
+        }else{
+            int sell=f(arr,i+1,true,n_of_buy_sell_pairs+1)+arr[i];
+            int dont_sell=f(arr,i+1,false,n_of_buy_sell_pairs);
+            return Math.max(sell,dont_sell);
+        }
+    }
+     */
     //-------------mem 3 changing states, so use 3d dp
     public int mem(int prices[], int i, int in_buying_state, int nChosen, int dp[][][]) {
         if (i == prices.length)

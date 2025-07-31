@@ -41,4 +41,6 @@ The sum of the first `n` even numbers is:
 - odd * even = even
 
 ----
+- `(a+b)=(a^b)-2(a&b)`
+- For any tow numbers `x` and `y`, the 0th bit obtained by (x^y) and also by (x+y) remains same, for ex, of (x+y) has 0th bit as 0, then (x^y) will also have 0th bit as 0, usefull coz if 0th bit is 0 means its even number else odd 
 
