@@ -1,18 +1,13 @@
 package some_preq._06_cses._02_DP._02_Trees;
 
 /*******BISMILLAHIRRAHMAANIRRAHEEM*******/
-/*Time limit: 1.00 s
-Memory limit: 512 MB
-
-
-
-You are given a tree consisting of n nodes.
-The diameter of a tree is the maximum distance between two nodes. Your task is to determine the diameter of the tree.
+/*You are given a tree consisting of n nodes.
+Your task is to determine for each node the maximum distance to another node.
 Input
 The first input line contains an integer n: the number of nodes. The nodes are numbered 1,2,\ldots,n.
 Then there are n-1 lines describing the edges. Each line contains two integers a and b: there is an edge between nodes a and b.
 Output
-Print one integer: the diameter of the tree.
+Print n integers: for each node 1,2,\ldots,n, the maximum distance to another node.
 Constraints
 
 1 \le n \le 2 \cdot 10^5
@@ -27,54 +22,83 @@ Input:
 3 5
 
 Output:
-3
+2 3 2 3 3 */
+//this problem is just application of previous problem
+/*Use 2 DFS traversals:
 
-Explanation: The diameter corresponds to the path 2 \rightarrow 1 \rightarrow 3 \rightarrow 5. */
+First DFS from any node (say 0) to find the farthest node X from it.
+
+Second DFS from X to find the farthest node Y from it. Now X-Y is the diameter.
+
+Store distances from both X and Y to all nodes. The answer for each node is max(distFromX[i], distFromY[i]). */
 import java.io.*;
 import java.util.*;
 
-public class _02_TreeDiameter{
+public class _03_TreeDistancesI{
     public static void main(String[] args) throws IOException {
         scanner = new FastScanner();
         writer = new PrintWriter(System.out);
             solve();
         writer.flush();
     }
-
-
-    //idea:
-    /*Pick any node (say 0) and run a DFS (or BFS) to find the farthest node from it; call that node A.
-
-Run a second DFS from A to find the farthest distance from A; that distance is your tree’s diameter. */
     static List<Integer>[]adj;
+    static int dp[];
+    static int depth[];
     @SuppressWarnings("unchecked")
     public static void solve() throws IOException {
-        int nV=scanInt();
-        adj=new ArrayList[nV];
-        for(int i=0;i<nV;i++) adj[i]=new ArrayList<>();
-        for(int i=0;i<nV-1;i++){
+        int nv=scanInt();   
+
+        dp=new int[nv];
+        Arrays.fill(dp, -INF);
+        depth=new int[nv];
+        adj=new ArrayList[nv];
+
+
+        for(int i=0;i<nv;i++) adj[i]=new ArrayList<>();
+        for(int i=1;i<nv;i++){
             int u=scanInt()-1,v=scanInt()-1;
-            adj[u].add(v);adj[v].add(u);
+            adj[u].add(v);
+            adj[v].add(u);
         }
-        maxDis=0;
-        farthestNode=0;
-        dfs(0, -1, 0);
-        dfs(farthestNode, -1, 0);
-        println(maxDis);
+       
+        int dis_from_0_to_each[]=get_dis_to_each_from(0, nv);
+        int node_x=get_farthest_node_from_dis_array(dis_from_0_to_each);
+        int dis_from_x_to_each[]=get_dis_to_each_from(node_x, nv);
+        int node_y=get_farthest_node_from_dis_array(dis_from_x_to_each);
+        int dis_from_y_to_each[]=get_dis_to_each_from(node_y, nv);
+
+        int ans[]=new int[nv];
+        for(int i=0;i<nv;i++) ans[i]=max(dis_from_x_to_each[i],dis_from_y_to_each[i]);
+
+        printArray(ans);
+
+
     }
-    static int maxDis;
-    static int farthestNode;
-    static void dfs(int u,int par,int dis){
-        if (dis>maxDis) {
-            farthestNode=u;
-            maxDis=dis;
+
+    static int[] get_dis_to_each_from(int src,int nv){
+        int dis[]=new int[nv];
+        Queue<int[]>q=new LinkedList<>();
+        q.offer(new int[]{src,-1,0});
+        while(!q.isEmpty()){
+            int top[]=q.poll();
+            int u=top[0],p=top[1],d=top[2];
+            dis[u]=d;
+            for(int v:adj[u]) if(v!=p) q.offer(new int[]{v,u,d+1});
         }
-        for(int v:adj[u]){
-            if(v!=par){
-                dfs(v, u, dis+1);
-            }
-        }
+        return dis;
     }
+
+    static int get_farthest_node_from_dis_array(int dis[]){
+        int node=-1;
+        int maxDis=-1;
+        for(int i=0;i<dis.length;i++){if(dis[i]>maxDis){maxDis=dis[i];node=i;}}
+        return node;
+    }
+   
+
+    static int max(int...x){return Arrays.stream(x).max().getAsInt();}
+
+
     static int MOD = 1_000_000_007;
     static int INF = (int) 1e9;
     static long fact[];
