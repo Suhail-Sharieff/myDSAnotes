@@ -1,0 +1,134 @@
+package some_preq._06_cses._02_DP._02_Trees;
+/*You are given a tree consisting of n nodes.
+Your task is to process q queries of the form: what is the distance between nodes a and b?
+Input
+The first input line contains two integers n and q: the number of nodes and queries. The nodes are numbered 1,2,\ldots,n.
+Then there are n-1 lines describing the edges. Each line contains two integers a and b: there is an edge between nodes a and b.
+Finally, there are q lines describing the queries. Each line contains two integer a and b: what is the distance between nodes a and b?
+Output
+Print q integers: the answer to each query.
+Constraints
+
+1 \le n, q \le 2 \cdot 10^5
+1 \le a,b \le n
+
+Example
+Input:
+5 3
+1 2
+1 3
+3 4
+3 5
+1 3
+2 5
+1 4
+
+Output:
+1
+3
+2 */
+//بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ
+
+
+
+
+//this problem beutifuly demonstrates use of level array and LCA
+
+
+import java.io.*;
+import java.util.*;
+public class _07_DistanceQueries{
+    public static void main(String[] args) throws IOException {
+        // int t=scanInt();
+        // while(t-->0) 
+        solve();
+        reader.close();
+        writer.flush();
+        writer.close();
+    }
+ 
+    static List<Integer>adj[];
+    static int level[];
+    static int up[][];
+ 
+    @SuppressWarnings("unchecked")
+    static void solve() throws IOException{
+        int nv=scanInt();
+        int nq=scanInt();
+ 
+        adj=new ArrayList[nv];for(int i=0;i<nv;i++) adj[i]=new ArrayList<>();
+        level=new int[nv];
+        up=new int[nv][31];
+        for(int row[]:up) Arrays.fill(row, -1);
+ 
+ 
+        for(int i=1;i<nv;i++){
+            int u=scanInt()-1,v=scanInt()-1;
+            adj[u].add(v);
+            adj[v].add(u);
+            // up[v][0]=u;
+        }   
+ 
+        build_levels(0, -1, 0);
+        for(int i=1;i<=30;i++) for(int u=0;u<nv;u++) if(up[u][i-1]!=-1) up[u][i]=up[up[u][i-1]][i-1];
+ 
+        
+        while (nq-->0) {
+            int u=scanInt()-1;
+            int v=scanInt()-1;
+            int lca=get_lca(u, v);
+            int distance=level[u]-level[lca]+level[v]-level[lca];
+            // println("lca of "+(u+1)+" "+(v+1)+" is "+lca);
+            println(distance);
+        }
+ 
+    }   
+ 
+    static void build_levels(int u,int  par,int currLevl){
+        level[u]=currLevl;
+        for(int v:adj[u]){
+            if(v!=par){
+                up[v][0]=u;
+                build_levels(v, u, currLevl+1); 
+            }
+        }
+    }
+ 
+    static int get_lca(int u,int v){
+        if(level[u]<level[v]){int temp=u;u=v;v=temp;}
+        //i will bring u to same level as that of v
+        int k=level[u]-level[v];
+        for(int i=0;i<=30;i++) if((k&(1<<i))!=0) if(u!=-1) u=up[u][i]; else break;
+        if(u==v) return u;
+        for(int i=30;i>=0;i--){
+            if(up[u][i]!=-1){
+                if(up[u][i]!=up[v][i]){
+                    u=up[u][i];
+                    v=up[v][i];
+                }
+            }
+        }
+        int lca=up[u][0];
+        return lca;
+    }
+ 
+    static int MOD=1_000_000_007;
+    static int INF=Integer.MAX_VALUE;
+    static StringTokenizer tokenizer = new StringTokenizer("");
+    static BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(System.out));
+    static String next() throws IOException{while(!tokenizer.hasMoreTokens())tokenizer= new StringTokenizer(reader.readLine());return tokenizer.nextToken();}
+    static int scanInt() throws IOException{return Integer.parseInt(next());}
+    static long scanLong() throws IOException{return Long.parseLong(next());}
+    static char scanChar() throws IOException{return next().charAt(0);}
+    static String scanString() throws IOException{return reader.readLine();}
+    static int[] scanIntArray(int len) throws IOException{int arr[]=new int[len];for(int i=0;i<len;i++)arr[i]=scanInt();return arr;}
+    static long[] scanLongArray(int len) throws IOException{long arr[]=new long[len];for(int i=0;i<len;i++)arr[i]=scanLong();return arr;}
+    static void print(Object o) throws IOException{writer.write(o.toString()+" ");}
+    static void println(Object o) throws IOException{writer.write(o.toString()+"\n");}
+    static int min(int...x){return Arrays.stream(x).min().getAsInt();}
+    static int max(int...x){return Arrays.stream(x).max().getAsInt();}
+    static int gcd(int a,int b){return (a==0)?b:gcd(b, a%b);}
+    static int lcm(int a,int b){return a/(gcd(a, b)*b);}
+
+}
