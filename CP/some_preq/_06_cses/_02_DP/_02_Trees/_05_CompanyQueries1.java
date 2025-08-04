@@ -1,95 +1,64 @@
 package some_preq._06_cses._02_DP._02_Trees;
+
+///////Binary Uplifting
+/*A company has n employees, who form a tree hierarchy where each employee has a boss, except for the general director.
+Your task is to process q queries of the form: who is employee x's boss k levels higher up in the hierarchy?
+Input
+The first input line has two integers n and q: the number of employees and queries. The employees are numbered 1,2,\dots,n, and employee 1 is the general director.
+The next line has n-1 integers e_2,e_3,\dots,e_n: for each employee 2,3,\dots,n their boss.
+Finally, there are q lines describing the queries. Each line has two integers x and k: who is employee x's boss k levels higher up?
+Output
+Print the answer for each query. If such a boss does not exist, print -1.
+Constraints
+
+1 \le n,q \le 2 \cdot 10^5
+1 \le e_i \le i-1
+1 \le x \le n
+1 \le k \le n
+
+Example
+Input:
+5 3
+1 1 3 3
+4 1
+4 2
+4 3
+
+Output:
+3
+1
+-1 */
+
 /*******BISMILLAHIRRAHMAANIRRAHEEM*******/
 
 import java.io.*;
 import java.util.*;
-/*You are given a tree consisting of n nodes.
-Your task is to determine for each node the sum of the distances from the node to all other nodes.
-Input
-The first input line contains an integer n: the number of nodes. The nodes are numbered 1,2,\ldots,n.
-Then there are n-1 lines describing the edges. Each line contains two integers a and b: there is an edge between nodes a and b.
-Output
-Print n integers: for each node 1,2,\ldots,n, the sum of the distances.
-Constraints
 
-1 \le n \le 2 \cdot 10^5
-1 \le a,b \le n
-
-Example
-Input:
-5
-1 2
-1 3
-3 4
-3 5
-
-Output:
-6 9 5 8 8 */
-
-
-//https://www.youtube.com/watch?v=nGhE4Ekmzbc&list=PLb3g_Z8nEv1j_BC-fmZWHFe6jmU_zv-8s&index=5
-
-public class _04_TreeDistancesII{
+public class _05_CompanyQueries1{
     public static void main(String[] args) throws IOException {
         scanner = new FastScanner();
         writer = new PrintWriter(System.out);
-        solve();
+            solve();
         writer.flush();
     }
-    static List<Integer>[]adj;
-    static int nv;
-    @SuppressWarnings("unchecked")
+    static int up[][];
     public static void solve() throws IOException {
-        nv=scanInt();   
-        adj=new ArrayList[nv];
-        for(int i=0;i<nv;i++) adj[i]=new ArrayList<>();
-        for(int i=1;i<nv;i++){
-            int u=scanInt()-1,v=scanInt()-1;
-            adj[u].add(v);
-            adj[v].add(u);
-        }   
-       dp=new int[nv];
-       sz=new int[nv];
-       build_rooted_answer(0, -1);
-       ans=new long[nv];
-       build_ans(0, -1);
-       printArray(ans);
-    }
-    //------step1:rooting, build dp, where dp[u] represents the sum of distances from u to all other nodes WITH u as ROOT
-    static int dp[];
-    static int sz[];
-    static void build_rooted_answer(int u,int par){
-        sz[u]=1;
-        for(int v:adj[u]){
-            if(v==par) continue;
-            build_rooted_answer(v, u);
-            sz[u]+=sz[v];
-            dp[u]+=dp[v]+sz[v];
-        }
-    }   
-    //----step2: rerooting, u have for each node, the sum considering u as root, ie dp[u] has asnwer for sum of distances from u and to all nodes under its substree,using this we can build ans with other nodes also 
-    static long ans[];
-    static void build_ans(int u,int par){
-        ans[u]=dp[u];
-        for(int v:adj[u]){
-            if(v==par) continue;
-            int pu=dp[u],pv=dp[v];
-            int su=sz[u],sv=sz[v];
-
-            dp[u]=dp[u]-(dp[v]+sz[v]);
-            sz[u]=sz[u]-(sz[v]);
-
-            dp[v]+=dp[u]+sz[u];
-            sz[v]+=sz[u];
-
-            build_ans(v, u);
-
-            //reset values
-            dp[u]=pu;dp[v]=pv;
-            sz[u]=su;sz[v]=sv;
-
+        int nem=scanInt();
+        int nq=scanInt();
+        up=new int[nem][31];
+        for(int e[]:up) Arrays.fill(e, -1);
+        up[0][0]=-1;
+        for(int i=1;i<nem;i++) up[i][0]=scanInt()-1;
+        for(int i=1;i<31;i++) for(int u=0;u<nem;u++) if(up[u][i-1]!=-1) up[u][i]=up[up[u][i-1]][i-1];
+        while(nq-->0){
+            int u=scanInt()-1;
+            int k=scanInt();
+            for(int i=0;i<31;i++) if((k&(1<<i))!=0) if(u!=-1) u=up[u][i];
+            if(u==-1) println(u);
+            else println(u+1);
         }
     }
+
     static int MOD = 1_000_000_007;
     static int INF = (int) 1e9;
     static long fact[];
@@ -317,9 +286,9 @@ public class _04_TreeDistancesII{
         return divisorList;
     }
 
-    static void printArray(long[] ans2) throws IOException {
+    static void printArray(int arr[]) throws IOException {
         StringBuilder sb = new StringBuilder();
-        for (var e : ans2) {
+        for (int e : arr) {
             sb.append(e + " ");
         }
         writer.println(sb.toString());
@@ -597,4 +566,3 @@ public class _04_TreeDistancesII{
         }
     }
 }
-

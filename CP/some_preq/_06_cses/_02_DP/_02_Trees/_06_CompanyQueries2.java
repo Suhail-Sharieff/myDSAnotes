@@ -1,95 +1,144 @@
 package some_preq._06_cses._02_DP._02_Trees;
-/*******BISMILLAHIRRAHMAANIRRAHEEM*******/
 
-import java.io.*;
-import java.util.*;
-/*You are given a tree consisting of n nodes.
-Your task is to determine for each node the sum of the distances from the node to all other nodes.
+//Aplication of Binary Uplifting
+//https://www.youtube.com/watch?v=s9zZOVsF_eo&list=PLb3g_Z8nEv1j_BC-fmZWHFe6jmU_zv-8s&index=9
+
+
+
+/*A company has n employees, who form a tree hierarchy where each employee has a boss, except for the general director.
+Your task is to process q queries of the form: who is the lowest common boss of employees a and b in the hierarchy?
 Input
-The first input line contains an integer n: the number of nodes. The nodes are numbered 1,2,\ldots,n.
-Then there are n-1 lines describing the edges. Each line contains two integers a and b: there is an edge between nodes a and b.
+The first input line has two integers n and q: the number of employees and queries. The employees are numbered 1,2,\dots,n, and employee 1 is the general director.
+The next line has n-1 integers e_2,e_3,\dots,e_n: for each employee 2,3,\dots,n their boss.
+Finally, there are q lines describing the queries. Each line has two integers a and b: who is the lowest common boss of employees a and b?
 Output
-Print n integers: for each node 1,2,\ldots,n, the sum of the distances.
+Print the answer for each query.
 Constraints
 
-1 \le n \le 2 \cdot 10^5
+1 \le n,q \le 2 \cdot 10^5
+1 \le e_i \le i-1
 1 \le a,b \le n
 
 Example
 Input:
-5
-1 2
-1 3
-3 4
-3 5
+5 3
+1 1 3 3
+4 5
+2 5
+1 4
 
 Output:
-6 9 5 8 8 */
+3
+1
+1 */
 
+/*******BISMILLAHIRRAHMAANIRRAHEEM*******/
 
-//https://www.youtube.com/watch?v=nGhE4Ekmzbc&list=PLb3g_Z8nEv1j_BC-fmZWHFe6jmU_zv-8s&index=5
+import java.io.*;
+import java.util.*;
 
-public class _04_TreeDistancesII{
+public class _06_CompanyQueries2{
     public static void main(String[] args) throws IOException {
         scanner = new FastScanner();
         writer = new PrintWriter(System.out);
-        solve();
+            solve();
         writer.flush();
     }
-    static List<Integer>[]adj;
-    static int nv;
+
     @SuppressWarnings("unchecked")
     public static void solve() throws IOException {
-        nv=scanInt();   
-        adj=new ArrayList[nv];
-        for(int i=0;i<nv;i++) adj[i]=new ArrayList<>();
-        for(int i=1;i<nv;i++){
-            int u=scanInt()-1,v=scanInt()-1;
-            adj[u].add(v);
-            adj[v].add(u);
-        }   
-       dp=new int[nv];
-       sz=new int[nv];
-       build_rooted_answer(0, -1);
-       ans=new long[nv];
-       build_ans(0, -1);
-       printArray(ans);
-    }
-    //------step1:rooting, build dp, where dp[u] represents the sum of distances from u to all other nodes WITH u as ROOT
-    static int dp[];
-    static int sz[];
-    static void build_rooted_answer(int u,int par){
-        sz[u]=1;
-        for(int v:adj[u]){
-            if(v==par) continue;
-            build_rooted_answer(v, u);
-            sz[u]+=sz[v];
-            dp[u]+=dp[v]+sz[v];
+        int nv=scanInt();
+        int nq=scanInt();
+
+        adj=new ArrayList[nv];for(int i=0;i<nv;i++) adj[i]=new ArrayList<>();
+        up=new int[nv][31];
+        level=new int[nv];
+
+        for(int row[]:up) Arrays.fill(row, -1);
+        for(int i=1;i<nv;i++){int u=scanInt()-1;adj[u].add(i);adj[i].add(u);up[i][0]=u;}
+
+        //--------brute force
+        // while (nq-->0) {
+        //     int u=scanInt()-1;
+        //     int v=scanInt()-1;
+        //     lca_node=-1;brute(0, -1, u, v);println(lca_node+1);
+        // }        
+
+        //---------optimal
+        for(int i=1;i<=30;i++) for(int u=0;u<nv;u++) if(up[u][i-1]!=-1) up[u][i]=up[up[u][i-1]][i-1];
+        build_level(0, -1, 0);
+        while (nq-->0) {
+            int u=scanInt()-1;
+            int v=scanInt()-1;
+            // println(LCA_in_LogSqare(u, v)+1);
+            println(LCA_in_Log(u, v)+1);
         }
+    }
+
+    //----------------brute force:O(N) per query
+    static int lca_node;
+    static List<Integer>[]adj;
+    static int brute(int root,int par,int u,int v){
+        int cnt=0;
+        if(root==u||root==v) cnt++;
+        for(int child:adj[root]) if(child!=par) cnt+=brute(child, root, u, v);
+        if(cnt==2 && lca_node==-1) lca_node=root;
+        return cnt;
+    }
+
+
+
+
+    //----------------------------optimal
+    static int up[][];
+    static int level[];
+    static void build_level(int u,int par,int curr_level){
+        level[u]=curr_level;
+        for(int v:adj[u]) if(v!=par) build_level(v, u, curr_level+1);
+    }
+    static int get_kth_ancestor(int u,int k){
+        for(int i=0;i<=30;i++) if(u!=-1) if((k&(1<<i))!=0) u=up[u][i];
+        return u;
+    }
+    static int LCA_in_LogSqare(int u,int v){//O(log^2 N)
+        if(level[u]<level[v]){int temp=u;u=v;v=temp;}//i will assume u is preent at down than v
+        //hypothtically bringing u an v at same level
+        u=get_kth_ancestor(u, level[u]-level[v]);//now u is the node whichs present in the same level as of v, now we need to find lca which is preesne t say x levels higher, this x will obviously lie  in range [1 <= x <= level[u](or level[v] as level[u]==level[v])]
+        
+        int low=0,high=level[u];
+        int lca=-1;
+        while (low<=high) {//logn
+            int mid=(low+high)>>1;
+            int n1=get_kth_ancestor(u, mid);//logn
+            int n2=get_kth_ancestor(v, mid);//logn
+            if(n1==-1||n2==-1){
+                high=mid-1;
+            }else if(n1==n2){
+                lca=n1;
+                high=mid-1;
+            }else{
+                low=mid+1;
+            }
+            
+        }
+        return lca;
     }   
-    //----step2: rerooting, u have for each node, the sum considering u as root, ie dp[u] has asnwer for sum of distances from u and to all nodes under its substree,using this we can build ans with other nodes also 
-    static long ans[];
-    static void build_ans(int u,int par){
-        ans[u]=dp[u];
-        for(int v:adj[u]){
-            if(v==par) continue;
-            int pu=dp[u],pv=dp[v];
-            int su=sz[u],sv=sz[v];
 
-            dp[u]=dp[u]-(dp[v]+sz[v]);
-            sz[u]=sz[u]-(sz[v]);
-
-            dp[v]+=dp[u]+sz[u];
-            sz[v]+=sz[u];
-
-            build_ans(v, u);
-
-            //reset values
-            dp[u]=pu;dp[v]=pv;
-            sz[u]=su;sz[v]=sv;
-
+    static int LCA_in_Log(int u,int v){//O(logn)
+        if(level[u]<level[v]){int temp=u;u=v;v=temp;}
+        u=get_kth_ancestor(u, level[u]-level[v]);//bring u and v at samelevel
+        if(u==v) return u;
+        for(int i=30;i>=0;i--){//logn
+            if(up[u][i]!=-1){
+                if(up[u][i]!=up[v][i]){
+                    u=up[u][i];
+                    v=up[v][i];
+                }
+            }
         }
+        return up[u][0];//we r now i a condition like u and v r immediate children of lca
     }
+
     static int MOD = 1_000_000_007;
     static int INF = (int) 1e9;
     static long fact[];
@@ -317,9 +366,9 @@ public class _04_TreeDistancesII{
         return divisorList;
     }
 
-    static void printArray(long[] ans2) throws IOException {
+    static void printArray(int arr[]) throws IOException {
         StringBuilder sb = new StringBuilder();
-        for (var e : ans2) {
+        for (int e : arr) {
             sb.append(e + " ");
         }
         writer.println(sb.toString());

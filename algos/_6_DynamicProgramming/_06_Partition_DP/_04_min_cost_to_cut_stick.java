@@ -71,7 +71,7 @@ public class _04_min_cost_to_cut_stick {
     }
     public int tab(int n,int cuts[]){
         int dp[][]=new int[cuts.length+2][cuts.length+2];
-         int arr[]=new int[cuts.length+2];
+        int arr[]=new int[cuts.length+2];
         System.arraycopy(cuts,0,arr,1,cuts.length);
         arr[cuts.length+1]=n;
         Arrays.sort(arr);
@@ -88,4 +88,50 @@ public class _04_min_cost_to_cut_stick {
         // for(int r[]:dp) System.out.println(Arrays.toString(r));
         return dp[1][arr.length-2];
     }
+
+
+    //------------------TLE solution, but more meaningful:
+    /*
+     * class Solution {
+    public int minCost(int n, int[] arr) {
+        Arrays.sort(arr);
+        // return rec(arr,0,n);
+        return tab(arr,n);
+    }
+    int inf=Integer.MAX_VALUE;
+    int min(int...x){return Arrays.stream(x).min().getAsInt();}
+
+    int rec(int arr[],int l,int r){
+        if(l>=r) return 0;
+        int min=inf;
+        for(int pos:arr){
+            if(pos>l&&pos<r){
+                int x=rec(arr,l,pos);
+                int y=rec(arr,pos,r);
+                if(x!=inf&&y!=inf) min=min(min,r-l+x+y);
+            }
+        }
+        return min==inf?0:min;
+    }
+    int tab(int arr[],int n){
+        int dp[][]=new int[n+1][n+1];
+        for(int e[]:dp) Arrays.fill(e,inf);
+        for(int i=n;i>=0;i--){
+            dp[i][i]=0;
+            for(int j=i+1;j<=n;j++){
+                int min=inf;
+                for(int pos:arr){
+                    if(pos>i&&pos<j){
+                        int x=dp[i][pos];
+                        int y=dp[pos][j];
+                        if(x!=inf&&y!=inf) min=min(min,j-i+x+y);
+                    }
+                }
+                dp[i][j]=min==inf?0:min;
+            }
+        }
+        return dp[0][n];
+    }
+}
+     */
 }
