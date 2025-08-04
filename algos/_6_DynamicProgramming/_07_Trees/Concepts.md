@@ -38,3 +38,5 @@
     }
   ```
 </details>
+
+- Learn how [Query Sum](/CP/some_preq/_01_Queries/_01_query_SUM.java) concept is used to solve [Counting Paths](/CP/some_preq/_06_cses/_02_DP/_02_Trees/_08_CountingPaths.java)
