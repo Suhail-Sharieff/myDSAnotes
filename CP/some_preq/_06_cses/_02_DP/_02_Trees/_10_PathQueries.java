@@ -1,21 +1,19 @@
+
 package some_preq._06_cses._02_DP._02_Trees;
 
 
-//---------------------Euler Tour
+//Similar to subtree queriess, wit lil modification
 
-
-
-/*******BISMILLAHIRRAHMAANIRRAHEEM*******/
 /*You are given a rooted tree consisting of n nodes. The nodes are numbered 1,2,\ldots,n, and node 1 is the root. Each node has a value.
 Your task is to process following types of queries:
 
 change the value of node s to x
-calculate the sum of values in the subtree of node s
+calculate the sum of values on the path from the root to node s
 
 Input
 The first input line contains two integers n and q: the number of nodes and queries. The nodes are numbered 1,2,\ldots,n.
 The next line has n integers v_1,v_2,\ldots,v_n: the value of each node.
-Then there are n-1 lines describing the edges. Each line contans two integers a and b: there is an edge between nodes a and b.
+Then there are n-1 lines describing the edges. Each line contains two integers a and b: there is an edge between nodes a and b.
 Finally, there are q lines describing the queries. Each query is either of the form "1 s x" or "2 s".
 Output
 Print the answer to each query of type 2.
@@ -33,24 +31,55 @@ Input:
 1 3
 3 4
 3 5
-2 3
-1 5 3
-2 3
+2 4
+1 3 2
+2 4
 
 Output:
-8
-10 */
+11
+8 */
 
 
-//https://www.youtube.com/watch?v=wo--reAZJZU
+/*******BISMILLAHIRRAHMAANIRRAHEEM*******/
 
 
 
-//core idea: if i some how track the entry and exit times of dfs for each node, then map each entry time 't' to the value of node visited at time 't', now suppose if i want the sum of subtree rooted at 'u', then answer is sum of all nodes values visited in interval [entry[u],exit[u]] ie can be easily found using Segment Tree in LogN for each query 
+
+//https://www.youtube.com/watch?v=kIqZcI4hesg&list=PL-Jc9J83PIiHymm1DHZBkac0_hhFBXryO&index=6
+
+
+//idea is same as that of subtree queries, but here we use the idea to nullifu those nodes what cannot come into that path by also adding -ve of val in seg[exit[u]], just do dry run f below example to know, the sum query would be as asked in question entry[0] to entry[u], for update, first make seg[entry[u]] as newVal, also update seg[exit[u]] as -newVal
+
+
+
+/*
+
+    Example:
+                4(1st)
+               / \
+        2(2nd)   5(3rd)
+                /  \
+            2(4th)  1(5th)
+            
+    entry:  [0,1,3,4,6]
+    exit:   [9,2,8,5,7]
+ entryvsVal:[4,2,-2,5,2,-2,1,-1,-5,-6]---for path sum problem
+ entryvsVal:[4,2,0,5,2,0,1,0,0,0]---for subtree sum problem,observe difference
+
+ Suppose u want sum of path from 1st to 5th
+
+ entry of 1st=0, entry of 5th=6
+  sum=seg.getSum(0,6)
+
+  ideally it should be 4+5+1 ie 10 , the seg tree would sum from 0..6 == 4+2+-2+5+2+-2+1 ie 10, observe that u r doing 4+5+1+(+2-2), the one in parenthesis is the contribution of 4th node which we nullify by addind -2
+
+
+ */
+
 import java.io.*;
 import java.util.*;
 
-public class _09_SubtreeQueries{
+public class _10_PathQueries{
     public static void main(String[] args) throws IOException {
         scanner = new FastScanner();
         writer = new PrintWriter(System.out);
@@ -58,11 +87,12 @@ public class _09_SubtreeQueries{
         writer.flush();
     }
 
-    static List<Integer>adj[];
-    static int val[];//value of ith node
-    static int entry[];//entry time of ith node
-    static int exit[];//exit time of ith node
-    static int entry_vs_val[];//map of entry time and value of node visted at entry time i
+    static List<Integer>[]adj;
+    static int time;
+    static int val[];
+    static int entry[];
+    static int exit[];
+    static long entry_vs_val[];
 
     @SuppressWarnings("unchecked")
     public static void solve() throws IOException {
@@ -78,44 +108,55 @@ public class _09_SubtreeQueries{
             adj[u].add(v);
             adj[v].add(u);
         }
-        
         entry=new int[nv];
         exit=new int[nv];
-        entry_vs_val=new int[2*nv];//coz max upto 2*nv exit times r possible coz we r incrementing it for evry node max twice
-        order=0;
-        build_timings(0, -1);
+        entry_vs_val=new long[2*nv];
+        time=0;
+        build_timings(0,-1);
 
         // println(Arrays.toString(entry));
         // println(Arrays.toString(exit));
         // println(Arrays.toString(entry_vs_val));
 
+
         SegTree seg=new SegTree(entry_vs_val);
+
         while (nq-->0) {
             int type=scanInt();
             int root=scanInt()-1;
             if(type==2){
-                println(seg.getSum(0, 0, entry_vs_val.length-1, entry[root], exit[root]));
+                println(seg.getSum(0, 0, entry_vs_val.length-1, entry[0], entry[root]));//sum from entry[0](ie 0) to entry[u]
             }else{
-                seg.update(0, 0, entry_vs_val.length-1, entry[root], scanInt());
+                int newVal=scanInt();
+                seg.update(0, 0, entry_vs_val.length-1, entry[root], newVal);
+                seg.update(0, 0, entry_vs_val.length-1, exit[root], -newVal);//extra,----MISTAKE:forgot this update
             }
         }
+
     }
 
-    static int order;
+
     static void build_timings(int u,int par){
-        entry[u]=order++;
+        entry[u]=time++;
         entry_vs_val[entry[u]]=val[u];
         for(int v:adj[u]) if(v!=par) build_timings(v, u);
-        exit[u]=order++;
+        exit[u]=time++;
+        entry_vs_val[exit[u]]=-val[u];//extra
+    }
+
+    static int[] scanIntArray(int nv) throws IOException {
+        int arr[]=new int[nv];
+        for(int i=0;i<nv;i++) arr[i]=scanInt();
+        return arr;
     }
 
     static class SegTree{
-        int seg[];
-        int val[];
-        SegTree(int val[]){
-            this.val=val;
-            int n=val.length;
-            seg=new int[n<<2];
+        long seg[];
+        long val[];
+        SegTree(long[] entry_vs_val){
+            this.val=entry_vs_val;
+            int n=entry_vs_val.length;
+            seg=new long[n<<2];
             build(0, 0, n-1);
         }
         void build(int i,int l,int r){
@@ -134,7 +175,7 @@ public class _09_SubtreeQueries{
         }
         long getSum(int i,int l,int r,int f,int t){
             if(r<f||t<l) return 0l;
-            if(l>=f&&t>=r) return seg[i];
+            if(l>=f&&t>=r) return seg[i]*1l;
             int mid=(l+r)>>1;
             return getSum(2*i+1, l, mid, f, t)+getSum(2*i+2, mid+1, r, f, t);
         }
@@ -146,35 +187,7 @@ public class _09_SubtreeQueries{
     static int scanInt() throws IOException {
         return scanner.nextInt();
     }
-
-    static long scanLong() throws IOException {
-        return scanner.nextLong();
-    }
-
-    static String scanString() throws IOException {
-        return scanner.nextString();
-    }
-
-    static String scanLine() throws IOException {
-        return scanner.nextLine();
-    }
-
-    static int[] scanIntArray(int size) throws IOException {
-        int[] array = new int[size];
-        for (int i = 0; i < size; i++) {
-            array[i] = scanInt();
-        }
-        return array;
-    }
-
-    static long[] scanLongArray(int size) throws IOException {
-        long array[] = new long[size];
-        for (int i = 0; i < size; i++) {
-            array[i] = scanLong();
-        }
-        return array;
-    }
-
+ 
     static class FastScanner {
         final private int BUFFER_SIZE = 1 << 16;
         private DataInputStream din;
@@ -260,6 +273,8 @@ public class _09_SubtreeQueries{
             return buffer[bufferPointer++];
         }
     }
+
+
     static void println(Object o) throws IOException {
         writer.println(o.toString());
     }
