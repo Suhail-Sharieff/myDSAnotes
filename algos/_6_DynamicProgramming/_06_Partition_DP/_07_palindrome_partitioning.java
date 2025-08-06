@@ -1,7 +1,6 @@
 package _6_DynamicProgramming._06_Partition_DP;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /*
 Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.
@@ -34,6 +33,21 @@ public class _07_palindrome_partitioning {
 
     }
 
+
+    static int min(int...x){return Arrays.stream(x).min().getAsInt();}
+    static int f(String s,int i,int j){
+        if(i>=j || isPalin(s,i,j)) return 0;
+        int min=Integer.MAX_VALUE;
+        for(int  k=i;k<=j;k++){
+            if(isPalin(s,i,k)){
+                min=min(min,1+f(s,k+1,j));
+            }
+        }
+        return min;
+    }
+    
+    
+
     static void rec1(String s, int i, List<String> li, List<List<String>> ans) {
         if (i == s.length()) {
             ans.add(new ArrayList<>(li));
@@ -51,6 +65,18 @@ public class _07_palindrome_partitioning {
 
     static boolean isPalin(String s) {
         int left = 0, right = s.length() - 1;
+    while (left < right) {
+        if (s.charAt(left) != s.charAt(right)) {
+            return false;
+        }
+        left++;
+        right--;
+    }
+    return true;
+
+    }
+    static boolean isPalin(String s,int i,int j) {
+        int left = i, right = j;
     while (left < right) {
         if (s.charAt(left) != s.charAt(right)) {
             return false;
