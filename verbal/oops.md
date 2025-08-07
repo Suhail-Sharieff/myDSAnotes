@@ -832,4 +832,201 @@ class Main{
  
  ---
 
+## Generics
+ ### ❓ What are Generics
+ <details>
+ <summary>Answer</summary>
+ 
+- Generics help us define the datatype of the data we want to work with
+- Example, say i want a `TreeNode` of any type
+```java
+class TreeNode<T>{
+    TreeNode<T>left;
+    TreeNode<T>right;
+    T val;
+    TreeNode(T val){
+        this.val=val;
+    }
+}
+```
+ - Now Suppose i want `T`, must be of type Number only(Long,Integer,Float etc..)
+ ```java
+ class TreeNode<T extends Number>{
+    ....rest same
+ }
+
+//if i just pass List<Number>,then i cant use interger or anything,so we use below syntax
+ void meth(List<? extends Number> someList){...}
+
+ ```
+ </details>
+ 
+ ---
+ ### ❓ What are functional interface
+ <details>
+ <summary>Answer</summary>
+ 
+ - Interface that implements only one method is called 
+ `functional interface`
+ - They can be used directly using `lambda expressions`
+ ```java
+ interface Task{
+    int meth(int x,int y);
+ }
+ class Main{
+    psvm(){
+        Task add=(x,y)->x+y;
+        Task sub=(x,y)->x-y;  
+    }
+ }
+ ```
+ </details>
+ 
+ ---
+ ## Exceptios
+ ### ❓ Which class handles Exception
+ <details>
+ <summary>Answer</summary>
+ 
+ - Throwable
+ 
+ </details>
+ 
+ ---
+ ### ❓ Explain Types of Exception
+ <details>
+ <summary>Answer</summary>
+ 
+ - `Checked Exception:`the exception whcih arises on compile time itsef
+ - Examples: ArgumentException  
+ - `Unchecked Exception:`the exception whcih arises on run time 
+ - Example: Arithmetic exception, ArrayIndexOutOfBounds
+ </details>
+ 
+ ---
+  ### ❓ How do u add `clone()` method to some class
+  <details>
+  <summary>Answer</summary>
+  
+  - Just make that class implement `Cloneable`
+  ```java
+class A implements Cloneable{
+    ....other methods
+     @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+}
+class Main throws Exception{
+    psvm(){
+        A obj=new A();
+        A obj2=A.clone();
+    }
+}
+```
+
+- The cloned stuff is just a `shallow copy`, meaning that the change in clone `WILL ASLO` be reflected in original
+```java
+int arr[]={1,2,3,4,5};
+int clone[]=arr.clone();
+clone[2]=100;//this  affect originality of arr, ie arr is now  {1,2,100,4,5} though it was chnged in clone only becoz clone points to arr
+
+```
+  
+  </details>
+  
+  ---
+## Collections framework heirarchy 
+   <img src="https://techvidvan.com/tutorials/wp-content/uploads/sites/2/2020/03/collection-framework-hierarchy-in-java.jpg">
+  
+ ### ❓ Tell me when to use ArrayList and when to use Vector
+ <details>
+ <summary>Answer</summary>
+ 
+ - Vector is thread safe ie only 1 thread can access it at a time, ideal for multithreaded applications
+ - Use ArrayList for non multithreaded apps
+ 
+ </details>
+ 
+ ---
+ ### ❓ Explain Enums
+ <details>
+ <summary>Answer</summary>
+ 
+ - Enums are the public static and final constants
+ ```java
+enum Color{
+    Green,
+    Yellow
+}
+//interannly its like:
+//public static final Color Green=new Color();
+enum Car {
+    Audi(10000), Benz(200000), Mercedes(900000);
+
+    private final int price;
+
+    Car(int price) {
+        this.price = price;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    @Override
+    public String toString() {
+        return this.name() + " cost =" + this.price;
+    }
+}
+ ```
+ 
+ </details>
+ 
+ ---
+
+ ### ❓ What r annotation
+ <details>
+ <summary>Answer</summary>
+ 
+ - Meta data or some message passed to the compiler by the programmer are called annotations
+ 
+ </details>
+ 
+ ---
+ ### ❓ How to create annotation
+ <details>
+ <summary>Answer</summary>
+ 
+- Look at the below example
+```java
+@Target(ElementType.TYPE)//means applicable for classes only
+public @interface MyAnnotation{}
+
+@Target(ElementType.METHOD)//for methods
+public interface RunFast{}
+public class A{
+    void meth(){...}
+    @RunFast
+    void meth2(){...}
+}
+
+@MyAnnotation
+class Main{
+    A obj=new A();
+    //suppose i want all methods annotated with @RunFast runs
+    for(Method m:obj.getClass().getDeclaredMethods()){
+        if(m.isAnnotationPresent(RunFast.class)){
+            m.invoke(obj);
+        }
+    }
+}
+```
+ 
+ </details>
+ 
+ ---
+ 
+ 
+ 
  
