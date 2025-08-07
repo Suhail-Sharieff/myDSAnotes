@@ -420,10 +420,7 @@ class B extends A{...}
 - A class extends more than one class, `THIS IS NOT ALLOWED IN JAVA`
 - This is becoz say `A` extends `B` and `C`, lets say both `B` an `C` has some variable `x`, when u try accessing this x in `A`, JVM is confused whether to take `x` from `A` or from `B`, hence its implemented using `interfaces` in java
 
-```java
-//interface
---------TODO
-```
+
 
 </details>
 
@@ -452,6 +449,137 @@ class E extends A{...}
 </details>
 
 ---
+### ❓ Explain Abstract keyword/ How to acheieve Multiple inheritance in Java
+<details>
+<summary>Answer</summary>
+
+- Abstract keyword is used to achieve multiple inheritance
+- Whenver we create an abstract class, its methods `dont` have any implementation and just the declaration.
+- Now if any class extends an abstract class u need to implement those methods in abstract class
+- Abstract class can have both abstract and non-abstract methods
+- We `can` create constructor of abstract class, but abstract constructor is not possible
+- Instance of abstract class cannot be created since some methods in it will not have implementation
+- `Static` methods can also be created in abstract classes
+- Only those methods which are abstract needs to be overrriden and implemented in child class
+```java
+abstract class Vehicle{
+    abstract void horn();//no body, so needs to be implemented/overriden in child class
+    void meth(){...}//some non-sbastract method with body
+}
+class CarA extends Vehicle{
+    @Override
+    void horn(){...}
+}
+class CarB extends Vehicle{
+    @Override
+    void horn(){...}
+}
+```
+
+</details>
+
+---
+
+### ❓ Explain Interfaces in Java
+<details>
+<summary>Answer</summary>
+
+- Interfaces is like abstract class itself, but unlike abstract class which can also have non-abstract methods,interface `cannot ` have non-asbstract methods
+- Every method in interface is abstract, ie no body
+- Object of interface cant be created
+- A single class can extend one abstract class or a normal class, but a single class can implement many interfaces, so we can achive multiple inheritance
+- A class implementing interface must imlement all methods of interface
+- Attributes are static and final in interface since objects of interface also cant be made
+```java
+public interface Engine{
+    void on();
+    void off();
+}
+public interface Song(){
+    void start();
+    void stop();
+}
+public class Vehicle implements Engine,Song{//multiple inheritance
+    //Engine methods
+    @Override
+    public void on(){...}
+    public void off(){...}
+    //Song methods
+    public void start(){...}
+    public void stop(){...}
+}
+
+```
+
+- Static methods of interface must have a body snce they belong to them and never others
+
+</details>
+
+
+---
+### ❓ Why interfaces are not preferred in performance heavy tasks
+<details>
+<summary>Answer</summary>
+
+- Because its methods are implemented in `run time` and not `static` time, burdens the performance
+
+</details>
+
+---
+
+### ❓ Can interface extend interface
+<details>
+<summary>Answer</summary>
+
+- Yes, but then the class implementing the child interface must implement the methods of both interfaces
+
+</details>
+
+---
+
+### ❓ Can interface methods have some default implementation
+<details>
+<summary>Answer</summary>
+
+- From Jav8, Yes using `default` keyword
+
+```java
+//lets say VehicleA and VehicleB horns same
+public interface Sound{
+    default void horn(){...}//has body
+}
+
+class VehicleA implements Sound{
+    //no need of immplemnting body of horn
+}
+class VehicleB implements Sound{
+    //no need of immplemnting body of horn
+}
+```
+- The reason to do this was lets say we have some interface `X`, say some classes `A` and `B` implements `X`, lets say the behavior of the method in interface is same in both `A` and `B`, but still we need to implement it separarately in `A` and `B` because classes implementing interface must implement its methods, so its basically like implementing same method of `X` repeatedly in both `A` and `B`, so by making that method default in `X`, we dont neccarily implement in `A` and `B`
+</details>
+
+---
+
+
+
+
+### ❓ Differences between Abstract class and interface
+<details>
+<summary>Answer</summary>
+
+- Any class should `extend` abstract class and `implement` interface
+- Abstract class can have both abstract and non-abstract methods
+- All methods of interface are abstract by default
+- Atrributes of abstract class can be of any type,but of interface are static and final
+
+
+</details>
+
+---
+
+
+
 ## Polymorphism
 ### ❓ Whats Polymorphism
 <details>
@@ -665,3 +793,43 @@ class Main{
 
 ## Abstraction
 - Hiding uneccary detials and showing only required details
+### ❓ What are Java Access Modifiers?
+<details>
+<summary>Answer</summary>
+
+<br>
+
+| Access Modifier | Class | Package | Subclass (same package) | Subclass (different package) | Outside Package |
+|-----------------|:-----:|:-------:|:------------------------:|:-----------------------------:|:----------------:|
+| `private`       | ✅    | ❌      | ❌                       | ❌                            | ❌               |
+| _(default)_     | ✅    | ✅      | ✅                       | ❌                            | ❌               |
+| `protected`     | ✅    | ✅      | ✅                       | ✅                            | ❌ *(via subclass only)* |
+| `public`        | ✅    | ✅      | ✅                       | ✅                            | ✅               |
+
+---
+
+**Summary**:
+- `private`: Only within the same class.
+- `default`: Only within the same package.
+- `protected`: Same package + subclass in other packages.
+- `public`: Accessible everywhere.
+
+</details>
+
+----
+ ### ❓ Name some inbuilt java packages
+ <details>
+ <summary>Answer</summary>
+ 
+ - Lang
+ - io
+ - Util
+ - applet
+ - awt
+ - net
+ 
+ </details>
+ 
+ ---
+
+ 
