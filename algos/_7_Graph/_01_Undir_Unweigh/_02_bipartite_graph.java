@@ -90,4 +90,34 @@ public class _02_bipartite_graph {
         }
         return true;
     }
+
+    /*Other way: 
+     class Solution {
+    int color[];
+    boolean isV[];
+    int[][]g;
+    public boolean isBipartite(int[][] graph) {
+        int n=graph.length;
+        g=graph;
+        color=new int[n];
+        isV=new boolean[n];
+        for(int u=0;u<n;u++) if(!isV[u]) if(!is_bipar(u)) return false;
+        return true;
+    }
+    boolean is_bipar(int u){
+        isV[u]=true;
+        for(int v:g[u]) {
+            if(!isV[v]){
+                color[v]=color[u]^0^1;
+                if(!is_bipar(v)) return false;
+
+            }else{
+                if(color[u]==color[v]) return false;
+            }
+        }
+        return true;
+    }
+}
+    */
+
 }

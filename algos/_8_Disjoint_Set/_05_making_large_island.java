@@ -180,4 +180,104 @@ public class _05_making_large_island {
         }
     }
 
+
+
+    /*
+     * Cleaner implementation:
+    import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+class Solution {
+    public int largestIsland(int[][] grid) {
+        // code here
+        //id=i*nCols+j
+        int nr=grid.length;
+        int nc=grid[0].length;
+        dsu dsu=new dsu(nr*nc);
+        int ans=0;
+        boolean isv[]=new boolean[nr*nc];
+        for(int i=0;i<nr;i++){
+           for(int j=0;j<nc;j++){
+               int id=i*grid[0].length+j;
+               ans=Math.max(ans,dsu.sz[dsu.up(id)]);
+               if(grid[i][j]==1 && !isv[id]){
+                    dfs(i,j,grid,dsu,isv);
+               }
+           }
+        }
+        
+        
+        
+        for(int i=0;i<nr;i++){
+            for(int j=0;j<nc;j++){
+                if(grid[i][j]==1) continue;
+                
+                Set<Integer>set=new HashSet<>();
+                for(int dir[]:dirs){
+                    int x=i+dir[0];
+                    int y=j+dir[1];
+                    if(x<0||y<0||x>=grid.length||y>=grid[0].length) continue;
+                    int nid=x*grid[0].length+y;
+                    if(grid[x][y]==1){
+                        set.add(dsu.up(nid));
+                    }
+                }
+                int sum=0;
+                for(int node:set) sum+=dsu.sz[dsu.up(node)];
+                ans=Math.max(ans,1+sum);
+            }
+        }
+        return ans;
+        
+        
+    }
+    int dirs[][]={{-1,0},{0,1},{1,0},{0,-1}};
+    void dfs(int i,int j,int grid[][],dsu dsu,boolean isv[]){
+        if(i<0||j<0||i>=grid.length||j>=grid[0].length) return;
+        int id=i*grid[0].length+j;
+        isv[id]=true;
+        for(int dir[]:dirs){
+            int x=i+dir[0];
+            int y=j+dir[1];
+            if(x<0||y<0||x>=grid.length||y>=grid[0].length) continue;
+            int nid=x*grid[0].length+y;
+            if(grid[x][y]==1 && !isv[nid]){
+                dsu.join(id,nid);
+                dfs(x,y,grid,dsu,isv);
+            }
+        }
+    }
+    
+    
+     static class dsu{
+        int up[];
+        int sz[];
+        dsu(int n){
+            up=new int[n];
+            sz=new int[n];
+            for(int i=0;i<n;i++) up[i]=i;
+            Arrays.fill(sz, 1);
+        }
+        int up(int u){
+            if(up[u]==u) return u;
+            return up[u]=up(up[u]);
+        }
+        boolean join(int u,int v){
+            int uu=up(u),vv=up(v);
+            if(uu==vv) return false;
+            if(sz[uu]>=sz[vv]){
+                sz[uu]+=sz[vv];
+                up[vv]=up[uu];
+            }else{
+                sz[vv]+=sz[uu];
+                up[uu]=up[vv];
+            }
+            return true;
+        }
+    }
+}
+
+     */
+
 }
