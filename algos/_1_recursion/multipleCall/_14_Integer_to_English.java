@@ -48,7 +48,7 @@ public class _14_Integer_to_English {
             default->{return "";}
         }
     }
-    static String two_digit_le_99(int x){
+    static String two_digit_le_99(int x){//two digit less than or equal to 99
         switch (x) {
             case 2->{return "Twenty";}
             case 3->{return "Thirty";}
@@ -61,7 +61,7 @@ public class _14_Integer_to_English {
             default->{return "";}
         }
     }
-    static String two_digit_le_19(int x){
+    static String two_digit_le_19(int x){//two digit less than or equal to 19
         switch (x) {
             case 10->{return "Ten";}
             case 11->{return "Eleven";}

@@ -1,4 +1,7 @@
 package _9_Linked_List;
+
+import java.lang.classfile.components.ClassPrinter.ListNode;
+
 /*
 Given the head of a singly linked list, group all the nodes with odd indices together followed by the nodes with even indices, and return the reordered list.
 
@@ -86,6 +89,31 @@ public class _04_odd_even_LL {
 
 
     }
+
+    /*esaier:
+     * 
+     * class Solution {
+    void rearrangeEvenOdd(Node head) {
+        if (head == null || head.next == null) return;
+
+        Node p1 = head;        // odd list head
+        Node p2 = head.next;   // even list head
+        Node evenHead = p2;    // keep reference to start of even list
+
+        // Build two lists: one for odd, one for even
+        while (p1.next != null && p2.next != null) {
+            p1.next = p2.next;     // link odd to next odd
+            p1 = p1.next;          // move odd pointer
+            p2.next = p1.next;     // link even to next even
+            p2 = p2.next;          // move even pointer
+        }
+
+        // Now attach even list after odd list
+        p1.next = evenHead;
+    }
+}
+
+     */
 
 
 }
