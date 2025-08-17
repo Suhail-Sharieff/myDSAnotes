@@ -87,6 +87,28 @@ public class _08_removal_game {
        return dp[0][nums.length-1];
     }
 
+
+    /*using 3d dp: 
+     * long dp[][][]=new long[n+2][n+1][2];
+        for(int i=n;i>=1;i--){
+            for(int j=i;j<=n;j++){
+                // for(int turn=1;turn>=0;turn--){
+                    dp[i][j][1]=Math.max(arr[i-1]+dp[i+1][j][0],arr[j-1]+dp[i][j-1][0]);
+                    dp[i][j][0]=Math.min(dp[i+1][j][1],dp[i][j-1][1]);
+                // }
+            }
+        }
+            //rec:
+            static int f(int i,int j,int arr[],boolean first){
+        if(i>j) return 0;
+        if(first) return Math.max(
+            arr[i-1]+f(i+1, j, arr, false),
+            arr[j-1]+f(i, j-1, arr, false)
+        );
+        return Math.min(f(i+1, j, arr, true), f(i, j-1, arr, true));
+    }
+    */
+
     static int MOD = 1_000_000_007;
     static long fact[];
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
