@@ -152,4 +152,63 @@ public class _04_distinct_subseq {
         return dp[n];
     }
 
+    /* if u are allowed to change atmost k chars of first string:
+    public class CountSubseqWithKChanges {
+    // If counts may be huge and you want modulo, change USE_MOD = true and set MOD.
+    static final boolean USE_MOD = false;
+    static final long MOD = 1_000_000_007L;
+
+    // count ways where for each chosen subsequence positions we may change up to K chars
+    public static long count(String s, String t, int K) {
+        int n = s.length(), m = t.length();
+        if (m == 0) return 1;           // empty target
+        if (n == 0) return 0;
+
+        long[][] dp = new long[m + 1][K + 1];
+        dp[0][0] = 1; // form empty prefix with 0 changes
+
+        for (int i = 1; i <= n; i++) {
+            char cs = s.charAt(i - 1);
+            int upto = Math.min(i, m);
+            // j descending to avoid using updated dp[j-1] from current i
+            for (int j = upto; j >= 1; j--) {
+                char ct = t.charAt(j - 1);
+                // iterate c from 0..K (we read dp[j-1][c] and dp[j-1][c-1], which are from previous i)
+                for (int c = 0; c <= K; c++) {
+                    long add = 0;
+                    if (cs == ct) {
+                        add = dp[j - 1][c];           // match without change
+                    } else if (c >= 1) {
+                        add = dp[j - 1][c - 1];       // use one change here
+                    }
+                    if (add == 0) continue;
+                    dp[j][c] += add;
+                    if (USE_MOD) dp[j][c] %= MOD;
+                }
+            }
+            // dp[0][*] stays (only dp[0][0] == 1, others 0) — skipping s[i-1] is automatic
+        }
+
+        long ans = 0;
+        for (int c = 0; c <= K; c++) {
+            ans += dp[m][c];
+            if (USE_MOD) ans %= MOD;
+        }
+        return ans;
+    }
+
+    // quick test
+    public static void main(String[] args) {
+        String s = "rabbbit";
+        String t = "rabbit";
+        System.out.println(count(s, t, 0)); // usual answer: 3
+        // allow 1 change: this will at least be >= 3 (may count subsequences that needed 1 mismatch)
+        System.out.println(count(s, t, 1));
+    }
+}
+
+    
+    
+    */
+
 }
