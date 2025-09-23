@@ -228,6 +228,39 @@ Sample Output 2:
         
           
     }
+/*clean code:
+ * 
+ * 
+ * class Solution {
+    public void nextPermutation(int[] nums) {
+        int n=nums.length;
+        int pivot=-1;//idx where nums[i]<nums[i+1] ie breaks increasing law from end
+        for(int i=n-2;i>=0;i--) if(nums[i]<nums[i+1]) {pivot=i;break;}
+        if(pivot==-1) reverse(nums,0,n-1);//elemnts in descending order already
+        else{
+        //find just greater then pivot elemnt from end and swap 
+            for(int i=n-1;i>=0;i--){
+                if(nums[i]>nums[pivot]){
+                    swap(nums,pivot,i);
+                    break;
+                }
+            }
+            //now we reverse array from pivot+1 
+            reverse(nums,pivot+1,n-1);
+        }
+    }
+
+    public void reverse(int nums[],int i,int j){
+        while(i<j) swap(nums,i++,j--);
+    }
+
+    public void swap(int nums[],int i,int j){
+        int t=nums[i];
+        nums[i]=nums[j];
+        nums[j]=t;
+    }
+}
+ */
 
 
     //----------------FOLLOW UP:
