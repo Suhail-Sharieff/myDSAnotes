@@ -45,3 +45,36 @@
 - Similary, for evrry 1 hr minute and hr hand becomes perpendicular `twice`, in `12 hrs 22 times`,`24 hrs 44 times`
 - The mirror time can just be calculating by subtracting with 12, for ex the mirror timing for `5:17` is `6:43`
 
+# Divisibility
+- If sum of digits in a number is divisible by 3 then the whole number is also divisible by 3, same for 9 too
+- If last 2 digits of a number is divisible by 4, then entire number is also divisible by 4
+- If last 3 digits are divisible by 8, then entire number is also divisible by 8
+- If `abs(sumOfDigitsAtEvenPlaces-sumOfDigitsAtOddPlaces)%11==0`, then that number is divisible by 11. For ex `1331`, abs((1+3)-(3+1)) ie 0%11==0, hence divisble by 11. `ExQ:` What is least value of `*` such that `78*3975` is divisible by 11. `Soln:`((8+*+9+5)-(8+3+7)) ie `(6+x)%11=0` ie `*=5`
+- Any number divisible by 12 must be divisible by both 3 and 4
+
+# Primes
+- We just need to chk till `sqrt(n)` to check if `n` is a prime number
+
+# Series
+- Sum of 1st n nums `n(n+1)>>1`
+- Sum of 1st n^2 nums `n(n+1)(2n+1)/6`
+- Sum of 1st n^3 nums `(n(n+1)>>1)^2`
+- `(a^3 + b^3)=(a+b)(a^2-ab+b^2)`
+- `(a^3 - b^3)=(a-b)(a^2+ab+b^2)`
+- If (a+b+c)=0 then (a^3+b^3+c^3)=3abc
+ # Unit digits
+ - Refer [.md](../algos/_0_Math/_04_UnitDigitOfK.md)
+
+# Geometry
+- In a polygon of `n` sides there are exactly `(nC2)-n` diagonals(line connecting 2 differenct verticies). `nC2` for the total lines,n for adj sides line connector
+- Sum of all interiror angles of a `n` sided polygon is `(n-2)*180 deg`
+- Any `n` sided polygon can be divided into `n-2` triangles
+-  Sum of all exteriror angles is always `360 deg` in any polygon
+- Sum of opp interiror angles = exterorr angle
+- Also remeber parallel line interoror angle rule
+- Sum of opp sides of a quadri is 180
+- All angles subtended by chord are equal, all angles subtended by diameter is 90
+- Angle subteneded by chord not toaching cirlce is twicw the angle subtended by chord toching cirlce
+- When two chords are extended the `OA* Ob=OC * OD`
+- 
+
