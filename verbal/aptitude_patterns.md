@@ -28,6 +28,10 @@
 - Also `nCr=nC(n-r)`, for ex `100 C 98` = `100 C 2`, where RHS is much easier to calc
 - No of ways to form new word using letters in `ENGINEERING`, `ans=(11!)/(3!*3!*2!*2!)` ie dont forget to divide by no of repetitions too
 - `and` case `multiply`, `or`case `add`, when `atleast` given cosnider further cases too
-
-
+# Simple Interest and Compound  Interest
+- in case of simple interest the rate on initial money remains fixed, for ex 8k borrowed at 10% interest would mean that every year 10% of 8k needs to be paid irrespective of the current status of balance, in compund interest the money rate is with respect to current balance and not just the initial one.
+- `SI=ptr/100` where t is always in years, so be careful since in majority cases time is given in days or months, p is the principal amt ie initial amt, r is rate
+- `CI=P (1+(R1/100))^t1 * (1+(R2/100))^t2.....`
+- Suppose say rate given for half yearly for 2 years then eqn transforms as `P(1+(R/200))^(2*2)`,observe both dr and power changes
+- Now suppose given for 3 yr 3 months, eqn transforms as P((1+(R/100))^3 * (1+(3R/1200))^1),  observe the split
 
