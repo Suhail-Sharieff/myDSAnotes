@@ -33,5 +33,15 @@
 - `SI=ptr/100` where t is always in years, so be careful since in majority cases time is given in days or months, p is the principal amt ie initial amt, r is rate
 - `CI=P (1+(R1/100))^t1 * (1+(R2/100))^t2.....`
 - Suppose say rate given for half yearly for 2 years then eqn transforms as `P(1+(R/200))^(2*2)`,observe both dr and power changes
-- Now suppose given for 3 yr 3 months, eqn transforms as P((1+(R/100))^3 * (1+(3R/1200))^1),  observe the split
+- Now suppose given for 3 yr 3 months, eqn transforms as `P((1+(R/100))^3 * (1+(3R/1200))^1)`,  observe the split
+
+
+# Clocks
+- Minute hand covers `6 deg` per minute
+- Hour hand covers `30 deg` per hr ie `1/2 deg` per min
+- `MCQ: `min hand gains `55` minutes over hour hand
+- Hour and minute hand coincides `once` per hour
+- One tricy part is, question: `how many times will hr and min hand conincide say between 2 am and 2pm `, answer is NOT 12, its 11(think about case at 12 am), so the thing is `if x<12, then hr and min hand coincides x times in x hr interval`, if more then `x-(x/12) times`, same formula for number of times the hr and minute hand are in straight line or 180deg to each other
+- Similary, for evrry 1 hr minute and hr hand becomes perpendicular `twice`, in `12 hrs 22 times`,`24 hrs 44 times`
+- The mirror time can just be calculating by subtracting with 12, for ex the mirror timing for `5:17` is `6:43`
 

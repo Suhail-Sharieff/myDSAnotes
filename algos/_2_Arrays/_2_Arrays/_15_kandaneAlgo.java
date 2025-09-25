@@ -69,6 +69,20 @@ public class _15_kandaneAlgo {
         return ans;
     }
 
+    /*class Solution {
+    int maxSubarraySum(int[] arr) {
+        // Code here
+        int max=Integer.MIN_VALUE;
+        int sum=0;
+        for(int e:arr){
+            sum+=e;
+            max=Math.max(max,sum);
+            sum=Math.max(sum,0);
+        }
+        return max;
+    }
+}
+ */
    
 
     public static void main(String[] args) {
