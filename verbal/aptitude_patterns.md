@@ -78,3 +78,44 @@
 - When two chords are extended the `OA* Ob=OC * OD`
 - 
 
+# Calendar
+- If a non century year has last two digits divisible by 4 then its a leap year , to check if a century year is leap check if its divisible by 400
+- If there are `n` days , then there are `n%7` odd days
+- There are `24(NOT 25)` leap years in 100 years and 76 normal years
+- `IMP` In an ordinary year there are `365%7` ie 1 odd day and `2` in case of leap year. Ex: A man celebrated his birthday on 12 Aug 2023 on Monday, at what day will he celebrate birthday next year. Soln: Since 2024 is leap e 2 odd days/ extra days ie Monday+2 ie Wednesday
+- 100 years has 76 normal + 24 leap, ie `((76%7)+(24*2)%7)%7` ie `5` odd days, ie after 100 years from today it will be thatDay + 5, similarly in 200 years there will be `(5*2)%7` ie 3 odd days, in 300 years `(5*3)%7` ie 1 odd day, but in 400 years there will be `((5*4)+1)%7` ie 0 odd days(+1 becoz 400th year willl be a leap year), similarly in case of 600 years calc(400+200) ie (0+3) odd days, also 1200,1600.. have 0 odd days, meaning year exactly divisible by 400 has 0 odd days 
+- {0 odd day:Sunday,1 odd day :Mon.......6 odd days:Saturday}
+- `Ex: What was the day of the week on 16th July 1776`. `Soln:`First 1776 we can write as (1600+100+75)yrs+(nDaysTill_16_July) ie {0 odd days in 1600 + 5 odd days in 100 yrs + {(75/4)leap*2 + remaining ie (18 *2)%7 + (75-18)%7} ie 2 odd days in 75 years}, so total (0+5+2)%7 ie 0 odd days till end of 1775. Now in 1776 we need to calc till 16 July,ie sumOfOddDaysInEachMonth ie {jan:31%7 + Feb:29%7....+ july:16%7}%7 ie 2 odd days, in nutshell (0+2) ie 2  odd days till 16 July 1776 ie it will be `Tuesday`
+- Calencdar for some year `x` is as same as for the year `y`
+- Last day of century cannot be  `Tuesday`   
+# Directions
+- Easy
+ # Blood Relations
+ - Just form family tree
+ - `Niece`: my brother/sister's male child, female is `Nephew`
+ - `Uncle/Aunt`: father/mother's sis or brother
+ - `Brother in law`: my wife's brother, `Sister in law`:my husband's sister 
+ # Water and mirror images
+ - Mirror img flip towards left
+ - Water img flip towards down
+# Sitting Arrangements
+- Generaly doable
+# Venn Diagrams
+- Doable
+# Syllogism
+- Statement based questions like `if all pencils are pen...like that`
+- Solve my making Venn diagrams it will be easy to solve, for each statement read draw Venn diagram
+ # Letter series
+ - Just write `A to M` then `N to Z` in reverse with numbers
+ - Remeber they can give cyclic orer too ir after Z, A is taken
+ - Keep an eye by veryng with options too
+ # Number Series
+ - Practise
+ 
+ # Coding Decoding
+ - Letter Series+ Number Series Combo
+
+
+
+
+
