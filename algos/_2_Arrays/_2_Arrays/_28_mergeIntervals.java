@@ -79,6 +79,35 @@ public class _28_mergeIntervals {
         return ans.toArray(int[][]::new);
     }
 
+    /*more meaning full:
+    class Solution {
+    public int[][] merge(int[][] interval) {
+        List<int[]>ans=new ArrayList<>();
+        Arrays.sort(interval,(x,y)->x[0]-y[0]);
+
+        int ps=interval[0][0];//previousStart
+        int pe=interval[0][1];//previousEnd
+        
+        for(int i=1;i<interval.length;i++){
+            int cs=interval[i][0];//currentStart
+            int ce=interval[i][1];//currentEnd
+
+
+            if(cs>pe){
+                ans.add(new int[]{ps,pe});
+                ps=cs;
+                pe=ce;
+            }else{
+                pe=Math.max(pe,ce);//why max?: consider case like [1,4],[2,3], without this the ans then will be [1,3], but expected [1,4]
+            }
+
+        }
+        ans.add(new int[]{ps,pe});
+        return ans.toArray(int[][]::new);
+    }
+}
+     * 
+     */
     // ---------------FOLLOW UP:
     /*
      * 57. Insert Interval
