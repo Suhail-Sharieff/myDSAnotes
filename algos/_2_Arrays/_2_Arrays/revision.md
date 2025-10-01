@@ -10,6 +10,7 @@
 - [Move zeroes to end](/algos/_2_Arrays/_2_Arrays/_6_moveAllZeroesToEnd.java)
 - [Boyer's voting algorithm [N/2] and [N/3] type](/algos/_2_Arrays/_2_Arrays/_14_majorityElemnt_1_.java), to find majority element
 - [2 Sum](/algos/_2_Arrays/_2_Arrays/_12_2Sum_type1.java),[3 Sum](/algos/_2_Arrays/_2_Arrays/_20_3Sum.java),[4 Sum](/algos/_2_Arrays/_2_Arrays/_26_4sum.java) 
+- [2*2 pointers](/algos/_2_Arrays/_2_Arrays/_38_very_different_array.java) greedy+4 pointers
 
 ## Greedy
 - [Kadan's Algo](/algos/_2_Arrays/_2_Arrays/_15_kandaneAlgo.java), to find max subarray sum
