@@ -50,6 +50,8 @@ public class _34_maxProdSubarr {
         }
         return max;
     }
+
+    //also based on fact that the ans is max[leftProd,rightProd] for each negative number
     public static int optimal(int nums[]){
         //this is based on fact that if we have even odd numbers we get -ve prod and vice versa for even num of neg numbers,also we try to avod zero since will make prod 0, also we keep track of prefix prod from first to last keepin in ind to traet 0 and also twe keep track of suffix array ,the ans is max(suffix,prefix) prod
         int ans=Integer.MIN_VALUE;
