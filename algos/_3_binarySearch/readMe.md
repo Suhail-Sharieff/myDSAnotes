@@ -23,3 +23,10 @@ Binary Search is a powerful algorithm with specific use cases. Here are scenario
 
 5. **Dividing arrays into k parts such that somethng is mimimal or maximal**
    - Try thinking of BS
+
+
+
+   ## Revision Set
+   - [BS in rotated array](/algos/_3_binarySearch/_5_searchInRotattedAr.java), [Find min elemnt in rotated sorted](/algos/_3_binarySearch/_6_findMinInRotArr.java), how smartly u can find things in `logN` time
+   - [Basic BS pattern](/algos/_3_binarySearch/_13_kokoBananas.java), this is most common pattern usually asy interviews ask
+   - [Kth missing number](/algos/_3_binarySearch/_16_kthMissing.java), watch mind blowing solution
