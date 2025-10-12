@@ -27,6 +27,12 @@ Binary Search is a powerful algorithm with specific use cases. Here are scenario
 
 
    ## Revision Set
+   - [BS in 2d matrix](/algos/_3_binarySearch/_25_seachIn2dMatrix.java), access row by `mid/nCols` and col by `mid%nCols`
    - [BS in rotated array](/algos/_3_binarySearch/_5_searchInRotattedAr.java), [Find min elemnt in rotated sorted](/algos/_3_binarySearch/_6_findMinInRotArr.java), how smartly u can find things in `logN` time
    - [Basic BS pattern](/algos/_3_binarySearch/_13_kokoBananas.java), this is most common pattern usually asy interviews ask
    - [Kth missing number](/algos/_3_binarySearch/_16_kthMissing.java), watch mind blowing solution
+   - [Minimize the maximum distribution of books](/algos/_3_binarySearch/_18_allocateBooks.java)classic type 2 problems for interviews
+   - [Median of 2 sorted arrays in LogN](/algos/_3_binarySearch/_22_medianOfSorted.java), 4pointers+BS `non-intuitve` solution, so revise definitely bfr interviews, the same logic modification applies in [Kth smallest in 2 sorted](/algos/_3_binarySearch/_23_kthOfTwoSorted.java), also try [Median of row wise sorted matrix](/algos/_3_binarySearch/_27_medianIn2DMatrix.java), uses fact that median is greater than half of number of elemnts
+   - Peak element in 1D is very simple, try [Peak elemnt in 2D](/algos/_3_binarySearch/_26_peakIn2dMatrix.java)
+
+   
