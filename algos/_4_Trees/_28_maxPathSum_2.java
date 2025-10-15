@@ -4,6 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.tree.TreeNode;
+
+//prereq:check if theres a path from ROOT TO LEAF with target sum:
+/*since its said that a path from root to leaf the beow soln works:
+     * public boolean hasPathSum(TreeNode root, int targetSum) {
+        if(root==null) return false;
+        if(root.left==null && root.right==null) return targetSum==root.val;
+        return hasPathSum(root.left,targetSum-root.val)||
+        hasPathSum(root.right,targetSum-root.val);
+    }
+     */
+
+
+
 /*
 Given the root of a binary tree and an integer targetSum, return all root-to-leaf paths where the sum of the node values in the path equals targetSum. Each path should be returned as a list of the node values, not node references.
 
@@ -39,6 +53,7 @@ public class _28_maxPathSum_2 {
             func(root.right, currSum, ans, new ArrayList<>(empty), targetSum);
     }
 
+    
 
     //----------------------follow up:
 /*437. Path Sum III

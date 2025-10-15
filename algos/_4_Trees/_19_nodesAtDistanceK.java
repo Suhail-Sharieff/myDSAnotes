@@ -68,7 +68,7 @@ public class _19_nodesAtDistanceK {// slight modification of level order travers
         Map<TreeNode, TreeNode> child_parent_map = knowParentsOfEachNode_slow(root, new HashMap<>());// now u have all
                                                                                                 // child-parent pairs of
                                                                                                 // each node
-        Map<TreeNode, Boolean> isVisisted = new HashMap<>();// by default all r not visited
+        Map<TreeNode, Boolean> isVisisted = new HashMap<>();// by default all r not visited, but why do we even need to track visited, actually it was nt requred if we were to find nodes at distance K WHICH ARE UNDER ITS SUBTREE, but here we are also suppose to find above it ie we track parent, once from a node 'u' and its child say 'v 'we push to queue, when we come to 'v', we again push 'u', coz note that we are pushing parent for each, so 
 
         Queue<TreeNode> q = new LinkedList<>();
 
