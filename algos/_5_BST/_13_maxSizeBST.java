@@ -55,6 +55,7 @@ public class _13_maxSizeBST {
 
 
     //---------optimal:o(n)--O(1)
+    //genral idea is a subtree rooted at some node U is a valid BST in a tree if every node under its substree(including it) has its value is greater than max val on left and less than min val on right of it
     //we will do DFS (move from bottom to top by using post order(left,right,root)),, where in at each node, instaed of just ptr,right,left,& val, we will store TreeNode, mi_till_that_Node and max_till_that_Node as well
 
     public static Triplet optimalFunc(TreeNode root, int ans[]) {
@@ -74,7 +75,7 @@ public class _13_maxSizeBST {
             return new Triplet(root, newMin, newMax, newMaxNumber);
         }
 
-        // If the current subtree is not a BST, propagate the maximum node count seen so far
+        // If the current subtree is not a BST, propagate the maximum node count seen so far---IMP
         return new Triplet(null, Integer.MIN_VALUE, Integer.MAX_VALUE, 
                            Math.max(left.nNodesInMySubtree, right.nNodesInMySubtree));
     }
