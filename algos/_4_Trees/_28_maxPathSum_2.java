@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.tree.TreeNode;
 
 //prereq:check if theres a path from ROOT TO LEAF with target sum:
 /*since its said that a path from root to leaf the beow soln works:

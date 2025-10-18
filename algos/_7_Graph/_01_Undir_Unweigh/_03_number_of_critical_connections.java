@@ -125,66 +125,63 @@ public class _03_number_of_critical_connections {
     // from any node to any other node since we dont have any direction issues, so
     // this prblem is solved using Tarjan's algo that can work for undir
 
+
+    /*Here’s a high-level overview of how Tarjan’s algorithm works:
+
+    1)Perform a DFS traversal of the graph.
+    2)For each vertex, keep track of:
+      -Discovery time: When the vertex was first visited
+      -Low-link value: The lowest discovery time reachable from the vertex
+    3)An edge (u--v) is a bridge if u has discovery time less than oldest possible reachable node of v ie (at[u]<oa[v]) */
+
     // ---------------optimal using Tarjan ALGO:
     // https://www.youtube.com/watch?v=RYaakWv5m6o&t=1706s&ab_channel=TechRevisions
     // https://www.youtube.com/watch?v=CiDPT1xMKI0&t=748s&ab_channel=CodeHelp-byBabbar
 
-    public List<List<Integer>> criticalConnections(int n, List<List<Integer>> edges) {
-        List<List<Integer>> adj = get_adj(n, edges);
-        List<List<Integer>> ans = new ArrayList<>();
-        dfs(adj, ans, new int[n], new int[n], new boolean[n], 0, -1);
+    List<List<Integer>>adj;
+    List<List<Integer>>ans;
+    int id;
+    boolean isv[];
+    int at[];
+    int oa[];
+
+    public List<List<Integer>> criticalConnections(int nv, List<List<Integer>> x) {
+        ba(nv,x);//build adj
+
+        id=0;
+        isv=new boolean[nv];
+        at=new int[nv];//arrival time
+        oa=new int[nv];//oldest ancestor(the one reachable node having lowest id)
+        ans=new ArrayList<>();
+
+        dfs(0,-1);
         return ans;
-
     }
 
-    private int order = 1;
-
-    public void dfs(List<List<Integer>> adj, List<List<Integer>> ans, int traversal_order[], int nearest_ancestor[],
-            boolean isVis[], int currNodeNumber, int parentOfCurr) {
-        isVis[currNodeNumber] = true;
-        traversal_order[currNodeNumber] = order;
-        nearest_ancestor[currNodeNumber] = order;
-        order++;
-        for (int nbr : adj.get(currNodeNumber)) {
-
-            if (nbr == parentOfCurr)
-                continue;
-
-            if (!isVis[nbr]) {
-
-                dfs(adj, ans, traversal_order, nearest_ancestor, isVis, nbr, currNodeNumber);
-
-                // the below code is exceuted while backtracking, now the node from which it
-                // came is nbr ie ulta
-                nearest_ancestor[currNodeNumber] = Math.min(
-                        nearest_ancestor[currNodeNumber],
-                        nearest_ancestor[nbr]);
-                // after updating
-
-                if (nearest_ancestor[nbr] > traversal_order[currNodeNumber]) {// currNodeNumber was trvaersed bfr its
-                                                                              // neighbour
-                    ans.add(Arrays.asList(currNodeNumber, nbr));
+    void ba(int nv,List<List<Integer>>x){
+        adj=new ArrayList<>();
+        for(int i=0;i<nv;i++) adj.add(new ArrayList<>());
+        for(var edge:x){
+            adj.get(edge.get(0)).add(edge.get(1));
+            adj.get(edge.get(1)).add(edge.get(0));
+        }
+    }
+    
+    void dfs(int u,int par){
+        isv[u]=true;
+        at[u]=oa[u]=id++;
+        for(int v:adj.get(u)){
+            if(v==par) continue;//IMP
+            if(!isv[v]){
+                dfs(v,u);
+                //u---v
+                if(at[u]<oa[v]){
+                    ans.add(Arrays.asList(u,v));
                 }
-
-            } else {
-                nearest_ancestor[currNodeNumber] = Math.min(
-                        nearest_ancestor[currNodeNumber],
-                        nearest_ancestor[nbr]);
             }
+            oa[u]=Math.min(oa[u],oa[v]);
         }
     }
-
-    public List<List<Integer>> get_adj(int n, List<List<Integer>> edges) {
-        List<List<Integer>> adj = new ArrayList<>();
-        while (n-- != 0)
-            adj.add(new ArrayList<>());
-        for (var e : edges) {
-            adj.get(e.get(0)).add(e.get(1));
-            adj.get(e.get(1)).add(e.get(0));
-        }
-        return adj;
-    }
-
 
 
     //-=--------------memory efficient solutiuon:
@@ -234,3 +231,72 @@ public class _03_number_of_critical_connections {
         
     }
 }
+
+/*another way:(use this coz its almost same for articulation point)
+
+// User functioa Template for Java
+import java.util.*;
+
+
+class Test {
+    List<List<Integer>> adj;
+    boolean isv[];
+
+    public static void main(String[] args) {
+        new Test().criticalConnections(6, List.of(
+            List.of(1,2),
+            List.of(0,2),
+            List.of(0,1,3),
+            List.of(2,4,5),
+            List.of(3),
+            List.of(3,4)
+        ));
+    }
+
+    public List<List<Integer>> criticalConnections(
+            int v, List<List<Integer>> x) {
+
+        id = 0;
+        adj = x;
+        isv = new boolean[x.size()];
+        at = new int[x.size()];
+        oa = new int[x.size()];
+        // System.out.println(adj);
+
+        dfs(0,-1);
+
+        System.out.println(Arrays.toString(at));
+        System.out.println(Arrays.toString(oa));
+
+        return new ArrayList<>();
+    }
+
+    int id;
+    int at[];
+    int oa[];
+
+    void dfs(int u,int par) {
+        isv[u] = true;
+        at[u] = oa[u] = id++;
+        for (int v : adj.get(u)) {
+            if(v==par ){
+                continue;
+            }
+            if (!isv[v]) {
+                dfs(v,u);
+                oa[u]=Math.min(oa[u],oa[v]);
+                //u----v
+                if(at[u]<oa[v]){//for articulation it becoms <=
+                    System.err.println(u+" "+v);
+                }
+                
+            } else {
+                oa[u] = Math.min(oa[u], at[v]);
+            }
+            
+        }
+        
+    }
+}
+
+*/

@@ -1,3 +1,5 @@
 ## Revision Set
 - [Number islands](./_00_Matrix/_01_BFS_DFS/_2_count_Islands.java) vs [Number of disticnt islands](./_00_Matrix//_01_BFS_DFS/_8_nDistinct_Islands.java), see how we can find distict isalnds by appending `(x-nx)(y-nx)` or also while backtracking how we smartly append some dummy char
-- 
+- [Cheapest flights with k stops](_00_Matrix/_02_djikstra/_03_cheapest_flights_with_k_stops.java), pretty standard problem, understand when to use PQ and when to Q for BFS
+- [Cycle Detection](/algos/_7_Graph/_01_Undir_Unweigh/_01_detect_cycle.java), learn detecting cycle in undir(if neigh!=srcICameFrom) and directed(kahn or if visited and dfs done), similar stuff works for [Bipartite Graph](./_01_Undir_Unweigh/_02_bipartite_graph.java)
+- See how similar are [Number of critical connec](./_01_Undir_Unweigh/_03_number_of_critical_connections.java) and [Articulation Points](./_01_Undir_Unweigh/_04_articulation_points.java) revise smart usage of arrival times and caching oldest neigh bours reachable for graphs(also used in tree problems)

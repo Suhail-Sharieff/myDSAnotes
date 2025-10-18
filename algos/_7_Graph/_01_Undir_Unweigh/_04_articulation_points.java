@@ -1,9 +1,6 @@
 package _7_Graph._01_Undir_Unweigh;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
-
 /*
 Given an undirected connected graph with V vertices and adjacency list adj. You are required to find all the vertices removing which (and edges through it) disconnects the graph into 2 or more components(so called articulation points) and return it in sorted manner.
 Note: Indexing is zero-based i.e nodes numbering from (0 to V-1). There might be loops present in the graph.
@@ -37,82 +34,79 @@ Constraints:
  //solution: almost as same as the code for previous code with lill conditions and changes
  //watch for logic:
  //https://www.youtube.com/watch?v=j1QDfU21iZk&list=PLgUwDviBIf0oE3gA41TKO2H5bHpPd7fzn&index=56&ab_channel=takeUforward
-public class _04_articulation_points {
-    public static void main(String[] args) {
-       List<List<Integer>>edges=Arrays.asList(
-        Arrays.asList(0,1),
-        Arrays.asList(1,4),
-        Arrays.asList(4,3),
-        Arrays.asList(4,2),
-        Arrays.asList(3,2)
-       );
-       int n=5;
+import java.util.*;
 
-       System.out.println(func(n, edges));
+class _04_articulation_points {
+    static int timer;
+    static boolean[] visited;
+    static int[] tin, low;
+    static ArrayList<ArrayList<Integer>> adj;
+    static HashSet<Integer> articulationPoints;
 
-    }
-    
-    public static List<Integer> func(int n,List<List<Integer>>edges){
-        List<List<Integer>> adj = get_adj(n, edges);
-        List<Integer> ans = new ArrayList<>();
-        dfs(adj, ans, new int[n], new int[n], new boolean[n], 0, -1);
+    static ArrayList<Integer> articulationPoints(int nv, int[][] edges) {
+        buildAdj(nv, edges);
 
-        //see that we have dealt with case if parent !=-1 , means dealt for everything except zero,
-        int nNeighBours_of_0=adj.get(0).size();
-        if(nNeighBours_of_0>1){
-            ans.addFirst(0);
+        timer = 0;
+        visited = new boolean[nv];
+        tin = new int[nv];
+        low = new int[nv];
+        articulationPoints = new HashSet<>();
+
+        for (int i = 0; i < nv; i++) {
+            if (!visited[i])
+                dfs(i, -1);
         }
 
+        ArrayList<Integer> ans = new ArrayList<>(articulationPoints);
+        Collections.sort(ans);
+        if (ans.isEmpty()) ans.add(-1);
         return ans;
     }
 
-    static int order = 1;
-
-    static void dfs(List<List<Integer>> adj,List<Integer> ans, int traversal_order[], int nearest_ancestor[],
-            boolean isVis[], int currNodeNumber, int parentOfCurr) {
-        isVis[currNodeNumber] = true;
-        traversal_order[currNodeNumber] = order;
-        nearest_ancestor[currNodeNumber] = order;
-        order++;
-        for (int nbr : adj.get(currNodeNumber)) {
-
-            if (nbr == parentOfCurr)
-                continue;
-
-            if (!isVis[nbr]) {
-
-                dfs(adj, ans, traversal_order, nearest_ancestor, isVis, nbr, currNodeNumber);
-
-               
-                nearest_ancestor[currNodeNumber] = Math.min(
-                        nearest_ancestor[currNodeNumber],
-                        nearest_ancestor[nbr]
-                    );
-
-                if (parentOfCurr!=-1) {
-                    if (nearest_ancestor[nbr] >=  traversal_order[currNodeNumber]
-                     //VVVIMP CHANGE HERE condition and also operator from > to >=
-                    ) {
-                        ans.add(currNodeNumber);
-                    }
-                }
-            } else {
-                nearest_ancestor[currNodeNumber] = Math.min(
-                        nearest_ancestor[currNodeNumber],
-                        traversal_order[nbr]//CHANGE HERE
-                    );
-            }
+    static void buildAdj(int nv, int[][] edges) {
+        adj = new ArrayList<>();
+        for (int i = 0; i < nv; i++) adj.add(new ArrayList<>());
+        for (int[] e : edges) {
+            adj.get(e[0]).add(e[1]);
+            adj.get(e[1]).add(e[0]);
         }
     }
 
-    static List<List<Integer>> get_adj(int n, List<List<Integer>> edges) {
-        List<List<Integer>> adj = new ArrayList<>();
-        while (n-- != 0)
-            adj.add(new ArrayList<>());
-        for (var e : edges) {
-            adj.get(e.get(0)).add(e.get(1));
-            adj.get(e.get(1)).add(e.get(0));
+    static void dfs(int u, int parent) {
+        visited[u] = true;
+        tin[u] = low[u] = timer++;
+        int childCount = 0;
+
+        for (int v : adj.get(u)) {
+            if (v == parent) continue;
+            if (!visited[v]) {
+                dfs(v, u);
+                low[u] = Math.min(low[u], low[v]);
+
+                // Articulation condition
+                //u----v
+                if (parent != -1 && tin[u]<=low[v] )
+                    articulationPoints.add(u);
+
+                childCount++;
+            } else {
+                // back edge
+                low[u] = Math.min(low[u], tin[v]);
+            }
         }
-        return adj;
+
+        // Special case for root
+        if (parent == -1 && childCount > 1)
+            articulationPoints.add(u);
+    }
+
+    public static void main(String[] args) {
+        int nv = 5;
+        int[][] edges = {
+            {0, 1}, {1, 2}, {2, 0}, {1, 3}, {3, 4}
+        };
+
+        System.out.println(articulationPoints(nv, edges));
+        // Output: [1, 3]
     }
 }
