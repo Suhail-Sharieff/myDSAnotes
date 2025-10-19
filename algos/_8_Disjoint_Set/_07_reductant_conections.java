@@ -101,6 +101,8 @@ public class _07_reductant_conections {
         }
     }
 
+    //-------------optimals
+
     public int[] findRedundantConnection(int[][] edges) {
         int n = edges.length;
         int node1 = -1, node2 = -1;

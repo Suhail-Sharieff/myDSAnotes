@@ -1,64 +1,38 @@
-
-// User functioa Template for Java
+//بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ
+import java.io.*;
 import java.util.*;
-
-
-class Test {
-    List<List<Integer>> adj;
-    boolean isv[];
-
-    public static void main(String[] args) {
-        new Test().criticalConnections(6, List.of(
-            List.of(1,2),
-            List.of(0,2),
-            List.of(0,1,3),
-            List.of(2,4,5),
-            List.of(3),
-            List.of(3,4)
-        ));
+public class Test{
+    public static void main(String[] args) throws IOException {
+        init_IO();
+        int t=scanInt();
+        while(t-->0)
+        solve();
+        reader.close();
+        writer.flush();
+        writer.close();
     }
-
-    public List<List<Integer>> criticalConnections(
-            int v, List<List<Integer>> x) {
-
-        id = 0;
-        adj = x;
-        isv = new boolean[x.size()];
-        at = new int[x.size()];
-        oa = new int[x.size()];
-        // System.out.println(adj);
-
-        dfs(0,-1);
-
-        System.out.println(Arrays.toString(at));
-        System.out.println(Arrays.toString(oa));
-
-        return new ArrayList<>();
-    }
-
-    int id;
-    int at[];
-    int oa[];
-
-    void dfs(int u,int par) {
-        isv[u] = true;
-        at[u] = oa[u] = id++;
-        for (int v : adj.get(u)) {
-            if(v==par ){
-                continue;
-            }
-            if (!isv[v]) {
-                dfs(v,u);
-                oa[u]=Math.min(oa[u],oa[v]);
-                if(at[u]<oa[v]){
-                    System.err.println(u+" "+v);
-                }
-                
-            } else {
-                oa[u] = Math.min(oa[u], at[v]);
-            }
-            
-        }
+    static void solve() throws IOException{
         
     }
+
+    static boolean debug=false;
+    static int MOD=1_000_000_007;
+    static int INF=Integer.MAX_VALUE;
+    static StringTokenizer tokenizer = new StringTokenizer("");
+    static BufferedReader reader;
+    static BufferedWriter writer;
+    static void init_IO() throws IOException{if(debug){reader = new BufferedReader(new FileReader("input.txt"));writer = new BufferedWriter(new FileWriter("output.txt"));}else{reader=new BufferedReader(new InputStreamReader(System.in));writer=new BufferedWriter(new OutputStreamWriter(System.out));}}
+    static String next() throws IOException{while(!tokenizer.hasMoreTokens())tokenizer= new StringTokenizer(reader.readLine());return tokenizer.nextToken();}
+    static int scanInt() throws IOException{return Integer.parseInt(next());}
+    static long scanLong() throws IOException{return Long.parseLong(next());}
+    static char scanChar() throws IOException{return next().charAt(0);}
+    static String scanString() throws IOException{return reader.readLine();}
+    static int[] scanIntArray(int len) throws IOException{int arr[]=new int[len];for(int i=0;i<len;i++)arr[i]=scanInt();return arr;}
+    static long[] scanLongArray(int len) throws IOException{long arr[]=new long[len];for(int i=0;i<len;i++)arr[i]=scanLong();return arr;}
+    static void print(Object o) throws IOException{writer.write(o.toString()+" ");}
+    static void println(Object o) throws IOException{writer.write(o.toString()+"\n");}
+    static int min(int...x){return Arrays.stream(x).min().getAsInt();}
+    static int max(int...x){return Arrays.stream(x).max().getAsInt();}
+    static int gcd(int a,int b){return (a==0)?b:gcd(b, a%b);}
+    static int lcm(int a,int b){return a/gcd(a, b)*b;}
 }

@@ -183,8 +183,8 @@ public class _04_alien_dictionary {
     static class Pair{
         char f,t;
         public Pair(char f,char t){
-            this.f=f;
-            this.t=t;
+            this.f=f;//from
+            this.t=t;//to
         }
         @Override
         public String toString(){
