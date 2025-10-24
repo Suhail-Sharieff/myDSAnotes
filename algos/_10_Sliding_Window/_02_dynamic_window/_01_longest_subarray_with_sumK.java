@@ -1,5 +1,7 @@
 package _10_Sliding_Window._02_dynamic_window;
 
+import java.util.HashMap;
+
 public class _01_longest_subarray_with_sumK {
     // TAsk: find longest subarray length with sum<=K
     // https://www.youtube.com/watch?v=9kdHxplyl5I&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz&index=272&ab_channel=takeUforward
@@ -25,6 +27,28 @@ public class _01_longest_subarray_with_sumK {
         }
         return ans;
     }
+
+    /*
+
+    FOR NON SORTED ARRAYS: 
+    
+    static int optimal(int[] arr, int k) {
+        // code here
+        HashMap<Long,Integer>hs=new HashMap<>();
+        hs.put(0l,-1);
+        long sum=0l;
+        int ans=0;
+        for(int i=0;i<arr.length;i++){
+            sum+=arr[i];
+            if(hs.containsKey((sum-k)*1l)){
+                ans=Math.max(ans,i-hs.get(sum-k));
+            }
+            hs.putIfAbsent(sum,i);//putIfAbsent to get longest possible
+        }
+        return ans;
+    }
+
+    */
 
     // -----------better solution: 2 pointer technique(optimal if we want to print)
     // initialize l=r=0, take sum, at each point shift right , whenevr sum>k, shrink

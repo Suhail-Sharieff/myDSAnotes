@@ -131,15 +131,19 @@ public class _07_min_window_substr {
 
     //---------------------------optimal
     //https://www.youtube.com/watch?v=WJaij9ffOIY&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz&index=283&t=2s&ab_channel=takeUforward
+    // s = "ADOBECODEBANC", t = "ABC"
     static String optimal(String s,String t){
         int len1=s.length(),len2=t.length();
         if(len2>len1) return "";
         int start_idx_of_ans=-1;
         int min_len=Integer.MAX_VALUE;
+
         int map[]=new int[128];
         for(char c:t.toCharArray()) map[c]++;
+
         int nChars_obtained=0;
         int left_ptr=0,right_ptr=0;
+        
         while (right_ptr<len1) {
             map[s.charAt(right_ptr)]--;
             if(map[s.charAt(right_ptr)]>=0) nChars_obtained++;

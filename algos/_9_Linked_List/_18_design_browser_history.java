@@ -87,7 +87,7 @@ public class _18_design_browser_history {
             }
             dll.offerLast(url);
             ptr++;
-            print("VISITING");
+            print("VISITING "+url);
         }
     
         public String back(int steps) {
