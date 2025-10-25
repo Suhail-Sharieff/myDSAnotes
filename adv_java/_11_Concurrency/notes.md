@@ -93,7 +93,7 @@ it means:
 ``Main thread, wait here until this thread has finished running.``
 So join() makes the main thread (or the thread calling it) pause until the other thread completes.
 ## Solving race condition for above eg
-- Method 1 : `synchronized` 
+- Method 1 : `synchronized`, allows only 1 thread to access critical space at a time, hence other threads must wait hence wasting CPU cycles, use when the critical section is too small, else use locks 
 ```java
     static int cnt = 0;
     public static void main(String[] args) {
@@ -108,11 +108,11 @@ So join() makes the main thread (or the thread calling it) pause until the other
         System.out.println(cnt);
     }
 
-    static synchronized void increment(){
+    static synchronized void increment(){//ensures only 1 thred can access this method at a time
         cnt++;
     }
 ```
-- Method 2: `volatile`, when a variable is declared as volatile, any changes to it are automatically known to all threads accessing it without us having to explicitly declare a lock
+- Method 2: `volatile`, when a variable is declared as volatile, any changes to it are automatically known to all threads accessing it without us having to explicitly declare a lock, but use it when it has extrememely less limited number of possible values(NOT ideal to use with cnt here since cnt can take any values) for ex u can use it with `boolean` since it can either have a true or a false, since it is efficient to use for vars that can have very few values only, `volatile` ensures `visibility` but not   `atomicity`.
 ```java
     static  volatile int cnt = 0;
     public static void main(String[] args){
@@ -127,7 +127,7 @@ So join() makes the main thread (or the thread calling it) pause until the other
         System.out.println(cnt);
     }
 
-    static void increment(){//no need of synchromized now
+    static void increment(){//no need of synchromized now,------highly inefficient
         cnt++;
     }
 ```
