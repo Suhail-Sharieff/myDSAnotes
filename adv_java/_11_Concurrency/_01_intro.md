@@ -443,3 +443,55 @@ public class Deadlock {
 ```
 - Assume 2 boxes A and B each having bow() and bowBack() method, when both simultaneously call bow(), A locks his obj and so do B for his, now when A has bowed, he is trying to access B's bowback, but since its locked by B himself he will wait, same condition for B, so there is a deadlock
 - When Deadlock runs, it's extremely likely that both threads will block when they attempt to invoke bowBack. Neither block will ever end, because each thread is waiting for the other to exit bow.
+## Example for `notify()`, `notifyAll()`,`wait()` usage
+- Imagine 2 threads, one thread should permit the other to enjoy, the other should wait unless granted permission, once another thread sets permission to true, use notify() to inform `changes of attributes of the curr class`(in this case its `gotPermissionToEnjoy`)to all other threads(notifyAll()) or only 1 thread (notify())
+```java
+class Person {
+    boolean gotPermissionToEnjoy;
+
+    public synchronized void startEnjoying() throws InterruptedException {
+        System.out.println(Thread.currentThread().getName() + " is waiting for some other thread to permit him enjoy");
+        while (!gotPermissionToEnjoy)
+            wait();
+        System.out.format("%s is happy now!\n", Thread.currentThread().getName());
+    }
+
+    public synchronized void permitToEnjoy() {
+        this.gotPermissionToEnjoy = true;
+        notify();//<-----------<IMP>
+        System.out.println(Thread.currentThread().getName() + " permitted to enjoy!");
+    }
+}
+public class Test {
+
+    public static void main(String[] args) throws InterruptedException {
+        Person p = new Person();
+        new Thread(() -> {
+            try {
+                p.startEnjoying();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        },"Student").start();
+
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            p.permitToEnjoy();
+        },"Teacher").start();
+    }
+
+}
+/*output:
+
+Student is waiting for some other thread to permit him enjoy
+Teacher permitted to enjoy!
+Student is happy now!
+
+
+*/
+```
